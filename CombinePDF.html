@@ -578,9 +578,7 @@
                 const originalFileObject = uploadedFiles.find(f => f.id === id);
                 const originalIndex = uploadedFiles.indexOf(originalFileObject);
                 newUploadedFiles.push(originalFileObject);
-                if (pdfFileCache[originalIndex]) {
-                    newPdfFileCache.push(pdfFileCache[originalIndex]);
-                }
+                newPdfFileCache.push(pdfFileCache[originalIndex]);
             });
 
             uploadedFiles = newUploadedFiles;
