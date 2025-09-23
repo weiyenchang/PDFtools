@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> 合併 PDF 工具</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Helvetica, sans-serif;
+            margin: 0;
+            background-color: #00342d;
+            color: #323237;
+            height: 100vh;
+            display: flex;
+        }
+
+        .left-panel {
+            flex: 1;
+            position: fixed;
+            padding: 1em;
+            height: 100%;
+            background-color: #F7F7F7;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 350px;
+            overflow-y: auto;
+        }
+        .right-panel {
+            flex: 6;
+            padding: 20px;
+            background-color: #00342d;
+        }
+        /*1. 上傳合併檔案*/
+        #uploadFilesBtn{
+            margin-top: 10px;
+            background-image: none;
+            background-color: #323237;
+            color: white;
+            font-size: 13px;
+        }
+        
+        .upload-file{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #pdfFiles{
+            margin-bottom: 0px;
+        }
+
+        h1, h2 {
+            color: #0056b3;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: #ccc;
+            margin: 20px 0;
+        }
+
+        input[type="file"]{
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 8px;
+            width: 100%;
+        }
+        input[type="number"], input[type="text"], input[type="color"], textarea {
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        textarea {
+            width: 100%;
+            box-sizing: border-box;
+            resize: vertical;
+        }
+        .input-group {
+            margin-bottom: 10px;
+        }
+        .input-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .input-inline {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .input-inline input {
+            flex: 1;
+            min-width: 80px;
+        }
+        #pageList, #fileList {
+            list-style-type: none;
+            padding: 0;
+            height: 400px;
+            overflow: auto;
+        }
+        #pageList li, #fileList li {
+            background: #e9ecef;
+            margin-bottom: 8px;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: grab;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            transition: background-color 0.3s ease;
+            font-size: 13px;
+        }
+        #pageList li.dragging, #fileList li.dragging {
+            opacity: 0.5;
+            border: 2px dashed #0056b3;
+        }
+        #fileList li.highlighted, #pageList li.highlighted {
+            background-color: #ffeb3b;
+        }
+        .item-number {
+            font-weight: bold;
+            margin-right: 10px;
+            color: #555;
+        }
+        .rotate-btn, .remove-btn{
+            width: 28px;
+            height: 28px;
+        }
+        .rotate-btn {
+            margin-right:5px;
+        }
+        .btn-group {
+            margin:10px;
+            position: fixed;
+            bottom:0;
+            left: 0;
+            width: 380px;
+            display: flex;
+            align-items: stretch;
+        }
+        .btn {
+            font-size: 15px;
+            background-image: linear-gradient(
+            45deg,
+            hsl(164deg 98% 62%) 0%,
+            hsl(156deg 95% 61%) 10%,
+            hsl(147deg 92% 59%) 20%,
+            hsl(139deg 90% 57%) 30%,
+            hsl(130deg 88% 56%) 40%,
+            hsl(122deg 85% 54%) 50%,
+            hsl(113deg 86% 56%) 60%,
+            hsl(105deg 88% 58%) 70%,
+            hsl(97deg 89% 60%) 80%,
+            hsl(89deg 90% 62%) 90%,
+            hsl(80deg 91% 64%) 100%
+             );
+            color:#323237;
+            padding: 8px 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+            transition: 0.3s;
+            font-weight: 500;
+        }
+        .btn-primary:hover, .btn-secondary:hover {
+            background-image: linear-gradient(
+                340deg,
+                hsl(164deg 98% 62%) 0%,
+                hsl(159deg 95% 61%) 10%,
+                hsl(153deg 92% 59%) 20%,
+                hsl(146deg 90% 58%) 30%,
+                hsl(137deg 88% 56%) 40%,
+                hsl(122deg 85% 54%) 50%,
+                hsl(108deg 86% 57%) 60%,
+                hsl(99deg 87% 59%) 70%,
+                hsl(92deg 88% 61%) 80%,
+                hsl(86deg 90% 62%) 90%,
+                hsl(80deg 91% 64%) 100%
+            );
+        }
+        #uploadFilesBtn{
+            margin-top: 10px;
+            background-image: none;
+            background-color: #323237;
+            color:white;
+            font-size: 13px;
+        }
+        #uploadFilesBtn:hover{
+            background-color: #666666ff;
+        }
+        .btn-red {
+            background-color: #dc3545;
+            color: white;
+        }
+        .btn-red:hover {
+            background-color: #c82333;
+        }
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #58fdd2;
+            animation: spin 1s ease infinite;
+            display: none;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        #previewContainer {
+            height: 100%;
+            padding: 1em;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-left:400px;
+        }
+        #previewDescription{
+            height: 100%;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 19px;
+        }
+        .page-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+            padding-left: 10px;
+        }
+        .page-number-label {
+            position: absolute;
+            left: -65px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            font-weight: bold;
+            color: #e9fff8;
+            z-index: 10;
+        }
+        #previewContainer canvas {
+            max-width: 100%;
+            height: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border: 1px solid #ddd;
+        }
+        .sort-mode-container {
+            margin-bottom: 15px;
+        }
+        .sort-by-number-container {
+            border-radius: 5px;
+        }
+        h2 {
+            margin-bottom: 5px;
+            color: #424242;
+        }
+        .collapsible {
+            cursor: pointer;
+            margin: 1em, 0px, 0px, 0px;
+            padding: 0.5em;
+            border-radius: 4px;
+            background-color: #e3e3e3;
+        }
+        .collapsible:hover {
+            background-color: #555;
+            color: white;
+        }
+
+        .collapsible::after {
+            content: '+';
+            font-size: 18px;
+            float: right;
+            padding-top: 2px;
+        }
+
+        .collapsible.active::after {
+            content: '-';
+            font-size: 18px;
+            float: right;
+            padding-right: 2px;
+            padding-bottom: 2px;
+        }
+        .collapsible.active {
+            background-color: #555;
+            color: white;
+            margin-bottom:0;
+        }
+
+        .step {
+            border-radius: 15px;
+            padding: 0px 6px 0px 6px;
+            font-size: 15px;
+        }
+        .content {
+            padding: 0px 0px 0px 0px;
+            display: none;
+        }
+        #pageList p, #fileList p {
+            color: #008d73;
+        }
+        p {
+            font-size: 15px;
+            font-weight: 500;
+        }
+        input[type=radio] {
+            margin-bottom: 10px;
+        }
+        .method {
+            color: white;
+            background-color: #424242;
+            border-radius: 15px;
+            padding: 0px 6px 0px 6px;
+            font-size: 13px;
+            padding: 5px 5px;
+            margin: 0px 0px 10px 0px;
+        }
+        .button-set{
+            display: flex;
+            margin-left: auto;
+        }
+        svg{
+            cursor: pointer;
+        }
+        svg:hover{
+            fill:red;
+        }
+    </style>
+</head>
+<body>
+<div class="content-container">
+    <div class="left-panel">
+        <div class="logo">
+            <img src="https://cdn.gogoro.com/intranet/pages/tenth-anniv/img-10th-logo.svg?v=2" alt="logo">
+        </div>
+
+        <h2>合併 PDF 工具</h2>
+
+        <h4 class="collapsible"><span class="step">Step 1.</span> 上傳合併檔案</h4>
+        <div class="content">
+            <p>選擇要合併的檔案 (PDF, JPG, PNG)：</p>
+            <input type="file" id="pdfFiles" accept=".pdf, .jpg, .jpeg, .png" multiple>
+            <button id="uploadFilesBtn" class="btn btn-secondary">上傳文件</button>
+        </div>
+
+        <h4 class="collapsible"><span class="step">Step 2.</span> 設定文件排序</h4>
+        <div class="content">
+            <p>在下方以「輸入數字」方式排序。</p>
+            <div id="fileSortByNumber" class="sort-by-number-container">
+                <p>將第 <input type="number" id="fileFrom" min="1" style="width: 50px;"> 份，排至第 <input type="number" id="fileTo" min="1" style="width: 50px;"> 份</p>
+            </div>
+            <div id="pageSortByNumber" class="sort-by-number-container" style="display:none;">
+                <p>將第 <input type="number" id="pageFrom" min="1" style="width: 50px;"> 頁，調至第 <input type="number" id="pageTo" min="1" style="width: 50px;"> 頁</p>
+            </div></div>
+
+        <hr>
+        <h4>📄 文件狀態</h4>
+        <div class="sort-mode-container">
+                <p>檢視方式：
+                <input type="radio" name="sortMode" value="file" checked> 整份文件
+                <input type="radio" name="sortMode" value="page"> 單頁內容</p>
+        </div>
+        <ul id="pageList" style="display:none;"></ul>
+        <ul id="fileList"></ul>
+        <div class="btn-group">
+            <button id="previewBtn" class="btn btn-secondary">預覽合併 PDF</button>
+            <button id="downloadBtn" class="btn btn-primary">下載合併 PDF</button>
+        </div>
+    </div>
+</div>
+
+<div class="right-panel">
+    <div id="previewContainer">
+        <p id="previewDescription">
+            <span id="loading" class="spinner"></span>
+            上傳文件後，請按下「預覽合併 PDF」按鈕查看結果。
+        </p>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+<script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js`;
+    let uploadedFiles = [];
+    let mergedPageOrder = [];
+    let currentSortMode = 'file';
+    let pdfFileCache = [];
+    let mergedPdfBytes = null;
+    let currentPreviewJob = null; 
+    let fileRotations = {};
+    let pageRotations = {};
+
+    const pdfFilesInput = document.getElementById('pdfFiles');
+    const uploadFilesBtn = document.getElementById('uploadFilesBtn');
+    const fileListElement = document.getElementById('fileList');
+    const pageListElement = document.getElementById('pageList');
+    const fileSortByNumberDiv = document.getElementById('fileSortByNumber');
+    const pageSortByNumberDiv = document.getElementById('pageSortByNumber');
+    const fileFromInput = document.getElementById('fileFrom');
+    const fileToInput = document.getElementById('fileTo');
+    const pageFromInput = document.getElementById('pageFrom');
+    const pageToInput = document.getElementById('pageTo');
+    const previewBtn = document.getElementById('previewBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const previewContainer = document.getElementById('previewContainer');
+    const previewDescription = document.getElementById('previewDescription');
+    const loadingSpinner = document.getElementById('loading');
+
+    const { PDFDocument, degrees } = PDFLib;
+
+    uploadFilesBtn.addEventListener('click', async () => {
+        const newFiles = Array.from(pdfFilesInput.files);
+    
+    if (newFiles.length === 0) {
+        alert('請選擇至少一個檔案。');
+        return;
+    }
+
+    const startFileIndex = uploadedFiles.length;
+    
+    // **MODIFIED**: Wrap files in an object with a unique ID
+    const newFileObjects = newFiles.map(file => ({
+        id: `file-${Date.now()}-${Math.random()}`, // Generate a unique ID
+        file: file
+    }));
+    uploadedFiles.push(...newFileObjects);
+
+    pdfFilesInput.value = '';
+
+    // 處理新上傳的檔案並更新 pdfFileCache 和 mergedPageOrder
+    for (let fileIndex = startFileIndex; fileIndex < uploadedFiles.length; fileIndex++) {
+        const file = uploadedFiles[fileIndex].file; // **MODIFIED**: Get the file from the object
+        const fileId = uploadedFiles[fileIndex].id;
+        if (file.type === 'application/pdf') {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdfDoc = await PDFDocument.load(arrayBuffer);
+            pdfFileCache[fileIndex] = pdfDoc;
+            const pageCount = pdfDoc.getPageCount();
+            for (let pageIndex = 0; pageIndex < pageCount; pageIndex++) {
+                mergedPageOrder.push({ fileId: fileId, fileIndex: fileIndex, pageIndex: pageIndex, type: file.type });
+            }
+        } else if (file.type.startsWith('image/')) {
+            mergedPageOrder.push({ fileId: fileId, fileIndex: fileIndex, pageIndex: 0, type: file.type });
+        }
+    }
+    
+    if (currentSortMode === 'page') {
+        await generatePageList();
+    } else {
+        await updateSortLists();
+    }
+    
+    previewDescription.textContent = '文件已上傳，請設定排序或直接預覽。';
+    });
+
+    async function updateSortLists() {
+        fileListElement.innerHTML = '';
+        pageListElement.innerHTML = '';
+        mergedPageOrder = [];
+        mergedPdfBytes = null;
+        pdfFileCache = [];
+
+        loadingSpinner.style.display = 'block';
+
+        try {
+            for (let fileIndex = 0; fileIndex < uploadedFiles.length; fileIndex++) {
+                // **MODIFIED**: Get file object, file, and fileId
+                const fileObject = uploadedFiles[fileIndex];
+                const file = fileObject.file;
+                const fileId = fileObject.id;
+
+                const fileItem = document.createElement('li');
+                // **MODIFIED**: Use data-file-id instead of data-file-index for buttons
+                fileItem.innerHTML = `
+                    <span class="item-number">${fileIndex + 1}.</span> ${file.name}
+                    <div class="button-set">
+                     <svg class="rotate-btn" data-file-id="${fileId}" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                        <path class="svg-path" fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+                        <path class="svg-path" d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+                     </svg>
+                    <svg class="remove-btn" data-file-id="${fileId}" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                        <path class="svg-path" d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                        <path class="svg-path" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                    </svg>
+                    </div>`;
+
+                fileItem.setAttribute('draggable', true);
+                // **MODIFIED**: Set data-file-id attribute
+                fileItem.dataset.fileId = fileId;
+                fileItem.dataset.fileIndex = fileIndex;
+                fileListElement.appendChild(fileItem);
+                
+                if (file.type === 'application/pdf') {
+                    const arrayBuffer = await file.arrayBuffer();
+                    const pdfDoc = await PDFDocument.load(arrayBuffer);
+                    pdfFileCache[fileIndex] = pdfDoc;
+                    const pageCount = pdfDoc.getPageCount();
+                    for (let pageIndex = 0; pageIndex < pageCount; pageIndex++) {
+                         // **MODIFIED**: Push fileId along with other data
+                        mergedPageOrder.push({ fileId: fileId, fileIndex: fileIndex, pageIndex: pageIndex, type: file.type });
+                    }
+                } else if (file.type.startsWith('image/')) {
+                     // **MODIFIED**: Push fileId along with other data
+                    mergedPageOrder.push({ fileId: fileId, fileIndex: fileIndex, pageIndex: 0, type: file.type });
+                }
+            }
+        } catch (error) {
+            alert('處理文件時發生錯誤。請確認所有上傳的檔案未損壞。' + error.message);
+            console.error(error);
+        } finally {
+            loadingSpinner.style.display = 'none';
+        }
+
+        document.querySelectorAll('.remove-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                 // **MODIFIED**: Remove file by ID, not by index
+                const fileId = e.currentTarget.dataset.fileId;
+                uploadedFiles = uploadedFiles.filter(f => f.id !== fileId);
+                updateSortLists();
+            });
+        });
+
+        document.querySelectorAll('.rotate-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // **MODIFIED**: Get fileId from dataset
+                const fileId = e.currentTarget.dataset.fileId;
+                const pageIndex = e.target.dataset.pageIndex;
+                if (pageIndex !== undefined) {
+                    const key = `${fileId}_${pageIndex}`;
+                        pageRotations[key] = (pageRotations[key] || 0) + 90;
+                    } else {
+                        // **MODIFIED**: Use fileId as the key for rotation
+                        fileRotations[fileId] = (fileRotations[fileId] || 0) + 90;
+                    }
+
+                // 重新產生 Preview
+                mergeAndProcessPdf('preview');
+            });
+        });
+
+        addDragAndDrop(fileListElement);
+    }
+    
+    function addDragAndDrop(listElement) {
+        let draggedItem = null;
+
+        listElement.addEventListener('dragstart', (e) => {
+            if (e.target.tagName === 'LI') {
+                draggedItem = e.target;
+                e.target.classList.add('dragging');
+                e.dataTransfer.effectAllowed = 'move';
+            }
+        });
+
+        listElement.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            const afterElement = getDragAfterElement(listElement, e.clientY);
+            const currentItem = document.querySelector('.dragging');
+            if (afterElement == null) {
+                listElement.appendChild(currentItem);
+            } else {
+                listElement.insertBefore(currentItem, afterElement);
+            }
+        });
+
+        listElement.addEventListener('dragend', () => {
+            if (draggedItem) {
+                draggedItem.classList.remove('dragging');
+                draggedItem = null;
+                updateOrderFromList(listElement);
+            }
+        });
+    }
+
+    function getDragAfterElement(container, y) {
+        const draggableElements = [...container.querySelectorAll('li:not(.dragging)')];
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = y - box.top - box.height / 2;
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child };
+            } else {
+                return closest;
+            }
+        }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+
+    async function updateOrderFromList(listElement) {
+        if (currentSortMode === 'file') {
+            // **MODIFIED**: Reorder based on fileId to maintain rotation state
+            const items = listElement.querySelectorAll('li');
+            const fileIdOrder = Array.from(items).map(item => item.dataset.fileId);
+            const newUploadedFiles = [];
+            const newPdfFileCache = [];
+
+            fileIdOrder.forEach(id => {
+                const originalFileObject = uploadedFiles.find(f => f.id === id);
+                const originalIndex = uploadedFiles.indexOf(originalFileObject);
+                newUploadedFiles.push(originalFileObject);
+                if (pdfFileCache[originalIndex]) {
+                    newPdfFileCache.push(pdfFileCache[originalIndex]);
+                }
+            });
+
+            uploadedFiles = newUploadedFiles;
+            pdfFileCache = newPdfFileCache;
+
+            items.forEach((item, index) => {
+                item.querySelector('.item-number').textContent = `${index + 1}.`;
+                item.dataset.fileIndex = index; // Update index for visual/other logic
+            });
+            
+            await regenerateMergedPageOrder();
+        } else {
+            const newMergedPageOrder = [];
+            const items = listElement.querySelectorAll('li');
+            items.forEach((item, index) => {
+                const fileIndex = parseInt(item.dataset.fileIndex);
+                const pageIndex = parseInt(item.dataset.pageIndex);
+                // Find the original file by id to ensure data consistency
+                const fileObject = uploadedFiles.find(f => f.id === item.dataset.fileId);
+                const type = fileObject ? fileObject.file.type : 'unknown';
+                newMergedPageOrder.push({ fileId: item.dataset.fileId, fileIndex, pageIndex, type });
+                item.querySelector('.item-number').textContent = `${index + 1}.`;
+            });
+            mergedPageOrder = newMergedPageOrder;
+        }
+    }
+    
+    async function regenerateMergedPageOrder() {
+        mergedPageOrder = [];
+        for (let fileIndex = 0; fileIndex < uploadedFiles.length; fileIndex++) {
+            const fileObject = uploadedFiles[fileIndex];
+            const file = fileObject.file;
+            const fileId = fileObject.id;
+            if (file.type === 'application/pdf') {
+                const pdfDoc = pdfFileCache[fileIndex];
+                const pageCount = pdfDoc.getPageCount();
+                for (let pageIndex = 0; pageIndex < pageCount; pageIndex++) {
+                    mergedPageOrder.push({ fileId, fileIndex, pageIndex, type: file.type });
+                }
+            } else if (file.type.startsWith('image/')) {
+                mergedPageOrder.push({ fileId, fileIndex, pageIndex: 0, type: file.type });
+            }
+        }
+    }
+
+
+    document.getElementsByName('sortMode').forEach(radio => {
+        radio.addEventListener('change', async (event) => {
+            currentSortMode = event.target.value;
+            fileSortByNumberDiv.style.display = (currentSortMode === 'file') ? 'block' : 'none';
+            pageSortByNumberDiv.style.display = (currentSortMode === 'page') ? 'block' : 'none';
+            fileListElement.style.display = (currentSortMode === 'file') ? 'block' : 'none';
+            pageListElement.style.display = (currentSortMode === 'page') ? 'block' : 'none';
+            if (currentSortMode === 'page') {
+                await generatePageList();
+            } else {
+                await updateSortLists();
+            }
+        });
+    });
+
+    async function generatePageList() {
+        loadingSpinner.style.display = 'block';
+        
+        if (mergedPageOrder.length === 0) {
+            await regenerateMergedPageOrder();
+        }
+        
+        pageListElement.innerHTML = '';
+        for (let i = 0; i < mergedPageOrder.length; i++) {
+            const { fileId, fileIndex, pageIndex, type } = mergedPageOrder[i];
+            const fileObject = uploadedFiles.find(f => f.id === fileId);
+            if (!fileObject) continue;
+
+            const file = fileObject.file;
+            const pageItem = document.createElement('li');
+            const fileName = file.name;
+            let displayText = `${fileName}`;
+            if (type === 'application/pdf') {
+                displayText = `${fileName} (第 ${pageIndex + 1} 頁)`;
+            } else if (type.startsWith('image/')) {
+                displayText = `${fileName} (圖片)`;
+            }
+
+            pageItem.innerHTML = 
+            `<span class="item-number">${i + 1}.</span> ${displayText}
+             <div class="button-set">
+              <svg class="rotate-btn" data-file-id="${fileId}" data-page-index="${pageIndex}" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                <path class="svg-path" fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+                <path class="svg-path" d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+              </svg>
+               <svg class="remove-btn" data-file-id="${fileId}" data-page-index="${pageIndex}" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                <path class="svg-path" d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                <path class="svg-path" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                </button>
+              </div>`;
+
+            pageItem.setAttribute('draggable', true);
+            pageItem.dataset.fileId = fileId;
+            pageItem.dataset.fileIndex = fileIndex;
+            pageItem.dataset.pageIndex = pageIndex;
+            pageListElement.appendChild(pageItem);
+        }
+
+        addDragAndDrop(pageListElement);
+        document.querySelectorAll('.rotate-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                const fileId = e.currentTarget.dataset.fileId;
+                const pageIndex = e.currentTarget.dataset.pageIndex;
+                if (pageIndex !== undefined) {
+                    const key = `${fileId}_${pageIndex}`;
+                    pageRotations[key] = (pageRotations[key] || 0) + 90;
+                } else {
+                    fileRotations[fileId] = (fileRotations[fileId] || 0) + 90;
+                }
+
+                mergeAndProcessPdf('preview'); // 每次確保重新套用旋轉
+            });
+        });
+        
+        document.querySelectorAll('.remove-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const fileId = e.currentTarget.dataset.fileId;
+                const pageIndex = parseInt(e.currentTarget.dataset.pageIndex);
+                const indexToRemove = mergedPageOrder.findIndex(item => item.fileId === fileId && item.pageIndex === pageIndex);
+                if (indexToRemove > -1) {
+                    mergedPageOrder.splice(indexToRemove, 1);
+                    e.currentTarget.closest('li').remove();
+                    pageListElement.querySelectorAll('li').forEach((item, idx) => {
+                        item.querySelector('.item-number').textContent = `${idx + 1}.`;
+                    });
+                }
+            });
+        });
+        loadingSpinner.style.display = 'none';
+    }
+    
+    function moveItemByNumber(listType, from, to) {
+        from = parseInt(from);
+        to = parseInt(to);
+
+        if (isNaN(from) || isNaN(to) || from < 1 || to < 1) {
+            alert("請輸入有效的數字。");
+            return false;
+        }
+        
+        let list;
+        let listLength;
+        if (listType === 'file') {
+            list = uploadedFiles;
+        } else {
+            list = mergedPageOrder;
+        }
+        listLength = list.length;
+
+        if (from > listLength || to > listLength) {
+            alert("輸入的數字超出列表範圍。");
+            return false;
+        }
+
+        const fromIndex = from - 1;
+        const toIndex = to - 1;
+
+        if (fromIndex === toIndex) {
+            return true;
+        }
+
+        const [itemToMove] = list.splice(fromIndex, 1);
+        list.splice(toIndex, 0, itemToMove);
+        
+        return true;
+    }
+    //差異：pageToUpdate = null
+    async function mergeAndProcessPdf(action, pageToUpdate = null) {
+        if (uploadedFiles.length === 0) {
+            alert('請先上傳文件。');
+            return;
+        }
+
+        const isPreview = action === 'preview';
+        const isDownload = action === 'download';
+        
+        const jobID = Date.now();
+        currentPreviewJob = jobID;
+        
+        if (isPreview && !pageToUpdate) {
+            previewBtn.textContent = '處理中...';
+            previewBtn.disabled = true;
+            previewContainer.innerHTML = '';
+            previewDescription.style.display = 'flex';
+        } else if (isDownload) {
+            downloadBtn.textContent = '處理中...';
+            downloadBtn.disabled = true;
+        }
+        
+        loadingSpinner.style.display = 'block';
+        mergedPdfBytes = null;
+        
+        let success = true;
+        if (currentSortMode === 'file' && fileFromInput.value && fileToInput.value) {
+             success = moveItemByNumber('file', fileFromInput.value, fileToInput.value);
+             if (success) {
+                await updateSortLists();
+             }
+        } else if (currentSortMode === 'page' && pageFromInput.value && pageToInput.value) {
+             success = moveItemByNumber('page', pageFromInput.value, pageToInput.value);
+             if (success) {
+                await generatePageList();
+             }
+        }
+        
+        if(!success) {
+            loadingSpinner.style.display = 'none';
+            if (isPreview) {
+                previewBtn.textContent = '預覽合併 PDF';
+                previewBtn.disabled = false;
+            } else if (isDownload) {
+                downloadBtn.textContent = '下載合併 PDF';
+                downloadBtn.disabled = false;
+            }
+            return;
+        }
+        
+        fileFromInput.value = '';
+        fileToInput.value = '';
+        pageFromInput.value = '';
+        pageToInput.value = '';
+
+        try {
+            const mergedPdfDoc = await PDFDocument.create();
+            let pagesAddedCount = 0;
+
+            const pagesToProcess = pageToUpdate ? [mergedPageOrder[pageToUpdate - 1]] : mergedPageOrder;
+
+            for (const { fileId, fileIndex, pageIndex, type } of pagesToProcess) {
+                if (currentPreviewJob !== jobID) {
+                    return; 
+                }
+                
+                // **MODIFIED**: Get file object and file by index
+                const fileObject = uploadedFiles[fileIndex];
+                if (!fileObject) continue;
+                const file = fileObject.file;
+
+                // **MODIFIED**: Use fileId for rotation key
+                const pageKey = `${fileId}_${pageIndex}`;
+                const pageRotation = ((pageRotations[pageKey] || 0) + (fileRotations[fileId] || 0)) % 360;
+
+                if (type === 'application/pdf') {
+                    let pdfDoc;
+                    if (pdfFileCache[fileIndex]) {
+                        pdfDoc = pdfFileCache[fileIndex];
+                    } else {
+                        const arrayBuffer = await file.arrayBuffer();
+                        pdfDoc = await PDFDocument.load(arrayBuffer);
+                        pdfFileCache[fileIndex] = pdfDoc;
+                    }
+                    const [page] = await mergedPdfDoc.copyPages(pdfDoc, [pageIndex]);
+                    
+                    if (pageRotation !== 0) {
+                        page.setRotation(degrees(pageRotation));
+                    }
+                    mergedPdfDoc.addPage(page);
+                    pagesAddedCount++;
+
+                } else if (type.startsWith('image/')) {
+                    const processedImageBytes = await getProcessedImageBuffer(file, pageRotation);
+                    
+                    let image;
+                    if (file.type === 'image/jpeg') {
+                        image = await mergedPdfDoc.embedJpg(processedImageBytes);
+                    } else if (file.type === 'image/png') {
+                        image = await mergedPdfDoc.embedPng(processedImageBytes);
+                    } else {
+                        throw new Error(`不支援的圖片格式: ${file.type}`);
+                    }
+                    
+                    const imagePage = mergedPdfDoc.addPage();
+                    const { width: imgWidth, height: imgHeight } = image;
+                    const { width: pageWidth, height: pageHeight } = imagePage.getSize();
+
+                    const scaleFactor = Math.min(pageWidth / imgWidth, pageHeight / imgHeight);
+                    const finalWidth = imgWidth * scaleFactor;
+                    const finalHeight = imgHeight * scaleFactor;
+                    const finalX = (pageWidth - finalWidth) / 2;
+                    const finalY = (pageHeight - finalHeight) / 2;
+
+                    imagePage.drawImage(image, {
+                        x: finalX,
+                        y: finalY,
+                        width: finalWidth,
+                        height: finalHeight
+                    });
+                    
+                    pagesAddedCount++;
+                }
+            }
+
+            if (pagesAddedCount === 0) {
+                previewDescription.textContent = '請上傳至少一個文件。';
+                return;
+            }
+
+            mergedPdfBytes = await mergedPdfDoc.save();
+
+            if (isPreview) {
+                if (!pageToUpdate) {
+                    previewContainer.innerHTML = '';
+                    previewDescription.style.display = 'none';
+                }
+                await renderPages(mergedPdfBytes, jobID, pageToUpdate);
+            } else if (isDownload) {
+                downloadPdf(mergedPdfBytes);
+            }
+        } catch (error) {
+            alert('處理過程中發生錯誤，請檢查檔案是否損壞或重新操作。\n' + error.message);
+            console.error(error);
+        } finally {
+            if (currentPreviewJob === jobID) {
+                loadingSpinner.style.display = 'none';
+                if (isPreview) {
+                    previewBtn.textContent = '預覽合併 PDF';
+                    previewBtn.disabled = false;
+                }
+                if (isDownload) {
+                    downloadBtn.textContent = '下載合併 PDF';
+                    downloadBtn.disabled = false;
+                }
+            }
+        }
+    }
+
+    function downloadPdf(pdfBytes) {
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        const blobUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = '合併後的PDF.pdf';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(blobUrl);
+    }
+
+    async function renderPages(pdfBytes, jobID, pageToUpdate = null) {
+        const pdfjsDoc = await pdfjsLib.getDocument({ data: pdfBytes }).promise;
+        const pageCount = pdfjsDoc.numPages;
+
+        const startPage = pageToUpdate ? pageToUpdate : 1;
+        const endPage = pageToUpdate ? pageToUpdate : pdfjsDoc.numPages;
+
+         for (let i = 1; i <= pageCount; i++) {
+            if (currentPreviewJob !== jobID) {
+                console.log('新工作已啟動，中止當前頁面渲染。');
+                return;
+            }
+
+            const pageWrapper = document.createElement('div');
+            pageWrapper.classList.add('page-wrapper');
+            const pageNumberLabel = document.createElement('div');
+            pageNumberLabel.classList.add('page-number-label');
+            pageNumberLabel.textContent = `第 ${i} 頁`;
+            pageWrapper.appendChild(pageNumberLabel);
+            
+            const canvas = document.createElement('canvas');
+            canvas.id = `canvas-page-${i}`;
+            pageWrapper.appendChild(canvas);
+            previewContainer.appendChild(pageWrapper);
+
+            const pdfjsPage = await pdfjsDoc.getPage(i);
+            const viewport = pdfjsPage.getViewport({ scale: 1.5 });
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            const renderContext = {
+                canvasContext: canvas.getContext('2d'),
+                viewport: viewport,
+            };
+            await pdfjsPage.render(renderContext).promise;
+        }
+    }
+
+    async function getProcessedImageBuffer(file, rotation) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                let rad = rotation * Math.PI / 180;
+
+                if (rotation === 90 || rotation === 270) {
+                    canvas.width = img.height;
+                    canvas.height = img.width;
+                } else {
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                }
+
+                ctx.translate(canvas.width / 2, canvas.height / 2);
+                ctx.rotate(rad);
+                ctx.drawImage(img, -img.width / 2, -img.height / 2);
+
+                const outputType = file.type === 'image/jpeg' ? 'image/jpeg' : 'image/png';
+                canvas.toBlob((blob) => {
+                    if (!blob) {
+                        reject(new Error('Canvas to Blob conversion failed.'));
+                        return;
+                    }
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = (e) => reject(e);
+                    reader.readAsArrayBuffer(blob);
+                }, outputType);
+            };
+            img.onerror = (e) => reject(new Error('圖片載入失敗.'));
+            img.src = URL.createObjectURL(file);
+        });
+    }
+    
+    document.querySelectorAll('.collapsible').forEach((header) => {
+        header.addEventListener('click', () => {
+            header.classList.toggle('active');
+            const content = header.nextElementSibling;
+            content.style.display = content.style.display === 'block' ? 'none' : 'block';
+        });
+    });
+
+    previewBtn.addEventListener('click', () => {
+        previewContainer.innerHTML = '';
+        previewDescription.style.display = 'none';
+        mergeAndProcessPdf('preview');
+    });
+
+    downloadBtn.addEventListener('click', () => {
+        if (mergedPdfBytes) {
+            downloadPdf(mergedPdfBytes);
+        } else {
+            mergeAndProcessPdf('download');
+        }
+    });
+    updateSortLists();
+</script>
+</body>
+</html>
