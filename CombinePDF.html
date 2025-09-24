@@ -170,11 +170,11 @@
             background-color: #666666ff;
         }
         .btn-red {
-            background-color: #dc3545;
+            background-color: #005CAF;
             color: white;
         }
         .btn-red:hover {
-            background-color: #c82333;
+            background-color: #005CAF;
         }
         .spinner {
             border: 4px solid rgba(0, 0, 0, 0.1);
@@ -219,7 +219,7 @@
             transform: translateY(-50%);
             font-size: 18px;
             font-weight: bold;
-            color: #e9fff8;
+            color: #F7F7F7;
             z-index: 10;
         }
         #previewContainer canvas {
@@ -308,6 +308,21 @@
         svg:hover{
             fill:red;
         }
+        #jumpToPageContainer{
+            margin-bottom: 15px;
+            display:flex;
+            align-items: center;
+        }
+        #totalPageCountContainer, #totalPageCount{
+            margin-left: 10px ;
+            font-size:15px;
+        }
+        #totalPageCount{
+            margin-right: 10px ;
+        }
+        #jumpToPageBtn{
+            margin-left: 10px ;
+        }
     </style>
 </head>
 <body>
@@ -340,6 +355,15 @@
                 <input type="radio" name="sortMode" value="file" checked> 整份文件
                 <input type="radio" name="sortMode" value="page"> 單頁內容</p>
         </div>
+        <div id="jumpToPageContainer">
+            <p style="margin:0 10px 0 0;">跳至頁面：</p>
+            <input type="number" id="pageNumberInput" min="1" style="width: 70px; margin-bottom: 0; padding: 8px;">
+            <div id="totalPageCountContainer">/<span id="totalPageCount">0</span></div>
+            <button id="jumpToPageBtn" class="btn" style="background-color: #323237; font-size: 13px; padding: 9px; margin:0;">跳轉</button>
+        </div>
+        <!--<div id="totalPageCountContainer" style="display: none; margin-bottom: 10px;">
+            <p style="font-weight: bold; color: #424242;">合併總頁數：<span id="totalPageCount" style="color: #0056b3;"></span></p>
+        </div>-->
         <ul id="pageList" style="display:none;"></ul>
         <ul id="fileList"></ul>
         <div class="btn-group">
@@ -958,6 +982,16 @@
             };
             await pdfjsPage.render(renderContext).promise;
         }
+        const jumpContainer = document.getElementById('jumpToPageContainer');
+        const pageNumberInput = document.getElementById('pageNumberInput');
+        pageNumberInput.max = pageCount; // 設定最大可輸入頁碼
+        pageNumberInput.value = 1; // 預設為第1頁
+        jumpContainer.style.display = 'flex'; // 顯示跳轉區塊
+        const totalPageCountContainer = document.getElementById('totalPageCountContainer');
+        const totalPageCountSpan = document.getElementById('totalPageCount');
+        totalPageCountSpan.textContent = pageCount; // 將計算出的總頁數填入
+        totalPageCountContainer.style.display = 'block'; // 顯示總頁數區塊
+
     }
 
     async function getProcessedImageBuffer(file, rotation) {
@@ -996,6 +1030,24 @@
             img.src = URL.createObjectURL(file);
         });
     }
+    function jumpToPage() {
+        const pageNumberInput = document.getElementById('pageNumberInput');
+        const pageNum = parseInt(pageNumberInput.value);
+        const maxPage = parseInt(pageNumberInput.max);
+
+        if (isNaN(pageNum) || pageNum < 1 || pageNum > maxPage) {
+            alert(`請輸入介於 1 到 ${maxPage} 之間的有效頁碼。`);
+            return;
+        }
+
+        const targetPage = document.getElementById(`canvas-page-${pageNum}`);
+        if (targetPage) {
+            // 使用 scrollIntoView 讓目標頁面滾動到可視區域
+            targetPage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+            alert(`錯誤：找不到預覽中的頁面 ${pageNum}。`);
+        }
+    }
     
     document.querySelectorAll('.collapsible').forEach((header) => {
         header.addEventListener('click', () => {
@@ -1008,6 +1060,8 @@
     previewBtn.addEventListener('click', () => {
         previewContainer.innerHTML = '';
         previewDescription.style.display = 'none';
+        /*document.getElementById('jumpToPageContainer').style.display = 'none';
+        document.getElementById('totalPageCountContainer').style.display = 'none';*/
         mergeAndProcessPdf('preview');
     });
 
@@ -1019,6 +1073,7 @@
         }
     });
     updateSortLists();
+    document.getElementById('jumpToPageBtn').addEventListener('click', jumpToPage);
 </script>
 </body>
 </html>
