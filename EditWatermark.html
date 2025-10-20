@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>編輯浮水印文字工具</title>
+  <link rel="icon" type="image/x-icon" href="https://weiyenchang.github.io/PDFtools/watermark.png">
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      background-color: #91989F;
+      color:#424242;
+    }
+    #settings {
+      position: fixed;
+      left: 0;
+      width: 300px;
+      height: 100%;
+      padding: 1em;
+      background: #f3f3f3ff;
+      overflow-y: auto;
+    }
+    #preview-container {
+      margin-left: 300px;
+      padding: 1em;
+      overflow-y: scroll;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    canvas {
+      border: 1px solid #ddd;
+      margin-bottom: 1em;
+      max-width: 100%;
+      height: auto;
+    }
+    input, textarea, select {
+      width: 100%;
+      margin: 0.5em 0;
+    }
+    #download-links {
+      margin-top: 1em;
+      margin-bottom: 100px;
+      line-height: 1.5em;
+    }
+    #download-links a {
+      display: none;
+    }
+   .collapsible {
+      cursor: pointer;
+      margin-top: 1em;
+      background-color: #e3e3e3;
+      padding: 0.5em;
+      border-radius: 4px;
+    }
+    .collapsible:hover {
+      background-color: #555;
+      color: white;
+    }
+
+    .collapsible::after {
+      content: ' +';
+      float: right;
+    }
+
+    .collapsible.active::after {
+      content: ' -';
+    }
+
+    .collapsible.active {
+      background-color: #555;
+      color: white;
+      margin-bottom:0;
+    }
+
+    .content {
+      padding: 0.5em 0;
+      display: none;
+    } 
+
+    select {
+      width: 100%;
+      padding: 10px 20px;
+      border: 2px solid #e7e7e7;
+      border-radius: 4px;
+      background-color: white;
+      color:#424242;
+    }
+    input::file-selector-button {
+      font-weight: bold;
+      background-color: white;  /* Green */
+      border: 2px solid #555;
+      color:#424242;
+      padding: 0.5em;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    input[type=text],input[type=number]{
+      width: 100%;
+      padding: 10px 20px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      border: 2px solid #e7e7e7;
+      border-radius: 4px;
+      color:#424242;
+    }
+    input[type=color] {
+      width: 100%;
+      border: 2px solid #e7e7e7;
+    }
+    button {
+      background-color: #91989F;
+      color:#f7f7f7;
+      padding: 10px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 15px;
+      margin: 5px 2px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition-duration: 0.4s;
+      font-weight: 500;
+      border:none;
+    }
+    button:hover {
+     background-color: #005CAF;
+    }
+    textarea {
+      padding: 5px 20px 30px;
+      border: 2px solid #e7e7e7;
+      border-radius: 4px;
+      color:#424242;
+    }
+    .logo img{
+      width: 50%;
+    }
+    hr{
+      border: 1px solid #e7e7e7;
+    }
+    label{
+      font-size: 0.9em;
+      font-weight: 500;
+      color:#999999;
+    }
+    h5{
+      font-size: 1em;
+      margin-bottom: 10px;
+    }
+    a:link {
+      text-decoration: none;
+      color:#007AFF;
+    }
+    .step{
+      border-radius: 15px;
+      padding:0px 6px 0px 6px;
+      font-size: 15px;
+    }
+    .optional{
+      color:#424242;
+      background-color:#40FDCB;
+      border-radius: 15px;
+      padding:0px 6px 0px 6px;
+      font-size: 13px;
+    }
+    p{
+      font-size: 14px;
+      padding: 0px 2px 0px 10px;
+      font-weight: 500;
+    }
+    .hint{
+      font-size: 13px;
+      padding: 10px;
+      background-color: #eeff41ff;
+    }
+    h3{
+      margin-top:0px;
+      margin-bottom: 20px;
+      color:#9e9e9e;
+    }
+    h2{
+      margin-bottom: 5px;
+    }
+    .result-btn-set{
+      position: fixed;
+      bottom:10px;
+      left: 10px;
+    }
+    .content-bottom{
+      margin-bottom: 100px;
+    }
+  </style>
+</head>
+<body>
+  <div id="settings">
+    <?xml version="1.0" encoding="utf-8"?>
+    <!-- License: CC Attribution. Made by zwicon: https://www.zwicon.com/ -->
+    <svg fill="#323237" width="80px" height="80px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10.1403882,14 L13.8596118,14 L13.07321,10.8543926 C12.7316796,10.9492838 12.3717625,11 12,11 C11.6282375,11 11.2683204,10.9492838 10.92679,10.8543926 L10.1403882,14 Z M9.1096118,14 L9.99423004,10.461527 C8.80180997,9.7690907 8,8.47818173 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,8.47818173 15.19819,9.7690907 14.00577,10.461527 L14.8903882,14 L18.5,14 C19.8807119,14 21,15.1192881 21,16.5 L21,18.5 C21,18.7761424 20.7761424,19 20.5,19 L3.5,19 C3.22385763,19 3,18.7761424 3,18.5 L3,16.5 C3,15.1192881 4.11928813,14 5.5,14 L9.1096118,14 Z M12,10 C13.6568542,10 15,8.65685425 15,7 C15,5.34314575 13.6568542,4 12,4 C10.3431458,4 9,5.34314575 9,7 C9,8.65685425 10.3431458,10 12,10 Z M20,18 L20,16.5 C20,15.6715729 19.3284271,15 18.5,15 L5.5,15 C4.67157288,15 4,15.6715729 4,16.5 L4,18 L20,18 Z M3.5,21 C3.22385763,21 3,20.7761424 3,20.5 C3,20.2238576 3.22385763,20 3.5,20 L20.5,20 C20.7761424,20 21,20.2238576 21,20.5 C21,20.7761424 20.7761424,21 20.5,21 L3.5,21 Z"/>
+    </svg>
+    <h2>浮水印工具</h2>
+    <h3>自訂浮水印文字</h3>
+
+    <h4 class="collapsible"><span class="step">Step 1.</span> 選擇文件類型</h4>
+    <div class="content">
+      <p>選擇後，系統會依照您選擇的文件類型「自動」提供最佳浮水印設定數值</p>
+      <select id="doc-type">
+        <option value="word">Word（A4）</option>
+        <option value="ppt">PPT - 公司模板簡報(2050x1440px)</option>
+      </select>
+    </div>
+
+    <h4 class="collapsible"><span class="step">Step 2.</span> 上傳 PDF 文件</h4>
+    <div class="content">
+      <p>請注意，如文件有「加密」或「大小超過 100 MB 」情形，可能會無法上傳成功</p>
+      <input type="file" id="pdf-upload" accept="application/pdf">
+    </div>
+    
+    <h4 class="collapsible"><span class="step">Step 3.</span> 設定浮水印</h4>
+    <div class="content">
+      <p>您可以先按下「預覽浮水印」按鈕，再進一步調整以下浮水印設定</p>
+      <h5>第一段文字</h5>
+      <label>文字內容：</label>
+      <input type="text" id="wm-line1" value="機密資訊">
+      <label>文字大小 (px)：</label>
+      <input type="number" id="wm-line1-size" value="100">
+      <br><br><hr>
+      <h5>第二段文字</h5>
+      <label>文字內容：</label>
+      <textarea id="wm-line2">僅供中華郵政郵遞電動機車標案使用</textarea>
+      <label>文字大小 (px)：</label>
+      <input type="number" id="wm-line2-size" value="36">
+      <label>與第一段文字行距 (px)：</label>
+      <input type="number" id="wm-line2-lineheight" value="160">
+      <br><br><hr>
+      <h5>樣式設定</h5>
+      <label>文字顏色：</label>
+      <input type="color" id="color" value="#ff0000">
+      <label>角度（度）：</label>
+      <input type="number" id="angle" value="-45">
+      <label>透明度（0-1）：</label>
+      <input type="number" id="opacity" step="0.1" value="0.2">
+    </div>
+
+    <h4 class="collapsible"><span class="step">Optional.</span> 進階設定</h4>
+     <div class="content content-bottom">
+      <label>浮水印大小（％）：</label>
+      <input type="number" id="wm-scale" value="100">
+      <label>水平距離 (mm，從中心)：</label>
+      <input type="number" id="offset-x" value="80">
+      <label>垂直距離 (mm，從中心)：</label>
+      <input type="number" id="offset-y" value="-50">
+      </div>
+      <!--<hr>
+     <h5>📄 完成檔下載連結</h5>
+     <div id="download-links">💡按下「下載浮水印 PDF」按鈕，此處會出現下載連結！</div>-->
+     <div class="result-btn-set">
+        <button id="preview">預覽浮水印</button>
+        <button id="generate">下載浮水印 PDF</button>
+      </div> 
+    </div>
+  <div id="preview-container"></div>
+  <script>
+    function mmToPt(mm) {
+      return mm * 2.83465;
+    }
+    function createWatermarkImage(text1, text2, size1, size2, lineHeight, color, scale) {
+      const canvas = document.createElement('canvas');
+      const scaleFactor = scale / 100;
+      canvas.width = 600 * scaleFactor;
+      canvas.height = 300 * scaleFactor;
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = color;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.font = `bold ${size1}px sans-serif`;
+      ctx.fillText(text1, canvas.width / 2, canvas.height / 2 - lineHeight / 2);
+      ctx.font = `${size2}px sans-serif`;
+      const lines = text2.split('\n');
+      lines.forEach((line, i) => {
+        ctx.fillText(line, canvas.width / 2, canvas.height / 2 + i * lineHeight / 2);
+      });
+      return canvas.toDataURL();
+    }
+    document.getElementById('doc-type').addEventListener('change', () => {
+      const type = document.getElementById('doc-type').value;
+      if (type === 'word') {
+        document.getElementById('wm-line1-size').value = 100;
+        document.getElementById('wm-line2-size').value = 36;
+        document.getElementById('wm-line2-lineheight').value = 160;
+        document.getElementById('wm-scale').value = 100;
+        document.getElementById('offset-x').value = 80;
+        document.getElementById('offset-y').value = -50;
+        document.getElementById('angle').value = -45;
+      } else if (type === 'ppt') {
+        document.getElementById('wm-line1-size').value = 220;
+        document.getElementById('wm-line2-size').value = 70;
+        document.getElementById('wm-line2-lineheight').value = 350;
+        document.getElementById('wm-scale').value = 300;
+        document.getElementById('offset-x').value = 230;
+        document.getElementById('offset-y').value = -200;
+        document.getElementById('angle').value = -45;
+      }
+    });
+    async function applyWatermark(pdfBytes, watermarkDataUrl, options) {
+      const pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
+      
+      const pngBytes = await (await fetch(watermarkDataUrl)).arrayBuffer();
+      const pngImage = await pdfDoc.embedPng(pngBytes);
+      for (const page of pdfDoc.getPages()) {
+        const { width, height } = page.getSize();
+        const wmWidth = pngImage.width;
+        const wmHeight = pngImage.height;
+        page.drawImage(pngImage, {
+          x: (width - wmWidth) / 2 + options.offsetX,
+          y: (height - wmHeight) / 2 + options.offsetY,
+          width: wmWidth,
+          height: wmHeight,
+          rotate: PDFLib.degrees(options.angle),
+          opacity: options.opacity,
+        });
+      }
+      return await pdfDoc.save();
+    }
+    document.getElementById('preview').addEventListener('click', async () => {
+      const file = document.getElementById('pdf-upload').files[0];
+      if (!file) return alert('請上傳 PDF');
+      const docType = document.getElementById('doc-type').value;
+      const text1 = document.getElementById('wm-line1').value;
+      const text2 = document.getElementById('wm-line2').value;
+      const size1 = parseInt(document.getElementById('wm-line1-size').value);
+      const size2 = parseInt(document.getElementById('wm-line2-size').value);
+      const lineHeight = parseInt(document.getElementById('wm-line2-lineheight').value);
+      const color = document.getElementById('color').value;
+      const angle = -parseFloat(document.getElementById('angle').value);
+      const opacity = parseFloat(document.getElementById('opacity').value);
+      const scale = parseFloat(document.getElementById('wm-scale').value);
+      const offsetX = mmToPt(parseFloat(document.getElementById('offset-x').value));
+      const offsetY = mmToPt(parseFloat(document.getElementById('offset-y').value));
+      const watermarkDataUrl = createWatermarkImage(text1, text2, size1, size2, lineHeight, color, scale);
+      const pdfBytes = await file.arrayBuffer();
+      const modifiedPdf = await applyWatermark(pdfBytes, watermarkDataUrl, {
+        offsetX, offsetY, angle, opacity
+      });
+      const pdfjs = await pdfjsLib.getDocument({ data: modifiedPdf }).promise;
+      const previewContainer = document.getElementById('preview-container');
+      previewContainer.innerHTML = '';
+      for (let i = 1; i <= pdfjs.numPages; i++) {
+        const page = await pdfjs.getPage(i);
+        const viewport = page.getViewport({ scale: docType === 'ppt' ? 0.8 : 1.5 });
+        const canvas = document.createElement('canvas');
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        const context = canvas.getContext('2d');
+        await page.render({ canvasContext: context, viewport: viewport }).promise;
+        previewContainer.appendChild(canvas);
+      }
+    });
+    document.getElementById('generate').addEventListener('click', async () => {
+      const file = document.getElementById('pdf-upload').files[0];
+      if (!file) return alert('請上傳 PDF');
+      const text1 = document.getElementById('wm-line1').value;
+      const text2 = document.getElementById('wm-line2').value;
+      const size1 = parseInt(document.getElementById('wm-line1-size').value);
+      const size2 = parseInt(document.getElementById('wm-line2-size').value);
+      const lineHeight = parseInt(document.getElementById('wm-line2-lineheight').value);
+      const color = document.getElementById('color').value;
+      const angle = -parseFloat(document.getElementById('angle').value);
+      const opacity = parseFloat(document.getElementById('opacity').value);
+      const scale = parseFloat(document.getElementById('wm-scale').value);
+      const offsetX = mmToPt(parseFloat(document.getElementById('offset-x').value));
+      const offsetY = mmToPt(parseFloat(document.getElementById('offset-y').value));
+      const watermarkDataUrl = createWatermarkImage(text1, text2, size1, size2, lineHeight, color, scale);
+      const pdfBytes = await file.arrayBuffer();
+      const modifiedPdf = await applyWatermark(pdfBytes, watermarkDataUrl, {
+        offsetX, offsetY, angle, opacity
+      });
+      const blob = new Blob([modifiedPdf], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      const downloadName = file.name.replace(/\.pdf$/i, '') + '_Watermark.pdf';
+      link.href = url;
+      link.download = downloadName;
+      link.textContent = '下載浮水印 PDF：' + downloadName;
+      link.style.display = 'block';
+      /*const dlContainer = document.getElementById('download-links');
+      dlContainer.innerHTML = '';
+      dlContainer.appendChild(link);*/
+      link.click();
+    });
+    document.querySelectorAll('.collapsible').forEach((header) => {
+      header.addEventListener('click', () => {
+        header.classList.toggle('active');
+        const content = header.nextElementSibling;
+        content.style.display = content.style.display === 'block' ? 'none' : 'block';
+      });
+    });
+  </script>
+</body>
+</html>
