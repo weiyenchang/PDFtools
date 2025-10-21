@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-key="pageTitle">您的姓名 - Vibe Coding 作品集</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght=300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
 <style>
         /* --------------------
@@ -103,7 +103,7 @@
             align-items: flex-start; /* 頂部對齊 */
         }
         
-        /* 左側：日期日曆 (MUJI 簡約風格) */
+        /* 左側：日期日曆 (Muji Style) */
         .date-calendar {
             flex-shrink: 0;
             width: 150px;
@@ -378,7 +378,7 @@
                 "id": 1, 
                 "type": "linkedin", 
                 "date": "2024-10-21", 
-                "iframeCode": "<iframe src=\"https://www.linkedin.com/embed/feed/update/urn:li:share:7299434107426484224?collapsed=1" height=\"670\" width=\"504\" frameborder=\"0\" allowfullscreen=\"\" title=\"Embedded post\"></iframe>"></iframe>"
+                "iframeCode": "<iframe src=\"https://www.linkedin.com/embed/feed/update/urn:li:share:7299434107426484224?collapsed=1\" height=\"670\" width=\"504\" frameborder=\"0\" allowfullscreen=\"\" title=\"Embedded post\"></iframe>"
             },
             { 
                 "id": 2, 
@@ -403,7 +403,8 @@
         
         // 1. 載入獨立 JSON 數據
         const dataScript = document.getElementById('translation-data');
-        const translations = JSON.parse(dataScript.textContent);
+        // 錯誤發生在這一行，但 JSON.parse 現在應該能正確處理轉義後的字串
+        const translations = JSON.parse(dataScript.textContent); 
         
         const statusScript = document.getElementById('status-data');
         const statusData = JSON.parse(statusScript.textContent).posts; 
@@ -487,7 +488,7 @@
             filterAndRenderProjects(); 
         }
         
-        // --- 渲染狀態更新 (核心修改) ---
+        // --- 渲染狀態更新 (維持前一版邏輯) ---
         function renderStatusUpdates() {
             const statusContainer = document.getElementById('status-updates');
             statusContainer.innerHTML = '';
@@ -495,8 +496,8 @@
             const lang = currentLang;
 
             const warningText = lang === 'zh-TW' ? 
-                '下方展示您的最新三則貼文。請注意，社群平台嵌入內容可能因瀏覽器或隱私設定而無法完全顯示。' : 
-                'The latest three posts are displayed below. Note that embedded content from social media platforms may not fully display due to browser or privacy settings.';
+                '下方展示您的最新貼文。請注意，社群平台嵌入內容可能因瀏覽器或隱私設定而無法完全顯示。' : 
+                'The latest posts are displayed below. Note that embedded content from social media platforms may not fully display due to browser or privacy settings.';
             
             const warning = document.createElement('p');
             warning.style.cssText = 'grid-column: 1 / -1; text-align:center; color:var(--color-secondary-text); margin-bottom: 20px; font-style: italic;';
@@ -508,8 +509,12 @@
                 div.classList.add('post-card');
                 
                 // 1. 處理日期，格式化為月/日/年
+                // 確保日期是有效的 (例如 '2024-10-21')
                 const dateObj = new Date(post.date);
-                // 使用 toLocaleDateString() 或自行格式化
+                if (isNaN(dateObj)) {
+                    console.error("Invalid date for post:", post.id);
+                    return; // 跳過無效日期
+                }
                 const day = dateObj.getDate().toString().padStart(2, '0');
                 const monthIndex = dateObj.getMonth();
                 const year = dateObj.getFullYear();
@@ -537,13 +542,10 @@
                 `;
                 statusContainer.appendChild(div);
             });
-            
-            // 由於 IG 嵌入代碼使用了 <blockquote class="instagram-media">，我們需要額外載入 IG 的 JS 才能讓它正確渲染。
-            // 但為了簡化，我們只插入代碼，如果需要實際渲染，用戶需要自己加入 IG 嵌入的腳本。
         }
 
         // --- 其他輔助函式 (保持不變) ---
-        function getProjectsData() { /* ... 保持不變 ... */
+        function getProjectsData() {
             const translatedProjects = translations[currentLang].projects;
             return coreProjectsData.map(coreP => {
                 const translatedP = translatedProjects.find(tp => tp.id === coreP.id);
@@ -553,7 +555,7 @@
                 return { ...coreP, title: translatedP.title, description: translatedP.description };
             });
         }
-        function renderProjects(projects) { /* ... 保持不變 ... */
+        function renderProjects(projects) {
             const portfolioItemsContainer = document.getElementById('portfolio-items');
             const currentView = localStorage.getItem('portfolioView') || 'list';
             portfolioItemsContainer.innerHTML = '';
@@ -574,7 +576,7 @@
                 portfolioItemsContainer.appendChild(item);
             });
         }
-        function filterAndRenderProjects() { /* ... 保持不變 ... */
+        function filterAndRenderProjects() {
             if (currentTab !== 'projects-section') return;
             const searchInput = document.getElementById('search-input');
             const projects = getProjectsData(); 
@@ -586,7 +588,7 @@
             });
             renderProjects(filteredProjects);
         }
-        function generateTags() { /* ... 保持不變 ... */
+        function generateTags() {
             const tagCloud = document.getElementById('tag-cloud');
             const projects = getProjectsData(); 
             const allTags = new Set(['all']);
@@ -607,7 +609,7 @@
                 tagCloud.appendChild(btn);
             });
         }
-        function openModal(project) { /* ... 保持不變 ... */
+        function openModal(project) {
             document.getElementById('modal-image').src = project.image;
             document.getElementById('modal-image').alt = project.title;
             document.getElementById('modal-title').textContent = project.title;
