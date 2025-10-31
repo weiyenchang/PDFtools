@@ -313,7 +313,7 @@
             </div>
         </div>
     </div>
-
+    
     <script id="status-data" type="application/json">
     {
         "posts": [
@@ -345,23 +345,16 @@
         // --------------------
         
         // 全域變數初始化
-        let translations = {}; // *** 將從 GitHub 載入 ***
+        let translations = {}; // *** 從 GitHub JSON 載入的翻譯文本和 UI 字符串 ***
+        let coreProjects = []; // *** 從 GitHub JSON 載入的項目結構數據 (tags, links, images) ***
         let currentLang = localStorage.getItem('lang') || 'zh-TW';
         let activeTag = 'all'; 
         let currentTab = 'projects-section'; 
+        let dataLoaded = false;
 
-        // 1. 載入狀態數據 (保持內嵌，避免過多外部請求)
+        // 1. 載入狀態數據 (保持內嵌)
         const statusScript = document.getElementById('status-data');
         const statusData = JSON.parse(statusScript.textContent).posts; 
-
-        // 2. 核心作品數據 (保持內嵌，因為這部分是固定結構)
-        const coreProjectsData = [
-            { id: 1, tags: ["Coding", "數據", "Vibe", "JavaScript"], tools: ["D3.js", "HTML/CSS", "Vite"], link: "https://example.com/project1", image: "https://via.placeholder.com/600x350/C0C0C0/333333?text=Project+1+Preview" },
-            { id: 2, tags: ["藝術", "Coding", "p5.js"], tools: ["p5.js", "JavaScript", "Audio API"], link: "https://example.com/project2", image: "https://via.placeholder.com/600x350/A0A0A0/333333?text=Project+2+Preview" },
-            { id: 3, tags: ["網頁", "動畫", "Vibe"], tools: ["Three.js", "GSAP", "CSS"], link: "https://example.com/project3", image: "https://via.placeholder.com/600x350/B0B0B0/333333?text=Project+3+Preview" },
-            { id: 4, tags: ["Coding", "AI", "工具"], tools: ["GPT API", "React", "Node.js"], link: "https://example.com/project4", image: "https://via.placeholder.com/600x350/808080/333333?text=Project+4+Preview" },
-            { id: 5, tags: ["網頁", "設計", "HTML"], tools: ["HTML5", "CSS3"], link: "https://example.com/project5", image: "https://via.placeholder.com/600x350/E0E0E0/333333?text=Project+5+Preview" }
-        ];
 
         // --- 月份名稱查找表 ---
         const monthNames = {
@@ -377,7 +370,7 @@
             return names[monthIndex];
         };
         
-        // 3. 異步載入外部 JSON 數據的核心功能 (新增)
+        // 2. 異步載入外部 JSON 數據的核心功能 (已修正為處理統一結構)
         async function loadExternalData(url) {
             const portfolioItemsContainer = document.getElementById('portfolio-items');
             
@@ -391,58 +384,114 @@
                     throw new Error(`HTTP 錯誤! 狀態碼: ${response.status}。請確認 GitHub Raw 連結是否公開且正確。`);
                 }
                 
-                translations = await response.json();
+                const contentType = response.headers.get("content-type");
+                if (!contentType || !contentType.includes("application/json")) {
+                    throw new Error("載入的內容不是有效的 JSON 格式。請確認您使用的是 GitHub Raw URL。");
+                }
+
+                const data = await response.json();
+                
+                // --- 解析新結構 ---
+                if (!data.translations || !data.coreProjects) {
+                     throw new Error("JSON 結構錯誤。頂層應包含 'translations' 和 'coreProjects' 兩個鍵。");
+                }
+                
+                translations = data.translations;
+                coreProjects = data.coreProjects; // 儲存核心項目結構
+
+                dataLoaded = true; 
                 
                 // 數據載入成功後，開始初始化 UI
                 const lang = localStorage.getItem('lang') || 'zh-TW';
                 setLanguage(lang);
                 
-                // 移除載入中提示 (setLanguage 會重新渲染作品)
-                
             } catch (error) {
                 console.error("載入外部作品數據錯誤:", error);
-                portfolioItemsContainer.innerHTML = `<p style="text-align:center; color:red; padding: 20px 0;">無法載入作品數據：${error.message}</p>`;
-                // 嘗試用預設語言進行最小化初始化 (如果 translations 仍是空物件，則跳過)
-                if(translations['zh-TW']) setLanguage('zh-TW');
+                
+                let errorMessage = error instanceof SyntaxError ? 
+                    `JSON 語法錯誤 (例如：檔案中含有註釋或多餘逗號)。請檢查 GitHub 上的 projects.json 檔案。` : 
+                    error.message;
+
+                portfolioItemsContainer.innerHTML = `<p style="text-align:center; color:red; padding: 20px 0;">無法載入作品數據：${errorMessage}</p>`;
+                
+                // 載入失敗，提供最小化回退
+                const fallbackTranslation = {
+                    "pageTitle": "載入失敗", "name": "載入失敗", "bio": "無法取得作品數據", "allProjectsTag": "全部", "projectsHeader": "錯誤", "statusHeader": "錯誤", "searchPlaceholder": "搜尋", "linkedinType": "貼文", "instagramType": "貼文", "modalDescTitle": "簡短說明：", "modalToolsTitle": "使用工具：", "modalLinkBtn": "前往作品網站",
+                    "projects": [] // 無法提供任何項目
+                };
+                translations = { 'zh-TW': fallbackTranslation };
+                coreProjects = [];
+                setLanguage('zh-TW'); 
             }
         }
 
-        // 4. 語言切換核心函式 (保持不變)
+        // 3. 語言切換核心函式 (保持不變)
         function setLanguage(lang) {
             currentLang = lang;
             localStorage.setItem('lang', lang);
 
-            // 確認翻譯數據已載入
-            if (!translations[lang]) {
-                console.error(`Translation data for ${lang} is missing.`);
-                return;
-            }
+            // 處理語言缺失
+            const effectiveLang = translations[lang] ? lang : (translations['zh-TW'] ? 'zh-TW' : null);
+            if (!effectiveLang) return;
 
             document.querySelectorAll('[data-key]').forEach(el => {
                 const key = el.getAttribute('data-key');
-                if (translations[lang] && translations[lang][key]) {
+                if (translations[effectiveLang] && translations[effectiveLang][key]) {
                     if (key === 'searchPlaceholder') {
-                        el.placeholder = translations[lang][key];
+                        el.placeholder = translations[effectiveLang][key];
                     } else {
-                        el.textContent = translations[lang][key];
+                        el.textContent = translations[effectiveLang][key];
                     }
                 }
             });
 
-            document.querySelector('title').textContent = translations[lang].pageTitle;
-            document.documentElement.lang = lang; 
+            document.querySelector('title').textContent = translations[effectiveLang].pageTitle;
+            document.documentElement.lang = effectiveLang; 
             
             generateTags();
             filterAndRenderProjects(); 
             renderStatusUpdates(); 
             
             document.getElementById('language-select').value = lang;
-            // 確保 tab 狀態正確
-            switchTab(currentTab);
+            switchTab(currentTab, false); 
         }
         
-        // --- 後續輔助函式 (維持前一版邏輯) ---
-        function switchTab(targetId) {
+        // --- 輔助函式 ---
+
+        // 4. 合併核心數據和翻譯數據
+        function getProjectsData() {
+            // 檢查是否已成功載入數據
+            if (coreProjects.length === 0 || !translations[currentLang]) {
+                 return [];
+            }
+            
+            const translatedProjectsMap = new Map();
+            // 建立翻譯數據的 Map，方便 O(1) 查找
+            translations[currentLang].projects.forEach(tp => {
+                translatedProjectsMap.set(tp.id, tp);
+            });
+            
+            // 合併核心數據與翻譯數據
+            return coreProjects.map(coreP => {
+                const translatedP = translatedProjectsMap.get(coreP.id);
+                // 即使翻譯缺失，也返回核心數據，但使用佔位符文本
+                if (!translatedP) {
+                    return { 
+                        ...coreP, 
+                        title: `Project ${coreP.id} (Translation Missing)`, 
+                        description: `No translation found in projects.json for this ID.` 
+                    };
+                }
+                // 合併核心數據和翻譯文本
+                return { 
+                    ...coreP, 
+                    title: translatedP.title, 
+                    description: translatedP.description 
+                };
+            });
+        }
+        
+        function switchTab(targetId, filter=true) {
             document.querySelectorAll('.main-content-wrapper section').forEach(section => {
                 section.style.display = 'none';
             });
@@ -464,7 +513,7 @@
             tagCloud.style.display = isProjectTab ? 'flex' : 'none';
             
             searchInput.value = '';
-            filterAndRenderProjects(); 
+            if (filter) filterAndRenderProjects(); 
         }
         
         function renderStatusUpdates() {
@@ -473,9 +522,9 @@
             
             const lang = currentLang;
 
-            const warningText = translations[lang] ? (lang === 'zh-TW' ? 
-                '下方展示您的最新貼文。請注意，社群平台嵌入內容可能因瀏覽器或隱私設定而無法完全顯示。' : 
-                'The latest posts are displayed below. Note that embedded content from social media platforms may not fully display due to browser or privacy settings.') : '';
+            const warningText = translations[lang] ? (translations[lang].statusHeader ? 
+                (lang === 'zh-TW' ? '下方展示您的最新貼文。請注意，社群平台嵌入內容可能因瀏覽器或隱私設定而無法完全顯示。' : 
+                'The latest posts are displayed below. Note that embedded content from social media platforms may not fully display due to browser or privacy settings.') : '') : '';
             
             const warning = document.createElement('p');
             warning.style.cssText = 'grid-column: 1 / -1; text-align:center; color:var(--color-secondary-text); margin-bottom: 20px; font-style: italic;';
@@ -496,7 +545,6 @@
                 const monthName = getMonthName(monthIndex, lang);
                 
                 const embedContent = post.iframeCode || '<p>Embed code missing.</p>';
-                // 檢查 translations[lang] 是否存在
                 const typeKey = post.type === 'linkedin' ? 'linkedinType' : 'instagramType';
                 const typeText = translations[lang] ? (translations[lang][typeKey] || post.type) : post.type;
                 
@@ -519,24 +567,16 @@
             });
         }
         
-        function getProjectsData() {
-            // 檢查 translations[currentLang] 是否有作品數據
-            if (!translations[currentLang] || !translations[currentLang].projects) {
-                 return []; 
-            }
-            const translatedProjects = translations[currentLang].projects;
-            return coreProjectsData.map(coreP => {
-                const translatedP = translatedProjects.find(tp => tp.id === coreP.id);
-                if (!translatedP) {
-                    return { ...coreP, title: `Error Title ${coreP.id}`, description: `Error Description ${coreP.id}` };
-                }
-                return { ...coreP, title: translatedP.title, description: translatedP.description };
-            });
-        }
         function renderProjects(projects) {
             const portfolioItemsContainer = document.getElementById('portfolio-items');
             const currentView = localStorage.getItem('portfolioView') || 'list';
             portfolioItemsContainer.innerHTML = '';
+            
+            if (projects.length === 0 && dataLoaded) {
+                 portfolioItemsContainer.innerHTML = `<p style="text-align:center; color:var(--color-secondary-text); margin-top: 20px;">找不到符合條件的作品。</p>`;
+                 return;
+            }
+
             projects.forEach(project => {
                 const item = document.createElement('a');
                 item.href = "#";
@@ -567,7 +607,6 @@
             renderProjects(filteredProjects);
         }
         function generateTags() {
-            // 檢查 translations[currentLang] 是否存在
             if (!translations[currentLang] || !translations[currentLang].allProjectsTag) return; 
             
             const tagCloud = document.getElementById('tag-cloud');
@@ -635,7 +674,8 @@
             }
 
             // --- 載入 GitHub 數據 (核心改動) ---
-            // *** 請將此處替換為您 GitHub 上 project.json 檔案的 Raw 連結 ***
+            // *** 請將此處替換為您 GitHub 上 projects.json 檔案的 Raw 連結 ***
+            // 範例: const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/YourUsername/YourRepo/main/projects.json';
             const GITHUB_RAW_URL = 'https://weiyenchang.github.io/PDFtools/projects.json'; 
             loadExternalData(GITHUB_RAW_URL);
             
