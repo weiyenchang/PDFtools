@@ -1,415 +1,74 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>編輯 PDF 工具</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>編輯浮水印文字工具</title>
+  <link rel="icon" type="image/x-icon" href="https://weiyenchang.github.io/PDFtools/watermark.png">
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
   <style>
-    /* CSS for styling the UI. 使用 Tailwind CSS class 來簡化樣式 */
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
-    body {
-      font-family: 'Noto Sans TC', system-ui, -apple-system, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #91989F;/* Light gray background */
+    * {
+      box-sizing: border-box;
     }
-    .container {
+    body {
+      margin: 0;
+      font-family: sans-serif;
       display: flex;
       height: 100vh;
       overflow: hidden;
+      background-color: white;
+      color:#424242;
+      /*background: hsla(233, 100%, 90%, 1);*/
+      background: linear-gradient(90deg, rgb(243, 244, 255)0%, hsla(0, 0%, 89%, 1) 100%);
     }
-    .top-section {
-      background-color: #F7F7F7;
-      padding: 10px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
-      max-width:8%;
-      overflow-y: auto;
-    }
-    .top-section h1 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin: 0;
-      color: #1a202c; /* Dark text */
-    }
-    .tool-group {
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-      flex-wrap: wrap;
-      justify-content: center;
-      width: 100%;
-    }
-    .btn {
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background-color 0.2s, border-color 0.2s;
-      width: 100%
-    }
-    .btn-primary {
-      background-color:#91989F;
-      color: #F7F7F7;
-      border: none;
-    }
-    .btn-primary:hover {
-       background-color: #005CAF;
-    }
-    .btn-secondary {
-      background-color: #ffffff;
-      color: #323237ff;
-      border: 1px solid #ccccca;
-      font-size: 12px;
-    }
-    .btn-secondary:hover {
-      background-color: #e2e8f0; /* Light gray */
-    }
-    .tool-btn {
-      width: 40px;
-      height: 40px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #e9e9e9; /* Light gray */
-      border: 1px solid #e9e9e9; 
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.2s;
-      margin-top: 5px;
-    }
-    .tool-btn:hover {
-      background-color: #A5DEE4; /* Gray */
-    }
-    .tool-btn.active {
-      background-color: #51A8DD;
-      color: #ffffff;
-      border-color: #51A8DD;
-    }
-    .input-group {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-    }
-    .input-group label {
-      font-size: 0.875rem;
-      color: #4a5568;
-      margin-bottom: 4px;
-    }
-    .input-field {
-      padding: 6px;
-      border: 1px solid #cbd5e0;
-      border-radius: 6px;
-      font-size: 1rem;
-    }
-    input[type="color"] {
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      appearance: none;
-      width: 40px;
-      height: 40px;
-      background-color: transparent;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      border: 1px solid #cbd5e0;
-      border-radius: 6px;
-      overflow: hidden;
-    }
-    input[type="color"]::-webkit-color-swatch-wrapper {
-      padding: 0;
-    }
-    input[type="color"]::-webkit-color-swatch {
-      border: none;
-    }
-    select {
-      padding: 8px;
-      border: 1px solid #cbd5e0;
-      border-radius: 6px;
-      background-color: #ffffff;
-    }
-    .bottom-section {
-      flex: 1;
-      display: flex;
-      overflow: hidden;
-      justify-content: center;
-      padding: 1rem;
-      position: relative;
-    }
-    .pdf-viewer {
-      flex: 1;
-      overflow: auto; /* Allow scrolling for the entire viewer */
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start; /* Center the pages horizontally */
-      text-align: left;
-      padding:1rem;
-      /*margin-left:50px;*/
-    }
-    .pdf-page-wrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        transform-origin:0% 0%; /* Scale from the top-center */
-    }
-    .page-container {
-      position: relative;
-      background-color: #ffffff;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      margin-bottom: 2rem;
-    }
-    .pdf-canvas {
-      display: block;
-    }
-    .konva-container {
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-    .placeholder {
-      display: flex;
-      font-size: 19px;
-      color: #f7f7f7;
-      text-align: center;
-      font-weight: 400;
-    }
-    /* Loading and Message Box styles */
-    #loading-overlay {
+    #settings {
       position: fixed;
-      top: 0;
       left: 0;
-      width: 100%;
+      width: 300px;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 2000;
-      display: none;
-      justify-content: center;
+      padding: 1em;
+      background: #f3f3f3ff;
+      overflow-y: auto;
+      /* From https://css.glass */
+      background: rgba(255, 255, 255, 0.28);
+      border-radius: 5px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+
+    }
+    #preview-container {
+      margin-left: 300px;
+      padding: 1em;
+      overflow-y: scroll;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
       align-items: center;
     }
-    #loading-overlay.show {
-      display: flex;
+    canvas {
+      border: 1px solid #ddd;
+      margin-bottom: 1em;
+      max-width: 100%;
+      height: auto;
     }
-    .spinner {
-      border: 8px solid #f3f3f3;
-      border-top: 8px solid #51A8DD;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    #message-box {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: white;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-      z-index: 3000;
-      text-align: center;
-      display: none;
-      min-width: 300px;
-    }
-    #message-box h3 {
-      margin-top: 0;
-      color: #1a202c;
-      font-size: 1.25rem;
-    }
-    #message-box p {
-      margin-bottom: 1rem;
-      color: #4a5568;
-    }
-    #message-box-btn {
-      padding: 10px 20px;
-      border-radius: 8px;
-      border: none;
-      background-color:#323237;
-      color: #F7F7F7;
-      border: none;
-      font-weight: bold;
-      cursor: pointer;
-    } 
-    #file-display-container {
-      display: flex;
-    }
-    /* Context menu styles */
-    #context-menu {
-      position: absolute;
-      z-index: 1000;
-      width: 200px;
-      background-color: #ffffff;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      border-radius: 8px;
-      padding: 8px 0;
-      display: none;
-      list-style: none;
-      margin: 0;
-    }
-    #context-menu li {
-      padding: 12px 16px;
-      cursor: pointer;
-      font-size: 1rem;
-      color: #333;
-      transition: background-color 0.2s;
-    }
-    #context-menu li:hover {
-      background-color: #f0f4f8;
-    }
-    #file-name-display{
-      width:96px;
-      height:17px;
-      overflow: hidden;
-      font-size: 13px;
-      text-align: center;
-    }
-    .shape-tool-set{
-      border-radius: 10px;
-    }
-    h4{
-      margin:0px 0px 5px 0px;
-    }
-    label{
-      color:#8E8E93;
-      font-weight: 500;
-      font-size: 15px;
-    }
-    /* Dropdown UI styles */
-    .dropdown-container {
-      position: relative;
-      display: inline-block;
-      width:40px;
-      height: 40px;
-    }
-    .color-display-btn {
-      width: 40px;
-      height: 40px;
-      border: 1px solid #cbd5e0;
-      border-radius: 6px;
-      cursor: pointer;
-      text-align: center; /* Add this line */
-      line-height: 40px; /* Add this line */
-    }
-    .dropdown-menu {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      z-index: 10;
-      background-color: #ffffff;
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      border-radius: 6px;
-      padding: 8px;
-      margin-top: 4px;
-      display: none;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .dropdown-menu.show {
-      display: flex;
-    }
-    .color-palette {
-      display: flex;
-      flex-direction: column;
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    .color-palette li {
-      margin:2px;
-      width: 32px;
-      height: 32px;
-      border-radius: 4px;
-      cursor: pointer;
-      border: 1px solid #e2e8f0;
-    }
-    .color-palette li[data-color="#d6f2ff"] { background-color: #d6f2ff; }
-    .color-palette li[data-color="#ffdddd"] { background-color: #ffdddd; }
-    .color-palette li[data-color="#e6ffed"] { background-color: #e6ffed; }
-    .color-palette li[data-color="#fffbe0"] { background-color: #fffbe0; }
-    .color-palette li[data-color="#f0e4ff"] { background-color: #f0e4ff; }
-    .color-palette li[data-color="#cccccc"] { background-color: #cccccc; }
-    .color-palette li[data-color="#000000"] { background-color: #000000; }
-    .dropdown-menu .btn-secondary {
+    input, textarea, select {
       width: 100%;
+      margin: 0.5em 0;
     }
-    .text-italic{
-      font-style: italic;
-    }
-    label{
-      margin-top: 10px;;
-      text-align: center;
-    }
-    .input-group label{
-      font-size: 10px;
-    }
-    .logo{
-      margin-bottom: 20px;
-    }
-    .logo p{
-      margin:0;
-      font-weight: 500;
-      color:#323237ff;
-    }
-    .logo img{
-      width: 100%;
-    }
-    select{
-      width: 72px
-    }
-    #download-btn{
-      position: fixed;
-      bottom:10px;
-      width: 120px;
-      /*針對 Intranet: width:120px*/
-    }
-    .shape-tool-set-bottom{
+    #download-links {
+      margin-top: 1em;
       margin-bottom: 100px;
+      line-height: 1.5em;
     }
-    svg{
-      width: 30px;
-      height: 30px;
+    #download-links a {
+      display: none;
     }
-    #stroke-none-dropdown-btn, #fill-none-dropdown-btn{
-      width: 34px;
-      height: 34px;
-      border: 1px solid gainsboro;
-      border-radius: 5px;
-      margin-left: 2px;
-    }
-    #select-file-btn{
-      width: 100%;
-      padding-top: 10px;
-      padding-bottom: 10px;
-      margin:0;
-      border: 1px solid gray;
-      border-radius: 10px;
-      font-size: 15px;
-      font-weight: 100;
-      background-color: white;
-    }
-    /* 新增游標樣式 */
-    .grab-cursor {
-      cursor: grab;
-    }
-    .grabbing-cursor {
-      cursor: grabbing;
-    }
-    .collapsible {
+   .collapsible {
       cursor: pointer;
+      margin-top: 1em;
       background-color: #e3e3e3;
       padding: 0.5em;
       border-radius: 4px;
-      width: 100%;
-      margin-top:5px;
-      margin-bottom: 0px;
     }
     .collapsible:hover {
       background-color: #555;
@@ -430,1367 +89,336 @@
       color: white;
       margin-bottom:0;
     }
-    .content{
+
+    .content {
+      padding: 0.5em 0;
+      display: none;
+    } 
+
+    select {
       width: 100%;
-      display:none;
+      padding: 10px 20px;
+      border: 2px solid #e7e7e7;
+      border-radius: 4px;
+      background-color: white;
+      color:#424242;
+    }
+    input::file-selector-button {
+      font-weight: bold;
+      background-color: white;  /* Green */
+      border: 2px solid #555;
+      color:#424242;
+      padding: 0.5em;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    input[type=text],input[type=number]{
+      width: 100%;
+      padding: 10px 20px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      border: 2px solid #e7e7e7;
+      border-radius: 4px;
+      color:#424242;
+    }
+    input[type=color] {
+      width: 100%;
+      border: 2px solid #e7e7e7;
+    }
+    button {
+      background-color: #91989F;
+      color:#f7f7f7;
+      padding: 10px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 15px;
+      margin: 5px 2px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition-duration: 0.4s;
+      font-weight: 500;
+      border:none;
+      background: #B993D6;  /* fallback for old browsers */
+      background: -webkit-linear-gradient(to right, #8CA6DB, #B993D6);  /* Chrome 10-25, Safari 5.1-6 */
+      background: linear-gradient(to right, #8CA6DB, #B993D6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    }
+    button:hover {
+     background: #B993D6;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #8CA6DB, #B993D6);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #8CA6DB, #B993D6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    }
+    textarea {
+      padding: 5px 20px 30px;
+      border: 2px solid #e7e7e7;
+      border-radius: 4px;
+      color:#424242;
+    }
+    .logo img{
+      width: 50%;
+    }
+    hr{
+      border: 1px solid #e7e7e7;
+    }
+    label{
+      font-size: 0.9em;
+      font-weight: 500;
+      color:#999999;
+    }
+    h5{
+      font-size: 1em;
+      margin-bottom: 10px;
+      letter-spacing: 3px;
+    }
+    a:link {
+      text-decoration: none;
+      color:#007AFF;
+    }
+    .step{
+      border-radius: 15px;
+      padding:0px 6px 0px 6px;
+      font-size: 15px;
+    }
+    .optional{
+      color:#424242;
+      background-color:#40FDCB;
+      border-radius: 15px;
+      padding:0px 6px 0px 6px;
+      font-size: 13px;
+    }
+    p{
+      font-size: 14px;
+      padding: 0px 2px 0px 10px;
+      font-weight: 500;
+    }
+    .hint{
+      font-size: 13px;
+      padding: 10px;
+      background-color: #eeff41ff;
     }
     h3{
-      color:#91989F;
+      margin-top:0px;
+      font-weight: 300;
+      letter-spacing: 2px;
+    }
+    h2{
+      margin-bottom: 0px;
+      letter-spacing: 2px;
+    }
+    .result-btn-set{
+      position: fixed;
+      bottom:10px;
+      left: 10px;
+    }
+    .content-bottom{
+      margin-bottom: 100px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-
-    <!--Left Section-->
-    <div class="top-section">
-      <div class="tool-group">
-
-          <?xml version="1.0" encoding="utf-8"?>
-          <!-- License: CC Attribution. Made by tetrisly: https://tetrisly.gumroad.com/l/freeicons -->
-          <svg fill="#91989F" width="150px" height="150px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M21,20 C21.5522847,20 22,20.4477153 22,21 C22,21.5522847 21.5522847,22 21,22 L3,22 C2.44771525,22 2,21.5522847 2,21 C2,20.4477153 2.44771525,20 3,20 L21,20 Z M6.29289322,13.2928932 L17.2928932,2.29289322 C17.6533772,1.93240926 18.2206082,1.90467972 18.6128994,2.20970461 L18.7071068,2.29289322 L21.7071068,5.29289322 C22.0675907,5.65337718 22.0953203,6.22060824 21.7902954,6.61289944 L21.7071068,6.70710678 L10.7071068,17.7071068 C10.5508265,17.8633871 10.3481451,17.9625983 10.131444,17.9913276 L10,18 L7,18 C6.48716416,18 6.06449284,17.6139598 6.00672773,17.1166211 L6,17 L6,14 C6,13.7789863 6.07316447,13.565516 6.20608063,13.3919705 L6.29289322,13.2928932 L17.2928932,2.29289322 L6.29289322,13.2928932 Z M18,4.41421356 L8,14.4142136 L8,16 L9.58578644,16 L19.5857864,6 L18,4.41421356 Z"/>
-          </svg>
-          <h3>編輯 PDF</h3>
-
-          <h5 class="collapsible">上傳檔案</h5>
-           <div class="content">
-              <div class="shape-tool-set">
-                  <div id="file-display-container" class="tool-group">
-                    <label id="select-file-btn">選擇檔案
-                    <input type="file" id="file-input" accept="application/pdf" style="display: none;">
-                    </label>
-                    <span id="file-name-display">尚未選擇檔案</span>
-                    <button id="upload-btn" class="btn btn-primary">上傳</button>
-                  </div>
-              </div>
-           </div><!--content div-->
-
-          <h5 class="collapsible">選取/放大</h5>
-           <div class="content">
-              <div class="shape-tool-set">
-                <div class="tool-group">
-                  <div class="input-group">
-                    <button id="tool-select" class="tool-btn active" title="選取">
-                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 32 32">
-                          <path d="M 13 2 C 11.355469 2 10 3.355469 10 5 L 10 16.8125 L 9.34375 16.125 L 9.09375 15.90625 C 7.941406 14.753906 6.058594 14.753906 4.90625 15.90625 C 3.753906 17.058594 3.753906 18.941406 4.90625 20.09375 L 4.90625 20.125 L 13.09375 28.21875 L 13.15625 28.25 L 13.1875 28.3125 C 14.535156 29.324219 16.253906 30 18.1875 30 L 19.90625 30 C 24.441406 30 28.09375 26.347656 28.09375 21.8125 L 28.09375 14 C 28.09375 12.355469 26.738281 11 25.09375 11 C 24.667969 11 24.273438 11.117188 23.90625 11.28125 C 23.578125 9.980469 22.394531 9 21 9 C 20.234375 9 19.53125 9.300781 19 9.78125 C 18.46875 9.300781 17.765625 9 17 9 C 16.648438 9 16.316406 9.074219 16 9.1875 L 16 5 C 16 3.355469 14.644531 2 13 2 Z M 13 4 C 13.554688 4 14 4.445313 14 5 L 14 16 L 16 16 L 16 12 C 16 11.445313 16.445313 11 17 11 C 17.554688 11 18 11.445313 18 12 L 18 16 L 20 16 L 20 12 C 20 11.445313 20.445313 11 21 11 C 21.554688 11 22 11.445313 22 12 L 22 16 L 24.09375 16 L 24.09375 14 C 24.09375 13.445313 24.539063 13 25.09375 13 C 25.648438 13 26.09375 13.445313 26.09375 14 L 26.09375 21.8125 C 26.09375 25.277344 23.371094 28 19.90625 28 L 18.1875 28 C 16.722656 28 15.457031 27.476563 14.40625 26.6875 L 6.3125 18.6875 C 5.867188 18.242188 5.867188 17.757813 6.3125 17.3125 C 6.757813 16.867188 7.242188 16.867188 7.6875 17.3125 L 12 21.625 L 12 5 C 12 4.445313 12.445313 4 13 4 Z"></path>
-                        </svg>
-                    </button>
-                    <button id="tool-magnifier" class="tool-btn" title="放大">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
-                          <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16a6.471 6.471 0 0 0 3.71-1.09l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#000"/>
-                        </svg>
-                    </button>
-                      <label for="zoom-input">預覽縮放 (%)</label>
-                      <div class="input-group" style="flex; align-items: center; gap: 5px; flex-direction: column;">
-                        <input type="number" id="zoom-input" class="input-field" value="100" min="50" max="300" style="width: 60px;">
-                        <button id="apply-zoom-btn" class="btn btn-secondary" style="width: 40px; padding: 6px;">套用</button>
-                      </div>
-                  </div>
-                </div>
-              </div>
-           </div><!--content div-->
-
-          <h5 class="collapsible">圖形工具</h5>
-           <div class="content">
-              <div class="shape-tool-set">
-                <div class="tool-group">
-                  <div class="input-group">
-                    <button id="tool-text" class="tool-btn" title="文字方框">
-                        <svg width="26" height="26" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-                            <text x="20" y="100" font-family="Arial" fill="black" dominant-baseline="alphabetic">
-                            <tspan font-size="100" font-weight="300">T</tspan><tspan font-size="60" dx="-1" font-weight="300">T</tspan></text>
-                        </svg>
-                    </button>
-                    <button id="tool-square" class="tool-btn" title="正方形">
-                        <svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="20" y="20" width="80" height="80" style="stroke:black; fill:none; stroke-width:10; stroke-linecap:round; stroke-linejoin:round"/>
-                        </svg>
-                    </button>
-                    <button id="tool-rect" class="tool-btn" title="長方形">
-                        <svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="15" y="20" width="90" height="80" style="stroke:black; fill:none; stroke-width:10; stroke-linecap:round; stroke-linejoin:round"/>
-                        </svg>
-                    </button>
-                    <button id="tool-rounded-rect" class="tool-btn" title="圓角長方形">
-                        <svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="15" y="20" width="90" height="80" rx="10" ry="10" style="stroke:black; fill:none; stroke-width:10; stroke-linecap:round; stroke-linejoin:round"/>
-                        </svg>
-                    </button>
-                    <button id="tool-circle" class="tool-btn" title="圓形">
-                        <svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="60" cy="60" r="45" style="stroke:black; fill:none; stroke-width:10; stroke-linecap:round; stroke-linejoin:round"/>
-                        </svg>
-                    </button>
-                    <button id="tool-line" class="tool-btn" title="直線">
-                        <svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-                            <line x1="10" y1="60" x2="85" y2="60" style="stroke:black; fill:none; stroke-width:10; stroke-linecap:round; stroke-linejoin:round"/>
-                            <path d="M85 60 L70 48 L70 72 Z" style="stroke:black; fill:black; stroke-width:10; stroke-linecap:round; stroke-linejoin:round"/>
-                      </svg>
-                    </button>
-                    <button id="tool-star" class="tool-btn" title="五角星形">
-                      <svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M60 10 L75.5 45.5 L110 48.5 L83.5 73.5 L91 108.5 L60 88.5 L29 108.5 L36.5 73.5 L10 48.5 L44.5 45.5 Z" style="stroke:black; fill:none; stroke-width:10; stroke-linecap:round; stroke-linejoin:round"/>
-                      </svg>
-                    </button>
-                    <button id="tool-triangle" class="tool-btn" title="三角形">
-                      <svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-                          <polygon points="60,15 105,105 15,105" style="stroke:black; fill:none; stroke-width:10; stroke-linecap:round; stroke-linejoin:round"/>
-                      </svg>
-                    </button>
-                    <button id="tool-image" class="tool-btn" title="上傳圖片">
-                      <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 32 32">
-                        <path d="M 2 5 L 2 27 L 30 27 L 30 5 Z M 4 7 L 28 7 L 28 20.90625 L 22.71875 15.59375 L 22 14.875 L 17.46875 19.40625 L 11.71875 13.59375 L 11 12.875 L 4 19.875 Z M 24 9 C 22.894531 9 22 9.894531 22 11 C 22 12.105469 22.894531 13 24 13 C 25.105469 13 26 12.105469 26 11 C 26 9.894531 25.105469 9 24 9 Z M 11 15.71875 L 20.1875 25 L 4 25 L 4 22.71875 Z M 22 17.71875 L 28 23.71875 L 28 25 L 23.03125 25 L 18.875 20.8125 Z"></path>
-                      </svg>
-                    </button>
-                  </div><!--input-group div-->
-                </div><!--tool-group div-->
-              </div><!--shape-tool-set div-->
-           </div><!--content div-->
-
-          <h5 class="collapsible activ">格式設定</h5>
-           <div class="content">
-              <div class="shape-tool-set">
-                <div class="tool-group">
-                    <div class="input-group">
-                      <label>填充</label>
-                      <div class="dropdown-container">
-                        <button id="fill-color-display" class="color-display-btn" style="background-color:#d6f2ff;">無</button>
-                        <div id="fill-color-dropdown" class="dropdown-menu">
-                          <ul class="color-palette">
-                            <li class="custom-color-picker-item">
-                              <input type="color" id="fill-custom-color" value="#48cbff" style="height: 32px; width: 32px;">
-                            </li>
-                          </ul>
-                          <button id="fill-none-dropdown-btn">無</button>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="input-group">
-                      <label>外框</label>
-                      <div class="dropdown-container">
-                        <button id="stroke-color-display" class="color-display-btn" style="background-color: #000000;"></button>
-                        <div id="stroke-color-dropdown" class="dropdown-menu">
-                          <ul class="color-palette">
-                            <li class="custom-color-picker-item">
-                              <input type="color" id="stroke-custom-color" value="#000000" style="height: 32px; width: 32px;">
-                            </li>
-                          </ul>
-                          <button id="stroke-none-dropdown-btn">無</button>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="input-group">
-                      <label for="stroke-width">外框粗細</label>
-                      <input type="number" id="stroke-width" class="input-field" value="2" min="0" style="width: 60px;">
-                    </div>
-                    <div class="input-group">
-                      <label for="corner-radius">圓角半徑</label>
-                      <input type="number" id="corner-radius" class="input-field" value="10" min="0" style="width: 60px;">
-                    </div>
-                </div><!--tool-group div-->
-              </div><!--shape-tool-set div-->
-              <div class="shape-tool-set  shape-tool-set-bottom">
-                  <div class="tool-group">
-                    <div class="input-group">
-                      <label for="text-color">文字顏色</label>
-                      <input type="color" id="text-color" value="#007AFF">
-                    </div>
-                    <div class="input-group">
-                      <label for="text-size">文字大小</label>
-                      <input type="number" id="text-size" class="input-field" value="24" min="10" style="width: 60px;">
-                    </div>
-                    <div class="input-group">
-                      <label for="text-weight">文字粗細</label>
-                      <select id="text-weight" class="input-field">
-                        <option value="normal">正常</option>
-                        <option value="italic">斜體</option>
-                        <option value="bold" selected>粗體</option>
-                      </select>
-                    </div>
-                    <div class="input-group">
-                      <label for="text-line-height">行距</label>
-                      <input type="number" id="text-line-height" class="input-field" value="1.2" min="0.1" step="0.1" style="width: 60px;">
-                    </div>
-                  </div><!--tool-group div-->
-              </div><!--shape-tool-set div-->
-
-      </div><!--tool group-->
-    </div><!--top section div-->
-    
-    <!--下載 PDF-->
-    <div class="tool-group">
-            <button id="download-btn" class="btn btn-primary">下載 PDF</button>
+  <div id="settings">
+    <?xml version="1.0" encoding="utf-8"?>
+    <div style="display: flex; align-items: center;">
+    <!-- License: CC Attribution. Made by zwicon: https://www.zwicon.com/ -->
+    <svg fill="#323237" width="60px" height="60px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10.1403882,14 L13.8596118,14 L13.07321,10.8543926 C12.7316796,10.9492838 12.3717625,11 12,11 C11.6282375,11 11.2683204,10.9492838 10.92679,10.8543926 L10.1403882,14 Z M9.1096118,14 L9.99423004,10.461527 C8.80180997,9.7690907 8,8.47818173 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,8.47818173 15.19819,9.7690907 14.00577,10.461527 L14.8903882,14 L18.5,14 C19.8807119,14 21,15.1192881 21,16.5 L21,18.5 C21,18.7761424 20.7761424,19 20.5,19 L3.5,19 C3.22385763,19 3,18.7761424 3,18.5 L3,16.5 C3,15.1192881 4.11928813,14 5.5,14 L9.1096118,14 Z M12,10 C13.6568542,10 15,8.65685425 15,7 C15,5.34314575 13.6568542,4 12,4 C10.3431458,4 9,5.34314575 9,7 C9,8.65685425 10.3431458,10 12,10 Z M20,18 L20,16.5 C20,15.6715729 19.3284271,15 18.5,15 L5.5,15 C4.67157288,15 4,15.6715729 4,16.5 L4,18 L20,18 Z M3.5,21 C3.22385763,21 3,20.7761424 3,20.5 C3,20.2238576 3.22385763,20 3.5,20 L20.5,20 C20.7761424,20 21,20.2238576 21,20.5 C21,20.7761424 20.7761424,21 20.5,21 L3.5,21 Z"/>
+    </svg>
+    <div style="display:flex; flex-direction: column; padding-left: 8px;">
+    <h2>浮水印工具</h2>
+    <h3>自訂文字</h3>
+    </div>
     </div>
 
-  </div><!--container div-->
+    <h4 class="collapsible"><span class="step">Step 1.</span> 選擇文件類型</h4>
+    <div class="content">
+      <p>選擇後，系統會依照您選擇的文件類型「自動」提供最佳浮水印設定數值</p>
+      <select id="doc-type">
+        <option value="word">Word（A4）</option>
+        <option value="ppt">PPT - 公司模板簡報(2050x1440px)</option>
+      </select>
+    </div>
 
-  <!--Right Section-->
-  <div class="bottom-section">
-    <div class="pdf-viewer" id="pdf-viewer">
-      <div class="placeholder" id="placeholder-text"></div>
-    </div><!--pdf-viwer div-->
-  </div><!--bottom-section div-->
+    <h4 class="collapsible"><span class="step">Step 2.</span> 上傳 PDF 文件</h4>
+    <div class="content">
+      <p>請注意，如文件有「加密」或「大小超過 100 MB 」情形，可能會無法上傳成功</p>
+      <input type="file" id="pdf-upload" accept="application/pdf">
+    </div>
+    
+    <h4 class="collapsible"><span class="step">Step 3.</span> 設定浮水印</h4>
+    <div class="content">
+      <p>您可以先按下「預覽浮水印」按鈕，再進一步調整以下浮水印設定</p>
+      <h5>第一段文字</h5>
+      <label>文字內容：</label>
+      <input type="text" id="wm-line1" value="機密資訊">
+      <label>文字大小 (px)：</label>
+      <input type="number" id="wm-line1-size" value="100">
+      <br><br><hr>
+      <h5>第二段文字</h5>
+      <label>文字內容：</label>
+      <textarea id="wm-line2">僅供中華郵政郵遞電動機車標案使用</textarea>
+      <label>文字大小 (px)：</label>
+      <input type="number" id="wm-line2-size" value="36">
+      <label>與第一段文字行距 (px)：</label>
+      <input type="number" id="wm-line2-lineheight" value="160">
+      <br><br><hr>
+      <h5>樣式設定</h5>
+      <label>文字顏色：</label>
+      <input type="color" id="color" value="#ff0000">
+      <label>角度（度）：</label>
+      <input type="number" id="angle" value="-45">
+      <label>透明度（0-1）：</label>
+      <input type="number" id="opacity" step="0.1" value="0.2">
+    </div>
 
-  <!--右鍵元件位置功能-->
-  <ul id="context-menu">
-      <li id="menu-copy">複製</li>
-      <li id="menu-paste">貼上</li>
-      <li id="menu-bring-forward">往前移一層</li>
-      <li id="menu-bring-to-front">移至最前</li>
-      <li id="menu-send-backward">往後移一層</li>
-      <li id="menu-send-to-back">移至最後</li>
-  </ul>
-
-  <!--上傳時Loading 動畫-->
-  <div id="loading-overlay">
-    <div class="spinner"></div>
-  </div>
-
-  <!--錯誤訊息提示-->
-  <div id="message-box">
-    <h3 id="message-box-title"></h3>
-    <p id="message-box-text"></p>
-    <button id="message-box-btn">確定</button>
-  </div>
-
-  <!--圖片上傳-->
-  <input type="file" id="image-input" accept="image/png, image/jpeg" style="display: none;">
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/konva/8.3.1/konva.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.min.js"></script>
-  
+    <h4 class="collapsible"><span class="step">Optional.</span> 進階設定</h4>
+     <div class="content content-bottom">
+      <label>浮水印大小（％）：</label>
+      <input type="number" id="wm-scale" value="100">
+      <label>水平距離 (mm，從中心)：</label>
+      <input type="number" id="offset-x" value="80">
+      <label>垂直距離 (mm，從中心)：</label>
+      <input type="number" id="offset-y" value="-50">
+      </div>
+      <!--<hr>
+     <h5>📄 完成檔下載連結</h5>
+     <div id="download-links">💡按下「下載浮水印 PDF」按鈕，此處會出現下載連結！</div>-->
+     <div class="result-btn-set">
+        <button id="preview">預覽浮水印</button>
+        <button id="generate">下載浮水印 PDF</button>
+      </div> 
+    </div>
+  <div id="preview-container"></div>
   <script>
-
-    // 設定 pdf.js worker
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.js';
-    
-    // UI elements
-    const fileInput = document.getElementById('file-input');
-    const uploadBtn = document.getElementById('upload-btn');
-    const downloadBtn = document.getElementById('download-btn');
-    const pdfViewer = document.getElementById('pdf-viewer');
-    const placeholderText = document.getElementById('placeholder-text');
-    const loadingOverlay = document.getElementById('loading-overlay');
-    const toolBtns = document.querySelectorAll('.tool-btn');
-    const fileNameDisplay = document.getElementById('file-name-display');
-    const contextMenu = document.getElementById('context-menu');
-    const imageInput = document.getElementById('image-input');
-    
-    // 工具選項
-    const toolSelectBtn = document.getElementById('tool-select');
-    const toolMagnifierBtn = document.getElementById('tool-magnifier'); // 新增放大工具按鈕
-    const toolTextBtn = document.getElementById('tool-text');
-    const toolRectBtn = document.getElementById('tool-rect');
-    const toolSquareBtn = document.getElementById('tool-square');
-    const toolRoundedRectBtn = document.getElementById('tool-rounded-rect');
-    const toolCircleBtn = document.getElementById('tool-circle');
-    const toolLineBtn = document.getElementById('tool-line');
-    const toolStarBtn = document.getElementById('tool-star');
-    const toolTriangleBtn = document.getElementById('tool-triangle');
-    const toolImageBtn = document.getElementById('tool-image');
-    const zoomInput = document.getElementById('zoom-input');
-    const applyZoomBtn = document.getElementById('apply-zoom-btn');
-    
-    // 樣式控制
-    const fillColorDisplayBtn = document.getElementById('fill-color-display');
-    const fillColorDropdown = document.getElementById('fill-color-dropdown');
-    const fillNoneDropdownBtn = document.getElementById('fill-none-dropdown-btn');
-    const fillColorPalette = document.querySelector('#fill-color-dropdown .color-palette');
-    const fillCustomColorInput = document.getElementById('fill-custom-color');
-    const strokeColorDisplayBtn = document.getElementById('stroke-color-display');
-    const strokeColorDropdown = document.getElementById('stroke-color-dropdown');
-    const strokeNoneDropdownBtn = document.getElementById('stroke-none-dropdown-btn');
-    const strokeColorPalette = document.querySelector('#stroke-color-dropdown .color-palette');
-    const strokeCustomColorInput = document.getElementById('stroke-custom-color');
-    const strokeWidthInput = document.getElementById('stroke-width');
-    const cornerRadiusInput = document.getElementById('corner-radius');
-    const textSizeInput = document.getElementById('text-size');
-    const textColorInput = document.getElementById('text-color');
-    const textWeightSelect = document.getElementById('text-weight');
-    const textLineHeightInput = document.getElementById('text-line-height');
-    
-    // 套用縮放按鈕事件監聽器
-    applyZoomBtn.addEventListener('click', () => {
-    const zoomPercentage = parseInt(zoomInput.value);
-    if (isNaN(zoomPercentage) || zoomPercentage < 50 || zoomPercentage > 300) {
-        showMessage('警告', '請輸入一個介於 50 到 300 之間的有效數字。');
-        return;
+    function mmToPt(mm) {
+      return mm * 2.83465;
     }
-
-    const newScale = zoomPercentage / 100;
-    currentScale = newScale;
-    const pdfWrapper = pdfViewer.querySelector('.pdf-page-wrapper');
-    if (pdfWrapper) {
-        pdfWrapper.style.transform = `scale(${currentScale})`;
+    function createWatermarkImage(text1, text2, size1, size2, lineHeight, color, scale) {
+      const canvas = document.createElement('canvas');
+      const scaleFactor = scale / 100;
+      canvas.width = 600 * scaleFactor;
+      canvas.height = 300 * scaleFactor;
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = color;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.font = `bold ${size1}px sans-serif`;
+      ctx.fillText(text1, canvas.width / 2, canvas.height / 2 - lineHeight / 2);
+      ctx.font = `${size2}px sans-serif`;
+      const lines = text2.split('\n');
+      lines.forEach((line, i) => {
+        ctx.fillText(line, canvas.width / 2, canvas.height / 2 + i * lineHeight / 2);
+      });
+      return canvas.toDataURL();
     }
-    });
-
-    // Message box elements
-    const messageBox = document.getElementById('message-box');
-    const messageBoxTitle = document.getElementById('message-box-title');
-    const messageBoxText = document.getElementById('message-box-text');
-    const messageBoxBtn = document.getElementById('message-box-btn');
-    const menuCopyBtn = document.getElementById('menu-copy');
-    const menuPasteBtn = document.getElementById('menu-paste');
-
-    // 新增：複製選取物件的函式
-    function copySelectedNode() {
-        konvaStages.forEach(stage => {
-            const tr = stage.findOne('Transformer');
-            if (tr && tr.nodes().length > 0) {
-                const selectedNode = tr.nodes()[0];
-                copiedNode = selectedNode.clone();
-                // 複製後，為防止黏貼時引用舊有座標，重設位置
-                copiedNode.x(selectedNode.x());
-                copiedNode.y(selectedNode.y());
-
-                // 將選取物件的 Konva 節點和其頁碼儲存到 copiedData
-                copiedData = {
-                    node: copiedNode,
-                    pageNum: stage.container().dataset.page,
-                };
-            }
-        });
-    }
-
-    // 新增：貼上複製物件的函式
-    function pasteCopiedNode(stage, x, y) {
-        if (copiedData) {
-            const layer = stage.getLayers()[0];
-            const originalNode = copiedData.node;
-
-            // 根據原始節點類型，使用不同的方式複製
-            const pastedNode = originalNode.clone({
-                x: (x - stage.container().getBoundingClientRect().left) / stage.scaleX() + 10,
-                y: (y - stage.container().getBoundingClientRect().top) / stage.scaleY() + 10,
-            });
-
-            layer.add(pastedNode);
-            layer.batchDraw();
-
-            // 移除舊的 Transformer，並為新貼上的節點新增一個
-            stage.find('Transformer').forEach(tr => tr.destroy());
-            const newTransformer = new Konva.Transformer();
-            layer.add(newTransformer);
-            newTransformer.attachTo(pastedNode);
-            layer.batchDraw();
-        }
-    }
-
-    // State variables
-    let pdfFile = null;
-    let pdfDoc = null;
-    let konvaStages = [];
-    let activeTool = 'select'; // 預設為選取模式
-    let isShiftPressed = false;
-    let currentImageGroup = null; // 新增：用來儲存當前操作的圖片群組
-    // 新增狀態變數
-    let currentScale = 1.0;
-    let isDragging = false;
-    let lastMouseX = 0;
-    let lastMouseY = 0;
-    let copiedNode = null;
-    let copiedData = null;
-    
-    // 顯示自訂訊息方塊
-    function showMessage(title, text) {
-      messageBoxTitle.innerText = title;
-      messageBoxText.innerText = text;
-      messageBox.style.display = 'block';
-    }
-    // 隱藏自訂訊息方塊
-    function hideMessage() {
-      messageBox.style.display = 'none';
-    }
-    // 訊息方塊按鈕事件監聽器
-    messageBoxBtn.addEventListener('click', hideMessage);
-    // 檔案上傳事件監聽器
-    fileInput.addEventListener('change', (e) => {
-      pdfFile = e.target.files[0];
-      if (pdfFile) {
-          fileNameDisplay.textContent = pdfFile.name;
-      } else {
-          fileNameDisplay.textContent = '尚未選擇檔案';
+    document.getElementById('doc-type').addEventListener('change', () => {
+      const type = document.getElementById('doc-type').value;
+      if (type === 'word') {
+        document.getElementById('wm-line1-size').value = 100;
+        document.getElementById('wm-line2-size').value = 36;
+        document.getElementById('wm-line2-lineheight').value = 160;
+        document.getElementById('wm-scale').value = 100;
+        document.getElementById('offset-x').value = 80;
+        document.getElementById('offset-y').value = -50;
+        document.getElementById('angle').value = -45;
+      } else if (type === 'ppt') {
+        document.getElementById('wm-line1-size').value = 220;
+        document.getElementById('wm-line2-size').value = 70;
+        document.getElementById('wm-line2-lineheight').value = 350;
+        document.getElementById('wm-scale').value = 300;
+        document.getElementById('offset-x').value = 230;
+        document.getElementById('offset-y').value = -200;
+        document.getElementById('angle').value = -45;
       }
     });
-    uploadBtn.addEventListener('click', async () => {
-      if (!pdfFile) {
-        showMessage('警告', '請先選擇一個 PDF 檔案。');
-        return;
-      }
-      loadingOverlay.classList.add('show');
-      placeholderText.style.display = 'none';
-      await renderPdf(pdfFile);
-      loadingOverlay.classList.remove('show');
-    });
-    // 下載 PDF 事件監聽器
-    downloadBtn.addEventListener('click', async () => {
-      if (!pdfDoc) {
-        showMessage('錯誤', '請先上傳 PDF 檔案。');
-        return;
-      }
-      loadingOverlay.classList.add('show');
-      try {
-        await createAndDownloadPdf();
-      } catch (error) {
-        console.error('下載 PDF 時發生錯誤:', error);
-        showMessage('錯誤', '下載 PDF 時發生錯誤。請在控制台查看詳情。');
-      } finally {
-        loadingOverlay.classList.remove('show');
-      }
-    });
-    // 工具按鈕事件監聽器
-    toolBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const toolName = btn.id.replace('tool-', '');
-        if (activeTool === toolName) {
-            activeTool = 'select';
-            toolBtns.forEach(b => b.classList.remove('active'));
-            toolSelectBtn.classList.add('active');
-        } else {
-            toolBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            activeTool = toolName;
-        }
-        
-        // 根據選擇的工具啟用/停用縮放平移功能
-        if (activeTool === 'magnifier') {
-            pdfViewer.classList.add('grab-cursor');
-            pdfViewer.style.cursor = 'grab';
-        } else {
-            pdfViewer.classList.remove('grab-cursor');
-            pdfViewer.classList.remove('grabbing-cursor');
-            pdfViewer.style.cursor = 'auto';
-            isDragging = false; // 確保拖曳狀態被重置
-        }
-        
-        konvaStages.forEach(stage => {
-          stage.find('Transformer').forEach(tr => tr.destroy());
-          stage.getLayers().forEach(layer => layer.batchDraw());
-        });
-      });
-    });
-    // 填充顏色下拉式選單事件監聽器
-    fillColorDisplayBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        fillColorDropdown.classList.toggle('show');
-    });
-    fillColorPalette.addEventListener('click', (e) => {
-        if (e.target.tagName === 'LI') {
-            const selectedColor = e.target.dataset.color;
-            if (selectedColor) {
-              fillColorDisplayBtn.style.backgroundColor = selectedColor;
-              fillColorDisplayBtn.textContent = ''; // 清空文字
-              updateSelectedShapes('fill', selectedColor);
-              fillColorDropdown.classList.remove('show');
-            }
-        }
-    });
-    // 新增自訂顏色選擇器的事件監聽器
-    fillCustomColorInput.addEventListener('input', (e) => {
-        const selectedColor = e.target.value;
-        fillColorDisplayBtn.style.backgroundColor = selectedColor;
-        fillColorDisplayBtn.textContent = ''; // 清空文字
-        updateSelectedShapes('fill', selectedColor);
-    });
-    fillCustomColorInput.addEventListener('change', () => {
-        fillColorDropdown.classList.remove('show');
-    });
-    fillNoneDropdownBtn.addEventListener('click', () => {
-        fillColorDisplayBtn.style.backgroundColor = '#ffffff';
-        fillColorDisplayBtn.textContent = '無'; // 設定為「無」
-        updateSelectedShapes('fill', 'transparent');
-        fillColorDropdown.classList.remove('show');
-    });
-    // 外框顏色下拉式選單事件監聽器
-    strokeColorDisplayBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        strokeColorDropdown.classList.toggle('show');
-    });
-    strokeColorPalette.addEventListener('click', (e) => {
-        if (e.target.tagName === 'LI') {
-            const selectedColor = e.target.dataset.color;
-            if (selectedColor) {
-                strokeColorDisplayBtn.style.backgroundColor = selectedColor;
-                strokeColorDisplayBtn.textContent = ''; // 清空文字
-                updateSelectedShapes('stroke', selectedColor);
-                strokeColorDropdown.classList.remove('show');
-            }
-        }
-    });
-    strokeCustomColorInput.addEventListener('input', (e) => {
-        const selectedColor = e.target.value;
-        strokeColorDisplayBtn.style.backgroundColor = selectedColor;
-        strokeColorDisplayBtn.textContent = ''; // 清空文字
-        updateSelectedShapes('stroke', selectedColor);
-    });
-    strokeCustomColorInput.addEventListener('change', () => {
-        strokeColorDropdown.classList.remove('show');
-    });
-    strokeNoneDropdownBtn.addEventListener('click', () => {
-        strokeColorDisplayBtn.style.backgroundColor = '#ffffff';
-        strokeColorDisplayBtn.textContent = '無';
-        updateSelectedShapes('stroke', 'transparent');
-        strokeColorDropdown.classList.remove('show');
-    });
-    // 點擊其他地方隱藏選單
-    window.addEventListener('click', (e) => {
-      // 確保點擊事件不是在下拉式選單或其按鈕上
-      if (!e.target.closest('.dropdown-container')) {
-        fillColorDropdown.classList.remove('show');
-        strokeColorDropdown.classList.remove('show');
-      }
-    });
-
-    // 樣式輸入框事件監聽器
-    strokeWidthInput.addEventListener('change', () => updateSelectedShapes('stroke-width', parseInt(strokeWidthInput.value)));
-    cornerRadiusInput.addEventListener('change', () => updateSelectedShapes('corner-radius', parseInt(cornerRadiusInput.value)));
-    textSizeInput.addEventListener('change', () => updateSelectedShapes('text-size', parseInt(textSizeInput.value)));
-    textColorInput.addEventListener('input', () => updateSelectedShapes('text-color', textColorInput.value));
-    textWeightSelect.addEventListener('change', () => updateSelectedShapes('text-weight', textWeightSelect.value));
-    textLineHeightInput.addEventListener('change', () => updateSelectedShapes('text-line-height', parseFloat(textLineHeightInput.value)));
-    function updateSelectedShapes(type = null, value = null) {
-      konvaStages.forEach(stage => {
-        const transformer = stage.findOne('Transformer');
-        if (transformer) {
-          const selectedNodes = transformer.nodes();
-          selectedNodes.forEach(node => {
-            // 處理文字群組
-            if (node.name() === 'textGroup') {
-              const rectNode = node.findOne('.textBackground');
-              const textNode = node.findOne('.textNode');
-              if (rectNode) {
-                if (type === 'fill') {
-                  rectNode.fill(value);
-                } else if (type === 'stroke') {
-                  rectNode.stroke(value);
-                } else if (type === 'stroke-width') {
-                  rectNode.strokeWidth(value);
-                } else if (type === 'corner-radius') {
-                  rectNode.cornerRadius(value);
-                } else if (!type) { // Update all props from inputs
-                  rectNode.fill(fillColorDisplayBtn.style.backgroundColor);
-                  rectNode.stroke(strokeColorDisplayBtn.style.backgroundColor);
-                  rectNode.strokeWidth(parseInt(strokeWidthInput.value));
-                  rectNode.cornerRadius(parseInt(cornerRadiusInput.value));
-                }
-              }
-              if (textNode) {
-                if (type === 'text-size') {
-                  textNode.fontSize(value);
-                } else if (type === 'text-color') {
-                  textNode.fill(value);
-                } else if (type === 'text-weight') {
-                  textNode.fontStyle(value);
-                } else if (type === 'text-line-height') {
-                  textNode.lineHeight(value);
-                } else if (!type) { // Update all props from inputs
-                  textNode.fontSize(parseInt(textSizeInput.value));
-                  textNode.fill(textColorInput.value);
-                  textNode.fontStyle(textWeightSelect.value);
-                  textNode.lineHeight(parseFloat(textLineHeightInput.value));
-                }
-                // 確保文字背景大小與文字節點同步
-                if (rectNode) {
-                    rectNode.width(textNode.width());
-                    rectNode.height(textNode.height());
-                }
-              }
-            } 
-            // 處理圖片群組
-            if (node.name() === 'imageGroup') {
-              const imageRect = node.findOne('.imageRect');
-              if (imageRect) {
-                  if (type === 'corner-radius') {
-                      imageRect.cornerRadius(value);
-                  } else if (type === 'fill') {
-                      imageRect.fill(value);
-                  } else if (type === 'stroke') {
-                      imageRect.stroke(value);
-                  } else if (type === 'stroke-width') {
-                      imageRect.strokeWidth(value);
-                  }
-              }
-            }
-            // 處理形狀
-            if (node.getClassName() === 'Rect' || node.getClassName() === 'Circle' || node.getClassName() === 'Line' || node.getClassName() === 'Star' || node.getClassName() === 'RegularPolygon' || node.getClassName() === 'Arrow') {
-              if (type === 'fill') {
-                node.fill(value);
-              } else if (type === 'stroke') {
-                node.stroke(value);
-              } else if (type === 'stroke-width') {
-                node.strokeWidth(value);
-              } else if (!type) { // Update all props from inputs
-                node.fill(fillColorDisplayBtn.style.backgroundColor);
-                node.stroke(strokeColorDisplayBtn.style.backgroundColor);
-                node.strokeWidth(parseInt(strokeWidthInput.value));
-              }
-              if (type === 'corner-radius') {
-                if (node.getClassName() === 'Rect') {
-                  node.cornerRadius(value);
-                }
-              }
-            }
-          });
-          stage.getLayers().forEach(layer => layer.batchDraw());
-        }
-      });
-    }
-    // 處理文字編輯的公共函式
-    function createTextEditor(textGroup, stage, layer) {
-        // 移除 Transformer
-        stage.find('Transformer').forEach(tr => tr.destroy());
-        const textNode = textGroup.findOne('.textNode');
-        const rectNode = textGroup.findOne('.textBackground');
-        // Hide text node and create textarea
-        textNode.hide();
-        layer.batchDraw();
-        const textarea = document.createElement('textarea');
-        document.body.appendChild(textarea);
-        // 取得 textNode 的絕對位置和變換
-        const konvaPos = textGroup.getAbsolutePosition();
-        const stageContainer = stage.container();
-        const rect = stageContainer.getBoundingClientRect();
-        // 根據 Konva 畫布的相對位置和捲軸位置來計算 textarea 的精確位置
-        const textAreaX = rect.left + konvaPos.x;
-        const textAreaY = rect.top + konvaPos.y;
-        // 樣式化 textarea 以匹配 textNode
-        textarea.value = textNode.text();
-        textarea.style.position = 'absolute';
-        textarea.style.top = `${textAreaY}px`;
-        textarea.style.left = `${textAreaX}px`;
-        // **修正**：確保 textarea 的寬度和高度與 textNode 的實際尺寸一致
-        textarea.style.width = `${textNode.width() * textNode.scaleX()+200}px`; 
-        textarea.style.height = `${textNode.height() * textNode.scaleY()+200}px`;
-        textarea.style.fontSize = `${textNode.fontSize() * textNode.scaleX()}px`;
-        textarea.style.color = textNode.fill();
-        textarea.style.fontFamily = textNode.fontFamily();
-        textarea.style.fontWeight = textNode.fontStyle();
-        textarea.style.lineHeight = textNode.lineHeight();
-        textarea.style.border = '1px solid #4c51bf';
-        textarea.style.padding = '5px';
-        textarea.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
-        textarea.style.outline = 'none';
-        textarea.style.resize = 'none';
-        textarea.style.zIndex = '100';
-        textarea.focus();
-        
-        // 編輯完成的處理函式
-        const finishEdit = () => {
-          textNode.text(textarea.value);
-          if (rectNode) {
-            rectNode.width(textNode.width());
-            rectNode.height(textNode.height());
-          }
-          textGroup.width(textNode.width());
-          textGroup.height(textNode.height());
-          textarea.remove();
-          textNode.show();
-          layer.batchDraw();
-          const transformer = new Konva.Transformer();
-          layer.add(transformer);
-          transformer.attachTo(textGroup);
-          layer.batchDraw();
-        };
-        // 按下 Enter 換行，不結束編輯
-        textarea.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                // 不阻止默認行為，讓瀏覽器自動換行
-            }
-        });
-        // 點擊其他地方結束編輯
-        stage.on('mousedown', (e) => {
-            if (e.target.className !== 'konva-text-editor') {
-                finishEdit();
-                stage.off('mousedown');
-            }
-        });
-    }
-    // 處理點擊 PDF 頁面來新增物件或選取物件
-    function setupKonvaEvents(stage) {
-      const layer = stage.getLayers()[0];
-      stage.on('click tap', (e) => {
-        if (activeTool === 'magnifier') {
-          // 在放大模式下，不執行任何 Konva 物件的點擊操作
-          return;
-        }
-        if (e.target === layer || e.target === stage) {
-          stage.find('Transformer').forEach(tr => tr.destroy());
-          layer.batchDraw();
-        }
-        const pointerPos = stage.getPointerPosition();
-        if (!pointerPos) return; // Add null check
-        const x = pointerPos.x;
-        const y = pointerPos.y;
-        if (activeTool === 'select') {
-          const shape = stage.getIntersection(stage.getPointerPosition());
-          if (shape) {
-            let targetNode = shape.getParent();
-            if (targetNode.name() !== 'textGroup' && targetNode.name() !== 'imageGroup') {
-              targetNode = shape;
-            }
-            if (targetNode.getParent() === layer) {
-              const transformer = stage.findOne('Transformer');
-              const isSelected = transformer && transformer.nodes().includes(targetNode);
-              let nodes = transformer ? transformer.nodes().slice() : [];
-              if (isShiftPressed) {
-                if (isSelected) {
-                  nodes = nodes.filter(node => node !== targetNode);
-                } else {
-                  nodes.push(targetNode);
-                }
-              } else {
-                nodes = [targetNode];
-              }
-              if (transformer) {
-                transformer.nodes(nodes);
-              } else {
-                let enabledAnchors = ['top-left', 'top-center', 'top-right', 'middle-right', 'bottom-right', 'bottom-center', 'bottom-left', 'middle-left'];
-                if (targetNode.getClassName() === 'Arrow') {
-                    enabledAnchors = ['top-left', 'bottom-right']; // 箭頭工具維持兩個變形點以改變長度
-                }
-                const newTransformer = new Konva.Transformer({
-                    enabledAnchors: enabledAnchors
-                });
-                layer.add(newTransformer);
-                newTransformer.nodes(nodes);
-              }
-              layer.batchDraw();
-              if (targetNode.name() === 'textGroup') {
-                  const rectNode = targetNode.findOne('.textBackground');
-                  const textNode = targetNode.findOne('.textNode');
-                  if (textNode) {
-                    textSizeInput.value = textNode.fontSize();
-                    textColorInput.value = textNode.fill() === 'transparent' ? '#000000' : textNode.fill();
-                    textWeightSelect.value = textNode.fontStyle();
-                    textLineHeightInput.value = textNode.lineHeight();
-                  }
-                  if (rectNode) {
-                    fillColorDisplayBtn.style.backgroundColor = rectNode.fill() === 'transparent' ? '#ffffff' : rectNode.fill();
-                    fillColorDisplayBtn.textContent = rectNode.fill() === 'transparent' ? '無' : '';
-                    strokeColorDisplayBtn.style.backgroundColor = rectNode.stroke() === 'transparent' ? '#ffffff' : rectNode.stroke();
-                    strokeColorDisplayBtn.textContent = rectNode.stroke() === 'transparent' ? '無' : ''; // 修改此行
-                    strokeWidthInput.value = rectNode.strokeWidth();
-                    cornerRadiusInput.value = rectNode.cornerRadius();
-                  }
-              } else if (targetNode.name() === 'imageGroup') {
-                  const imageRect = targetNode.findOne('.imageRect');
-                  if (imageRect) {
-                      fillColorDisplayBtn.style.backgroundColor = imageRect.fill() === 'transparent' ? '#ffffff' : imageRect.fill();
-                      fillColorDisplayBtn.textContent = imageRect.fill() === 'transparent' ? '無' : '';
-                      strokeColorDisplayBtn.style.backgroundColor = imageRect.stroke() === 'transparent' ? '#ffffff' : imageRect.stroke();
-                      strokeColorDisplayBtn.textContent = imageRect.stroke() === 'transparent' ? '無' : '';
-                      strokeWidthInput.value = imageRect.strokeWidth();
-                      cornerRadiusInput.value = imageRect.cornerRadius();
-                  }
-              } else {
-                fillColorDisplayBtn.style.backgroundColor = targetNode.fill() === 'transparent' ? '#ffffff' : targetNode.fill();
-                fillColorDisplayBtn.textContent = targetNode.fill() === 'transparent' ? '無' : '';
-                strokeColorDisplayBtn.style.backgroundColor = targetNode.stroke() === 'transparent' ? '#ffffff' : targetNode.stroke();
-                strokeColorDisplayBtn.textContent = targetNode.stroke() === 'transparent' ? '無' : ''; // 修改此行
-                strokeWidthInput.value = targetNode.strokeWidth();
-                if (targetNode.getClassName() === 'Rect') {
-                    cornerRadiusInput.value = targetNode.cornerRadius() ? targetNode.cornerRadius()[0] : 0;
-                }
-              }
-            }
-          } else {
-            stage.find('Transformer').forEach(tr => tr.destroy());
-            layer.batchDraw();
-          }
-        } else if (activeTool !== 'none') {
-          let newNode;
-          switch (activeTool) {
-            case 'text':
-              const textGroup = new Konva.Group({
-                x: x / stage.scaleX(),
-                y: y / stage.scaleY(),
-                draggable: true,
-                listening: true,
-                name: 'textGroup'
-              });
-              const textNode = new Konva.Text({
-                text: '新增文字',
-                fontSize: parseInt(textSizeInput.value) / stage.scaleX(),
-                fill: textColorInput.value,
-                fontFamily: 'Noto Sans TC',
-                fontStyle: textWeightSelect.value,
-                lineHeight: parseFloat(textLineHeightInput.value),
-                padding: 5,
-                name: 'textNode',
-              });
-              const rectNode = new Konva.Rect({
-                x: 0,
-                y: 0,
-                width: textNode.width(),
-                height: textNode.height(),
-                fill: fillColorDisplayBtn.style.backgroundColor,
-                stroke: strokeColorDisplayBtn.style.backgroundColor,
-                strokeWidth: parseInt(strokeWidthInput.value) / stage.scaleX(),
-                cornerRadius: parseInt(cornerRadiusInput.value) / stage.scaleX(),
-                name: 'textBackground',
-              });
-              textGroup.add(rectNode);
-              textGroup.add(textNode);
-              newNode = textGroup;
-              break;
-            case 'square':
-              newNode = new Konva.Rect({
-                x: x / stage.scaleX(),
-                y: y / stage.scaleY(),
-                width: 100 / stage.scaleX(),
-                height: 100 / stage.scaleY(),
-                fill: fillColorDisplayBtn.style.backgroundColor,
-                stroke: strokeColorDisplayBtn.style.backgroundColor,
-                strokeWidth: parseInt(strokeWidthInput.value) / stage.scaleX(),
-                draggable: true,
-                listening: true,
-              });
-              break;
-            case 'rect':
-              newNode = new Konva.Rect({
-                x: x / stage.scaleX(),
-                y: y / stage.scaleY(),
-                width: 400 / stage.scaleX(),
-                height: 200 / stage.scaleY(),
-                fill: fillColorDisplayBtn.style.backgroundColor,
-                stroke: strokeColorDisplayBtn.style.backgroundColor,
-                strokeWidth: parseInt(strokeWidthInput.value) / stage.scaleX(),
-                draggable: true,
-                listening: true,
-              });
-              break;
-            case 'rounded-rect':
-              newNode = new Konva.Rect({
-                x: x / stage.scaleX(),
-                y: y / stage.scaleY(),
-                width: 400 / stage.scaleX(),
-                height: 200 / stage.scaleY(),
-                fill: fillColorDisplayBtn.style.backgroundColor,
-                stroke: strokeColorDisplayBtn.style.backgroundColor,
-                strokeWidth: parseInt(strokeWidthInput.value) / stage.scaleX(),
-                cornerRadius: parseInt(cornerRadiusInput.value) / stage.scaleX(),
-                draggable: true,
-                listening: true,
-              });
-              break;
-            case 'circle':
-              newNode = new Konva.Circle({
-                x: x / stage.scaleX(),
-                y: y / stage.scaleY(),
-                radius: 50 / stage.scaleX(),
-                fill: fillColorDisplayBtn.style.backgroundColor,
-                stroke: strokeColorDisplayBtn.style.backgroundColor,
-                strokeWidth: parseInt(strokeWidthInput.value) / stage.scaleX(),
-                draggable: true,
-                listening: true,
-              });
-              break;
-            case 'line':
-              newNode = new Konva.Arrow({
-                points: [x / stage.scaleX(), y / stage.scaleY(), (x + 100) / stage.scaleX(), (y + 100) / stage.scaleY()],
-                stroke: strokeColorDisplayBtn.style.backgroundColor,
-                fill: strokeColorDisplayBtn.style.backgroundColor,
-                strokeWidth: parseInt(strokeWidthInput.value) / stage.scaleX(),
-                draggable: true,
-                listening: true,
-                pointerLength: 10,
-                pointerWidth: 10,
-              });
-              break;
-            case 'star':
-              newNode = new Konva.Star({
-                x: x / stage.scaleX(),
-                y: y / stage.scaleY(),
-                numPoints: 5,
-                innerRadius: 25 / stage.scaleX(),
-                outerRadius: 50 / stage.scaleY(),
-                fill: fillColorDisplayBtn.style.backgroundColor,
-                stroke: strokeColorDisplayBtn.style.backgroundColor,
-                strokeWidth: parseInt(strokeWidthInput.value) / stage.scaleX(),
-                draggable: true,
-                listening: true,
-              });
-              break;
-            case 'triangle':
-              newNode = new Konva.RegularPolygon({
-                x: x / stage.scaleX(),
-                y: y / stage.scaleY(),
-                sides: 3,
-                radius: 50 / stage.scaleX(),
-                fill: fillColorDisplayBtn.style.backgroundColor,
-                stroke: strokeColorDisplayBtn.style.backgroundColor,
-                strokeWidth: parseInt(strokeWidthInput.value) / stage.scaleX(),
-                draggable: true,
-                listening: true,
-              });
-              break;
-            case 'image':
-              const imageGroup = new Konva.Group({
-                x: x / stage.scaleX(),
-                y: y / stage.scaleY(),
-                draggable: true,
-                listening: true,
-                name: 'imageGroup',
-              });
-              const imagePlaceholder = new Konva.Rect({
-                x: 0,
-                y: 0,
-                width: 400 / stage.scaleX(),
-                height: 300 / stage.scaleY(),
-                stroke: '#ccc',
-                strokeWidth: 2 / stage.scaleX(),
-                dash: [10, 5],
-                cornerRadius: parseInt(cornerRadiusInput.value) / stage.scaleX(),
-                name: 'imageRect',
-              });
-              const imagePlaceholderText = new Konva.Text({
-                x: 0,
-                y: 0,
-                width: 400 / stage.scaleX(),
-                height: 300 / stage.scaleY(),
-                text: '點擊此處選擇圖片',
-                fontSize: 20 / stage.scaleX(),
-                fill: '#999',
-                align: 'center',
-                verticalAlign: 'middle',
-                listening: true,
-              });
-              imageGroup.add(imagePlaceholder);
-              imageGroup.add(imagePlaceholderText);
-              imageGroup.on('click tap', () => {
-                currentImageGroup = imageGroup; // 儲存當前圖片群組的參考
-                imageInput.click();
-              });
-              newNode = imageGroup;
-              break;
-            default:
-              return;
-          }
-          if (newNode) {
-            layer.add(newNode);
-            layer.batchDraw();
-            stage.find('Transformer').forEach(tr => tr.destroy());
-            let enabledAnchors = ['top-left', 'top-center', 'top-right', 'middle-right', 'bottom-right', 'bottom-center', 'bottom-left', 'middle-left'];
-            if (newNode.getClassName() === 'Arrow') {
-                enabledAnchors = ['top-left', 'bottom-right']; // 箭頭工具維持兩個變形點以改變長度
-            }
-            const transformer = new Konva.Transformer({
-                enabledAnchors: enabledAnchors
-            });
-            layer.add(transformer);
-            transformer.attachTo(newNode);
-            layer.batchDraw();
-            // === 自動切換至「選取」工具 ===
-            activeTool = 'select';
-            toolBtns.forEach(b => b.classList.remove('active'));
-            toolSelectBtn.classList.add('active');
-          }
-        }
-      });
-      // 圖片檔案選擇事件監聽器
-      imageInput.addEventListener('change', async (e) => {
-        const file = e.target.files[0];
-        if (!file || !file.type.startsWith('image/')) {
-            showMessage('警告', '請選擇有效的圖片檔案 (PNG 或 JPG)。');
-            return;
-        }
-        loadingOverlay.classList.add('show');
-        const reader = new FileReader();
-        reader.onload = async (event) => {
-          const img = new Image();
-          img.onload = () => {
-            if (currentImageGroup) {
-                const layer = currentImageGroup.getLayer();
-                const stage = layer.getStage();
-                const x = currentImageGroup.x();
-                const y = currentImageGroup.y();
-                currentImageGroup.destroy();
-                
-                const konvaImage = new Konva.Rect({
-                  x: x,
-                  y: y,
-                  width: 400 / currentScale,
-                  height: 300 / currentScale,
-                  fillPatternImage: img,
-                  fillPatternRepeat: 'no-repeat',
-                  fillPatternScaleX: (400 / currentScale) / img.width,
-                  fillPatternScaleY: (300 / currentScale) / img.height,
-                  cornerRadius: parseInt(cornerRadiusInput.value) / currentScale,
-                  stroke: strokeColorDisplayBtn.style.backgroundColor,
-                  strokeWidth: parseInt(strokeWidthInput.value) / currentScale,
-                  draggable: true,
-                  name: 'imageRect',
-                });
-                const imageGroup = new Konva.Group({
-                    x: x,
-                    y: y,
-                    draggable: true,
-                    listening: true,
-                    name: 'imageGroup',
-                    x: konvaImage.x(),
-                    y: konvaImage.y(),
-                    width: konvaImage.width(),
-                    height: konvaImage.height(),
-                });
-                imageGroup.add(konvaImage);
-                layer.add(imageGroup);
-
-                stage.find('Transformer').forEach(tr => tr.destroy());
-                const transformer = new Konva.Transformer();
-                layer.add(transformer);
-                transformer.attachTo(imageGroup);
-                layer.batchDraw();
-                loadingOverlay.classList.remove('show');
-                currentImageGroup = null; // 重置參考
-            }
-          };
-          img.src = event.target.result;
-        };
-        reader.readAsDataURL(file);
-      });
-      // 雙擊進入編輯模式
-      stage.on('dblclick dbltap', (e) => {
-        if (e.target.getParent().name() === 'textGroup') {
-          createTextEditor(e.target.getParent(), stage, layer);
-        }
-      });
-      // 按下鍵盤任意鍵進入編輯模式
-      document.addEventListener('keydown', (e) => {
-        const tr = stage.findOne('Transformer');
-        if (tr && tr.nodes().length > 0 && tr.nodes()[0].name() === 'textGroup') {
-          if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
-            e.preventDefault();
-            const textGroup = tr.nodes()[0];
-            createTextEditor(textGroup, stage, layer);
-          }
-        }
-      });
-    }
-    // Render PDF function
-    async function renderPdf(file) {
-      pdfViewer.innerHTML = '';
-      konvaStages = [];
-      const fileUrl = URL.createObjectURL(file);
-      const loadingTask = pdfjsLib.getDocument(fileUrl);
-      pdfDoc = await loadingTask.promise;
+    async function applyWatermark(pdfBytes, watermarkDataUrl, options) {
+      const pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
       
-      const pdfWrapper = document.createElement('div');
-      pdfWrapper.className = 'pdf-page-wrapper';
-      pdfViewer.appendChild(pdfWrapper);
-      
-      for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
-        await renderPage(pageNum, pdfWrapper);
-      }
-    }
-    // Render a single PDF page with a Konva canvas overlay
-    async function renderPage(pageNum, pdfWrapper) {
-      const page = await pdfDoc.getPage(pageNum);
-      // 動態計算縮放比例以適應容器
-      const containerWidth = pdfViewer.clientWidth;
-      const originalViewport = page.getViewport({ scale: 1 });
-      let scale = 1.5;
-      if (originalViewport.width > containerWidth) {
-          scale = containerWidth / originalViewport.width;
-      }
-      
-      const viewport = page.getViewport({ scale: scale * window.devicePixelRatio  });
-      const pageContainer = document.createElement('div');
-      pageContainer.className = 'page-container';
-      pageContainer.style.width = `${viewport.width}px`;
-      pageContainer.style.height = `${viewport.height}px`;
-      const pdfCanvas = document.createElement('canvas');
-      pdfCanvas.className = 'pdf-canvas';
-      pdfCanvas.width = viewport.width;
-      pdfCanvas.height = viewport.height;
-      const context = pdfCanvas.getContext('2d');
-      const renderContext = {
-        canvasContext: context,
-        viewport: viewport
-      };
-      await page.render(renderContext).promise;
-      pageContainer.appendChild(pdfCanvas);
-      const konvaContainer = document.createElement('div');
-      konvaContainer.className = 'konva-container';
-      konvaContainer.dataset.page = pageNum;
-      konvaContainer.style.width = `${viewport.width}px`;
-      konvaContainer.style.height = `${viewport.height}px`;
-      pageContainer.appendChild(konvaContainer);
-      pdfWrapper.appendChild(pageContainer);
-      
-      const stage = new Konva.Stage({
-        container: konvaContainer,
-        width: viewport.width,
-        height: viewport.height,
-        willReadFrequently: true
-      });
-      const layer = new Konva.Layer();
-      stage.add(layer);
-      konvaStages.push(stage);
-      setupKonvaEvents(stage);
-    }
-    // 處理鍵盤刪除功能和 Shift 鍵狀態
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Delete' || e.key === 'Backspace') {
-        konvaStages.forEach(stage => {
-          const tr = stage.findOne('Transformer');
-          if (tr) {
-            e.preventDefault();
-            const selectedNodes = tr.nodes();
-            selectedNodes.forEach(node => {
-              node.destroy();
-            });
-            tr.nodes([]);
-            stage.getLayers().forEach(layer => layer.batchDraw());
-          }
+      const pngBytes = await (await fetch(watermarkDataUrl)).arrayBuffer();
+      const pngImage = await pdfDoc.embedPng(pngBytes);
+      for (const page of pdfDoc.getPages()) {
+        const { width, height } = page.getSize();
+        const wmWidth = pngImage.width;
+        const wmHeight = pngImage.height;
+        page.drawImage(pngImage, {
+          x: (width - wmWidth) / 2 + options.offsetX,
+          y: (height - wmHeight) / 2 + options.offsetY,
+          width: wmWidth,
+          height: wmHeight,
+          rotate: PDFLib.degrees(options.angle),
+          opacity: options.opacity,
         });
       }
-      if (e.key === 'Shift') {
-        isShiftPressed = true;
-      }
-    });
-    document.addEventListener('keyup', (e) => {
-        if (e.key === 'Shift') {
-            isShiftPressed = false;
-        }
-    });
-    // 處理複製功能
-    document.addEventListener('keydown', (e) => {
-        if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
-            e.preventDefault();
-            konvaStages.forEach(stage => {
-                const tr = stage.findOne('Transformer');
-                if (tr) {
-                    const selectedNodes = tr.nodes();
-                    if (selectedNodes.length > 0) {
-                        const originalNode = selectedNodes[0];
-                        const layer = originalNode.getLayer();
-                        const clonedNode = originalNode.clone({
-                            x: originalNode.x() + 10,
-                            y: originalNode.y() + 10,
-                            draggable: true,
-                        });
-                        layer.add(clonedNode);
-                        layer.batchDraw();
-                        tr.nodes([]);
-                        tr.attachTo(clonedNode);
-                        layer.batchDraw();
-                    }
-                }
-            });
-        }
-    });
-
-    // 處理右鍵選單
-    pdfViewer.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
-        const targetElement = e.target;
-        const pageContainer = targetElement.closest('.page-container');
-        if (!pageContainer) {
-            contextMenu.style.display = 'none';
-            return;
-        }
-
-        // 取得滑鼠右鍵點擊的頁面 Konva stage
-        const pageNum = pageContainer.querySelector('.konva-container').dataset.page;
-        const currentStage = konvaStages.find(stage => stage.container().dataset.page === pageNum);
-
-        const pointerPos = currentStage.getPointerPosition();
-        const shape = currentStage.getIntersection(pointerPos);
-        const tr = currentStage.findOne('Transformer');
-        
-        let hasSelectedNode = false;
-        if (tr && tr.nodes().length > 0) {
-            hasSelectedNode = true;
-        }
-
-        // 顯示或隱藏選單項目
-        document.getElementById('menu-bring-forward').style.display = hasSelectedNode ? 'block' : 'none';
-        document.getElementById('menu-bring-to-front').style.display = hasSelectedNode ? 'block' : 'none';
-        document.getElementById('menu-send-backward').style.display = hasSelectedNode ? 'block' : 'none';
-        document.getElementById('menu-send-to-back').style.display = hasSelectedNode ? 'block' : 'none';
-        document.getElementById('menu-copy').style.display = hasSelectedNode ? 'block' : 'none';
-        document.getElementById('menu-paste').style.display = copiedData ? 'block' : 'none';
-
-        contextMenu.style.display = 'block';
-        contextMenu.style.top = `${e.pageY}px`;
-        contextMenu.style.left = `${e.pageX}px`;
-
-        if (hasSelectedNode) {
-            const selectedNode = tr.nodes()[0];
-            document.getElementById('menu-bring-to-front').onclick = () => {
-                selectedNode.moveToTop();
-                currentStage.getLayers()[0].batchDraw();
-                contextMenu.style.display = 'none';
-            };
-            document.getElementById('menu-bring-forward').onclick = () => {
-                selectedNode.moveUp();
-                currentStage.getLayers()[0].batchDraw();
-                contextMenu.style.display = 'none';
-            };
-            document.getElementById('menu-send-backward').onclick = () => {
-                selectedNode.moveDown();
-                currentStage.getLayers()[0].batchDraw();
-                contextMenu.style.display = 'none';
-            };
-            document.getElementById('menu-send-to-back').onclick = () => {
-                selectedNode.moveToBottom();
-                currentStage.getLayers()[0].batchDraw();
-                contextMenu.style.display = 'none';
-            };
-            document.getElementById('menu-copy').onclick = () => {
-                copySelectedNode();
-                contextMenu.style.display = 'none';
-            };
-        }
-        
-        if (copiedData) {
-            document.getElementById('menu-paste').onclick = () => {
-                pasteCopiedNode(currentStage, e.pageX, e.pageY);
-                contextMenu.style.display = 'none';
-            };
-        }
-    });
-
-    // 建立並下載 PDF
-    async function createAndDownloadPdf() {
-      if (!pdfFile || !pdfDoc) {
-        showMessage('錯誤', '請先上傳 PDF 檔案。');
-        return;
-      }
-
-      loadingOverlay.classList.add('show');
-      try {
-        const originalPdfBytes = await pdfFile.arrayBuffer();
-        const pdfDocToModify = await PDFLib.PDFDocument.load(originalPdfBytes);
-
-        for (let i = 0; i < konvaStages.length; i++) {
-          const konvaStage = konvaStages[i];
-          const pdfPage = pdfDocToModify.getPages()[i];
-
-          // 移除 Transformer 以避免其被截圖
-          konvaStage.find('Transformer').forEach(tr => tr.destroy());
-          konvaStage.batchDraw();
-
-          // 根據 Konva 舞台的實際尺寸生成 DataURL
-          const dataURL = konvaStage.toDataURL({
-            mimeType: 'image/png',
-            quality: 1,
-            pixelRatio: 2,
-          });
-
-          const embedImage = await pdfDocToModify.embedPng(dataURL);
-          
-          // 取得 PDF 頁面原始尺寸
-          const { width, height } = pdfPage.getSize();
-          
-          // 繪製 Konva 內容到 PDF 頁面
-          pdfPage.drawImage(embedImage, {
-            x: 0,
-            y: 0,
-            width: width,
-            height: height,
-          });
-        }
-
-        const pdfBytes = await pdfDocToModify.save();
-        const today = new Date();
-        const dateString = today.getFullYear() + '-' +
-                      String(today.getMonth() + 1).padStart(2, '0') + '-' +
-                      String(today.getDate()).padStart(2, '0');
-        const originalFileName = pdfFile.name.split('.').slice(0, -1).join('.');
-        const newFileName = `${originalFileName}_Edit_${dateString}.pdf`;
-        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = newFileName;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
-      } catch (error) {
-        console.error('下載 PDF 時發生錯誤:', error);
-        showMessage('錯誤', '下載 PDF 時發生錯誤。請在控制台查看詳情。');
-      } finally {
-        loadingOverlay.classList.remove('show');
-      }
+      return await pdfDoc.save();
     }
-
-    // 新增：處理滾輪縮放與拖曳功能
-    pdfViewer.addEventListener('wheel', (e) => {
-        if (activeTool !== 'magnifier') return;
-        
-        e.preventDefault();
-        const pdfWrapper = pdfViewer.querySelector('.pdf-page-wrapper');
-        if (!pdfWrapper) return;
-
-        let newScale = currentScale;
-        if (e.deltaY < 0) { // Zoom In
-            newScale += 0.1;
-        } else { // Zoom Out
-            newScale -= 0.1;
-        }
-
-        newScale = Math.min(Math.max(0.5, newScale), 3.0);
-        currentScale = newScale;
-
-        pdfWrapper.style.transform = `scale(${currentScale})`;
-
-        // 更新游標樣式
-        if (currentScale > 1.0) {
-            pdfViewer.classList.add('grab-cursor');
-        } else {
-            pdfViewer.classList.remove('grab-cursor');
-            pdfViewer.classList.remove('grabbing-cursor');
-        }
+    document.getElementById('preview').addEventListener('click', async () => {
+      const file = document.getElementById('pdf-upload').files[0];
+      if (!file) return alert('請上傳 PDF');
+      const docType = document.getElementById('doc-type').value;
+      const text1 = document.getElementById('wm-line1').value;
+      const text2 = document.getElementById('wm-line2').value;
+      const size1 = parseInt(document.getElementById('wm-line1-size').value);
+      const size2 = parseInt(document.getElementById('wm-line2-size').value);
+      const lineHeight = parseInt(document.getElementById('wm-line2-lineheight').value);
+      const color = document.getElementById('color').value;
+      const angle = -parseFloat(document.getElementById('angle').value);
+      const opacity = parseFloat(document.getElementById('opacity').value);
+      const scale = parseFloat(document.getElementById('wm-scale').value);
+      const offsetX = mmToPt(parseFloat(document.getElementById('offset-x').value));
+      const offsetY = mmToPt(parseFloat(document.getElementById('offset-y').value));
+      const watermarkDataUrl = createWatermarkImage(text1, text2, size1, size2, lineHeight, color, scale);
+      const pdfBytes = await file.arrayBuffer();
+      const modifiedPdf = await applyWatermark(pdfBytes, watermarkDataUrl, {
+        offsetX, offsetY, angle, opacity
+      });
+      const pdfjs = await pdfjsLib.getDocument({ data: modifiedPdf }).promise;
+      const previewContainer = document.getElementById('preview-container');
+      previewContainer.innerHTML = '';
+      for (let i = 1; i <= pdfjs.numPages; i++) {
+        const page = await pdfjs.getPage(i);
+        const viewport = page.getViewport({ scale: docType === 'ppt' ? 0.8 : 1.5 });
+        const canvas = document.createElement('canvas');
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        const context = canvas.getContext('2d');
+        await page.render({ canvasContext: context, viewport: viewport }).promise;
+        previewContainer.appendChild(canvas);
+      }
     });
-
-    pdfViewer.addEventListener('mousedown', (e) => {
-        if (activeTool !== 'magnifier') return;
-
-        if (e.target.closest('.page-container')) {
-            isDragging = true;
-            lastMouseX = e.clientX;
-            lastMouseY = e.clientY;
-            pdfViewer.classList.add('grabbing-cursor');
-            pdfViewer.style.cursor = 'grabbing';
-        }
-    });
-
-    pdfViewer.addEventListener('mousemove', (e) => {
-        if (!isDragging || activeTool !== 'magnifier') return;
-        const dx = e.clientX - lastMouseX;
-        const dy = e.clientY - lastMouseY;
-        pdfViewer.scrollLeft -= dx;
-        pdfViewer.scrollTop -= dy;
-        lastMouseX = e.clientX;
-        lastMouseY = e.clientY;
-    });
-
-    pdfViewer.addEventListener('mouseup', () => {
-        isDragging = false;
-        if (activeTool === 'magnifier') {
-            pdfViewer.classList.add('grab-cursor');
-            pdfViewer.style.cursor = 'grab';
-        } else {
-            pdfViewer.classList.remove('grab-cursor');
-            pdfViewer.classList.remove('grabbing-cursor');
-            pdfViewer.style.cursor = 'auto';
-        }
-    });
-
-    pdfViewer.addEventListener('mouseleave', () => {
-        isDragging = false;
-        if (activeTool === 'magnifier') {
-            pdfViewer.classList.add('grab-cursor');
-            pdfViewer.style.cursor = 'grab';
-        } else {
-            pdfViewer.classList.remove('grab-cursor');
-            pdfViewer.classList.remove('grabbing-cursor');
-            pdfViewer.style.cursor = 'auto';
-        }
+    document.getElementById('generate').addEventListener('click', async () => {
+      const file = document.getElementById('pdf-upload').files[0];
+      if (!file) return alert('請上傳 PDF');
+      const text1 = document.getElementById('wm-line1').value;
+      const text2 = document.getElementById('wm-line2').value;
+      const size1 = parseInt(document.getElementById('wm-line1-size').value);
+      const size2 = parseInt(document.getElementById('wm-line2-size').value);
+      const lineHeight = parseInt(document.getElementById('wm-line2-lineheight').value);
+      const color = document.getElementById('color').value;
+      const angle = -parseFloat(document.getElementById('angle').value);
+      const opacity = parseFloat(document.getElementById('opacity').value);
+      const scale = parseFloat(document.getElementById('wm-scale').value);
+      const offsetX = mmToPt(parseFloat(document.getElementById('offset-x').value));
+      const offsetY = mmToPt(parseFloat(document.getElementById('offset-y').value));
+      const watermarkDataUrl = createWatermarkImage(text1, text2, size1, size2, lineHeight, color, scale);
+      const pdfBytes = await file.arrayBuffer();
+      const modifiedPdf = await applyWatermark(pdfBytes, watermarkDataUrl, {
+        offsetX, offsetY, angle, opacity
+      });
+      const blob = new Blob([modifiedPdf], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      const downloadName = file.name.replace(/\.pdf$/i, '') + '_Watermark.pdf';
+      link.href = url;
+      link.download = downloadName;
+      link.textContent = '下載浮水印 PDF：' + downloadName;
+      link.style.display = 'block';
+      /*const dlContainer = document.getElementById('download-links');
+      dlContainer.innerHTML = '';
+      dlContainer.appendChild(link);*/
+      link.click();
     });
     document.querySelectorAll('.collapsible').forEach((header) => {
       header.addEventListener('click', () => {
