@@ -1,0 +1,37 @@
+[
+    {
+        "id": 1,
+        "tags": ["Coding", "數據", "Vibe", "JavaScript"],
+        "tools": ["D3.js", "HTML/CSS", "Vite"],
+        "link": "https://example.com/project1",
+        "image": "https://images.cakeresume.com/post-images/efc6ec9c-0022-4ee5-9078-ce1ffb96c2e4.png"
+    },
+    {
+        "id": 2,
+        "tags": ["藝術", "Coding", "p5.js"],
+        "tools": ["p5.js", "JavaScript", "Audio API"],
+        "link": "https://example.com/project2",
+        "image": "https://media.cake.me/image/upload/s--AJIYamXo--/c_pad,fl_png8,h_480,w_640/v1663769849/mu5uytrbmbhrbnrxnkoh.png"
+    },
+    {
+        "id": 3,
+        "tags": ["網頁", "動畫", "Vibe"],
+        "tools": ["Three.js", "GSAP", "CSS"],
+        "link": "https://example.com/project3",
+        "image": "https://via.placeholder.com/600x350/B0B0B0/333333?text=Project+3+Preview"
+    },
+    {
+        "id": 4,
+        "tags": ["Coding", "AI", "工具"],
+        "tools": ["GPT API", "React", "Node.js"],
+        "link": "https://example.com/project4",
+        "image": "https://via.placeholder.com/600x350/808080/333333?text=Project+4+Preview"
+    },
+    {
+        "id": 5,
+        "tags": ["網頁", "設計", "HTML"],
+        "tools": ["HTML5", "CSS3"],
+        "link": "https://example.com/project5",
+        "image": "https://via.placeholder.com/600x350/E0E0E0/333333?text=Project+5+Preview"
+    }
+]
