@@ -13,6 +13,7 @@
     margin: auto; 
     background-color: #91989F;
     color:#424242;
+    background: linear-gradient(90deg, rgb(243, 244, 255)0%, hsla(0, 0%, 89%, 1) 100%);
   }
   .container { 
     display: flex; 
@@ -26,7 +27,9 @@
     overflow-y: auto; 
     padding: 1em; 
     box-sizing: border-box;
-    background: #f3f3f3ff; 
+    background: rgba(255, 255, 255, 0.28);
+    border-radius: 5px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   }
   .right-panel { 
     margin-left: 300px;
@@ -122,15 +125,14 @@
       transition-duration: 0.4s;
       font-weight: 500;
       border:none;
+      background: #B993D6;  /* fallback for old browsers */
+      background: -webkit-linear-gradient(to right, #8CA6DB, #B993D6);  /* Chrome 10-25, Safari 5.1-6 */
+      background: linear-gradient(to right, #8CA6DB, #B993D6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     }
     button:hover {
-      background-color: #005CAF;
-    }
-    textarea {
-      padding: 5px 20px 30px;
-      border: 2px solid #e7e7e7;
-      border-radius: 4px;
-      color:#424242;
+      background: #B993D6;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #8CA6DB, #B993D6);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #8CA6DB, #B993D6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12background: #B993D6;  /* fallback for old browsers */
     }
     .logo img{
       width: 50%;
@@ -208,12 +210,13 @@
       font-size: 13px;
     }
     h2{
-      margin-bottom: 5px;
+      margin-bottom: 0px;
+      letter-spacing: 2px;
     }
     h3{
       margin-top:0px;
-      margin-bottom: 20px;
-      color:#9e9e9e;
+      font-weight: 300;
+      letter-spacing: 2px;
     }
     .result-btn-set{
       position: fixed;
@@ -229,12 +232,16 @@
   <div class="container">
     <div class="left-panel">
       <?xml version="1.0" encoding="utf-8"?>
+      <div style="display: flex; align-items: center;">
       <!-- License: CC Attribution. Made by zwicon: https://www.zwicon.com/ -->
       <svg fill="#323237" width="80px" height="80px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path d="M10.1403882,14 L13.8596118,14 L13.07321,10.8543926 C12.7316796,10.9492838 12.3717625,11 12,11 C11.6282375,11 11.2683204,10.9492838 10.92679,10.8543926 L10.1403882,14 Z M9.1096118,14 L9.99423004,10.461527 C8.80180997,9.7690907 8,8.47818173 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,8.47818173 15.19819,9.7690907 14.00577,10.461527 L14.8903882,14 L18.5,14 C19.8807119,14 21,15.1192881 21,16.5 L21,18.5 C21,18.7761424 20.7761424,19 20.5,19 L3.5,19 C3.22385763,19 3,18.7761424 3,18.5 L3,16.5 C3,15.1192881 4.11928813,14 5.5,14 L9.1096118,14 Z M12,10 C13.6568542,10 15,8.65685425 15,7 C15,5.34314575 13.6568542,4 12,4 C10.3431458,4 9,5.34314575 9,7 C9,8.65685425 10.3431458,10 12,10 Z M20,18 L20,16.5 C20,15.6715729 19.3284271,15 18.5,15 L5.5,15 C4.67157288,15 4,15.6715729 4,16.5 L4,18 L20,18 Z M3.5,21 C3.22385763,21 3,20.7761424 3,20.5 C3,20.2238576 3.22385763,20 3.5,20 L20.5,20 C20.7761424,20 21,20.2238576 21,20.5 C21,20.7761424 20.7761424,21 20.5,21 L3.5,21 Z"/>
       </svg>
+      <div style="display:flex; flex-direction: column; padding-left: 8px;">
       <h2>浮水印工具</h2>
       <h3>上傳浮水印圖片</h3>
+      </div>
+      </div>
 
       <h4 class="collapsible"><span class="step">Step 1.</span>選擇文件類型</h4>
       <div class="content">
