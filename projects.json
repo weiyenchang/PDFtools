@@ -1,4 +1,36 @@
-[
+[{
+    "zh-TW": {
+        "pageTitle": "您的姓名 - Vibe Coding 作品集", 
+        "name": "您的姓名 / 網名", 
+        "bio": "Vibe Coding 作品 & 數位創作者", 
+        "searchPlaceholder": "搜尋作品名稱或描述...", 
+        "listViewBtn": "列表模式", 
+        "gridViewBtn": "網格模式", 
+        "modeToggleBtn": "切換深色/淺色模式", 
+        "allProjectsTag": "全部作品", 
+        "projectsHeader": "作品連結", 
+        "statusHeader": "最新動態", 
+        "projectsTab": "作品連結", 
+        "statusTab": "近期狀態", 
+        "linkedinType": "LinkedIn 貼文", 
+        "instagramType": "Instagram 貼文", 
+        "footerText": "© 2025 您的姓名. All rights reserved.", 
+        "modalDescTitle": "簡短說明：", 
+        "modalToolsTitle": "使用工具：", 
+        "modalLinkBtn": "前往作品網站",
+        "projects": [
+            { "id": 1, "title": "Vibe Coding: 數據視覺化儀表板", "description": "使用 D3.js 實現，展示複雜數據的動態變化，具有高度互動性。" },
+            /* ... 其他 zh-TW 的 projects ... */
+        ]
+    },
+    "en": {
+        /* ... 英文翻譯內容 ... */
+    },
+    "ja": {
+        /* ... 日文翻譯內容 ... */
+    },
+    /* ... 其他語言內容 ... */
+}
     {
         "id": 1,
         "tags": ["Coding", "數據", "Vibe", "JavaScript"],
