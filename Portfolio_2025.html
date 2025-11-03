@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-key="pageTitle">張瑋晏｜WEI-YEN CHANG</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"> 
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 <style>
         /* --------------------
             內部 CSS (無印風格樣式 - 維持前一版風格)
@@ -78,108 +79,45 @@
         .content-tab-button.active { background-color: var(--color-primary-text); color: var(--color-background); border-color: var(--color-primary-text); }
         .post-type { font-size: 0.85rem; color: var(--color-secondary-text); display: inline-block; padding: 2px 6px; border-radius: 4px; background-color: var(--color-tag); font-weight: 500; }
         
+        
         /* --------------------
-            近期狀態卡片樣式 (核心變動)
+            深色/淺色模式 (Icon Toggle Button) 樣式
         -------------------- */
-        .status-grid {
-            display: flex;
-            flex-direction: column; 
-            gap: 40px; /* 貼文間距 */
-            width: 100%;
-            text-align: left;
+        #mode-toggle {
+            /* 確保按鈕是方形且只顯示圖標，繼承 control-button 的基本樣式 */
+            width: 40px; 
+            padding: 8px 10px;
+            justify-content: center;
+            line-height: 1; /* 確保圖標垂直居中 */
+        }
+        #mode-toggle i {
+            font-size: 1.1rem; /* 增大圖標尺寸 */
+            transition: opacity 0.3s;
+            color: inherit; 
+            margin: 0; 
         }
 
-        .post-card {
-            background-color: var(--color-card-bg);
-            border: 1px solid var(--color-border);
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: var(--shadow-light);
-            
-            /* 左右兩欄佈局 */
-            display: grid;
-            grid-template-columns: 150px 1fr; /* 左：日期 150px, 右：內容 1fr */
-            gap: 30px;
-            align-items: flex-start; /* 頂部對齊 */
+        /* Light Mode: Show Sun, Hide Moon (Default state) */
+        html:not(.dark-mode) .moon-icon {
+            display: none;
         }
-        
-        /* 左側：日期日曆 (Muji Style) */
-        .date-calendar {
-            flex-shrink: 0;
-            width: 150px;
-            text-align: center;
-            padding: 10px;
-            border-right: 1px solid var(--color-date-divider); /* 柔和分隔線 */
-        }
-        .date-calendar .month {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--color-secondary-text);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding-bottom: 5px;
-        }
-        .date-calendar .day {
-            font-size: 3.5rem;
-            font-weight: 700;
-            line-height: 1;
-            color: var(--color-primary-text);
-            margin: 5px 0;
-        }
-        .date-calendar .year {
-            font-size: 0.9rem;
-            font-weight: 300;
-            color: var(--color-secondary-text);
-            padding-top: 5px;
-        }
-        
-        /* 右側：內嵌內容容器 */
-        .post-embed-content {
-            min-width: 0; /* 確保 iframe 不會溢出 */
-            width: 100%;
-            padding: 0;
+        html:not(.dark-mode) .sun-icon {
+            display: inline-block;
         }
 
-        .post-embed-content iframe {
-            /* 覆寫內嵌程式碼中寫死的 width/height，實現響應式和統一 UI */
-            width: 100%; 
-            height: 450px; /* 設定統一的顯示高度 */
-            max-width: 504px; /* 限制最大寬度，避免在極寬螢幕上過大 */
-            border: 1px solid var(--color-border);
-            border-radius: 6px;
-            display: block;
-            margin: 10px 0 0 0; /* 讓 iframe 居左對齊，與文字/標籤分開 */
-            background-color: var(--color-button-bg); /* 統一背景色 */
+        /* Dark Mode: Show Moon, Hide Sun */
+        html.dark-mode .sun-icon {
+            display: none;
         }
-        
-        /* RWD for smaller screens */
-        @media (max-width: 600px) {
-            .post-card {
-                grid-template-columns: 1fr; /* 堆疊日期和內容垂直顯示 */
-                gap: 15px;
-                padding: 15px;
-            }
-            .date-calendar {
-                border-right: none;
-                border-bottom: 1px solid var(--color-date-divider); /* 增加水平分隔線 */
-                padding-bottom: 15px;
-                margin-bottom: 0;
-                width: 100%;
-                display: flex; /* 在小螢幕上將月/日/年排成一行 */
-                justify-content: center;
-                align-items: baseline;
-                gap: 10px;
-            }
-            .date-calendar .day {
-                font-size: 2.5rem;
-            }
+        html.dark-mode .moon-icon {
+            display: inline-block;
         }
 
         /* --------------------
-            其他不變的基礎樣式 (省略部分重複代碼，確保完整性) 
+            其他不變的基礎樣式 
         -------------------- */
         header { margin-bottom: 30px; width: 100%; }
-        .profile-img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; border: 2px solid var(--color-border); box-shadow: var(--shadow-light); }
+        .profile-img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; border: 0px solid var(--color-border); box-shadow: var(--shadow-light); }
         h1 { font-weight: 700; font-size: 2rem; margin-bottom: 8px; }
         header p { color: var(--color-secondary-text); font-size: 1.1rem; font-weight: 300; margin-bottom: 20px; }
         .social-links { display: flex; justify-content: center; gap: 25px; margin-bottom: 40px; }
@@ -188,10 +126,9 @@
         .top-controls { width: 100%; display: flex; justify-content: flex-end; align-items: center; gap: 20px; margin-bottom: 30px; }
         .search-box-placeholder { flex-grow: 1; }
         .top-controls .controls { display: flex; gap: 15px; }
+        /* control-button 樣式被 #mode-toggle 繼承 */
         .control-button { background: var(--color-button-bg); border: 1px solid var(--color-border); color: var(--color-primary-text); padding: 8px 12px; border-radius: 5px; cursor: pointer; transition: background-color 0.3s ease, color 0.3s ease; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
         .control-button.active { background-color: var(--color-primary-text); color: var(--color-background); border-color: var(--color-primary-text); }
-        html.dark-mode #mode-toggle i.fa-sun { display: none; }
-        html:not(.dark-mode) #mode-toggle i.fa-moon { display: none; }
         .tag-cloud { width: 100%; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 40px; }
         .tag-button { background-color: var(--color-tag); color: var(--color-primary-text); padding: 6px 12px; border-radius: 20px; font-size: 0.9rem; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: background-color 0.2s ease, border-color 0.2s ease; }
         .tag-button.active { background-color: var(--color-tag-active); color: var(--color-background); border-color: var(--color-primary-text); }
@@ -222,25 +159,24 @@
         <select id="language-select">
             <option value="zh-TW">中文</option>
             <option value="en">English</option>
-            <!--<option value="ja" stlye="display:none;">日本語</option>
-            <option value="ko" stlye="display:none;">한국어</option>
-            <option value="it" stlye="display:none;">Italiano</option>-->
-        </select>
+            </select>
         
         <div class="search-box">
             <input type="text" id="search-input" data-key="searchPlaceholder" placeholder="搜尋作品名稱或描述...">
             <i class="fas fa-search search-icon"></i>
         </div>
         
-        <button id="mode-toggle" class="control-button" data-key="modeToggleBtn" title="切換深色/淺色模式">
-            <i class="fas fa-sun"></i><i class="fas fa-moon"></i>
+        <button id="mode-toggle" class="control-button" title="切換深色/淺色模式">
+            <i class="fas fa-sun sun-icon"></i>
+            <i class="fas fa-moon moon-icon"></i>
         </button>
-    </div>
+        </div>
 
     <div class="container">
         <header>
+             <!--<img src="https://media.licdn.com/dms/image/v2/D5603AQG98b3MYM07BQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1682776887639?e=1763596800&v=beta&t=hcX2O6E1ovSGXJC_1R3ZmbZwLCobt1ZIPG996FgN0Rc" alt="個人頭像" class="profile-img">-->
             <h1 data-key="name">張瑋晏</h1>
-            <p data-key="bio">閱讀寫作 | AI 工具體驗 | 語言學習 | 生活雜記</p>
+            <p data-key="bio"></p>
 
             <div class="social-links">
                 <a href="https://www.linkedin.com/in/weiyenchang/" target="_blank" class="social-link" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
@@ -327,7 +263,7 @@
                 "id": 2, 
                 "type": "instagram", 
                 "date": "2024-09-15", 
-                "iframeCode": "<blockquote class=\"instagram-media\" data-instgrm-captioned data-instgrm-permalink=\"https://www.instagram.com/p/C6718H0F4iE/?utm_source=ig_embed&amp;utm_campaign=loading\" data-instgrm-version=\"14\" style=\" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);\"><div><a href=\"https://www.instagram.com/p/C6718H0F4iE/?utm_source=ig_embed&amp;utm_campaign=loading\" target=\"_blank\">A post shared by Example Creator</a></div></blockquote>"
+                "iframeCode": "<blockquote class=\"instagram-media\" data-instgrm-captioned data-instgrm-permalink=\"https://www.instagram.com/p/C6718H0F4iE/?utm_source=ig_embed&amp;utm_campaign=loading\" data-instgrm-version=\"14\" style=\" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);\"><div><a href=\"https://www.instagram.com/p/C6718H0F4iE/?utm_source=ig_embed&amp;utm_campaign=loading\" target=\"_blank\">A post shared by Example Creator</a></div></div></blockquote>"
             },
             { 
                 "id": 3, 
@@ -345,8 +281,8 @@
         // --------------------
         
         // 全域變數初始化
-        let translations = {}; // *** 從 GitHub JSON 載入的翻譯文本和 UI 字符串 ***
-        let coreProjects = []; // *** 從 GitHub JSON 載入的項目結構數據 (tags, links, images) ***
+        let translations = {}; 
+        let coreProjects = []; 
         let currentLang = localStorage.getItem('lang') || 'zh-TW';
         let activeTag = 'all'; 
         let currentTab = 'projects-section'; 
@@ -397,7 +333,7 @@
                 }
                 
                 translations = data.translations;
-                coreProjects = data.coreProjects; // 儲存核心項目結構
+                coreProjects = data.coreProjects; 
 
                 dataLoaded = true; 
                 
@@ -417,7 +353,7 @@
                 // 載入失敗，提供最小化回退
                 const fallbackTranslation = {
                     "pageTitle": "載入失敗", "name": "載入失敗", "bio": "無法取得作品數據", "allProjectsTag": "全部", "projectsHeader": "錯誤", "statusHeader": "錯誤", "searchPlaceholder": "搜尋", "linkedinType": "貼文", "instagramType": "貼文", "modalDescTitle": "簡短說明：", "modalToolsTitle": "使用工具：", "modalLinkBtn": "前往作品網站",
-                    "projects": [] // 無法提供任何項目
+                    "projects": [] 
                 };
                 translations = { 'zh-TW': fallbackTranslation };
                 coreProjects = [];
@@ -430,7 +366,6 @@
             currentLang = lang;
             localStorage.setItem('lang', lang);
 
-            // 處理語言缺失
             const effectiveLang = translations[lang] ? lang : (translations['zh-TW'] ? 'zh-TW' : null);
             if (!effectiveLang) return;
 
@@ -439,7 +374,7 @@
                 if (translations[effectiveLang] && translations[effectiveLang][key]) {
                     if (key === 'searchPlaceholder') {
                         el.placeholder = translations[effectiveLang][key];
-                    } else {
+                    } else if (el.tagName !== 'INPUT' && el.tagName !== 'SELECT') { 
                         el.textContent = translations[effectiveLang][key];
                     }
                 }
@@ -456,127 +391,46 @@
             switchTab(currentTab, false); 
         }
         
-        // --- 輔助函式 ---
-
         // 4. 合併核心數據和翻譯數據
         function getProjectsData() {
-            // 檢查是否已成功載入數據
-            if (coreProjects.length === 0 || !translations[currentLang]) {
-                 return [];
-            }
+            if (coreProjects.length === 0 || !translations[currentLang]) { return []; }
             
             const translatedProjectsMap = new Map();
-            // 建立翻譯數據的 Map，方便 O(1) 查找
-            translations[currentLang].projects.forEach(tp => {
-                translatedProjectsMap.set(tp.id, tp);
-            });
+            translations[currentLang].projects.forEach(tp => { translatedProjectsMap.set(tp.id, tp); });
             
-            // 合併核心數據與翻譯數據
             return coreProjects.map(coreP => {
                 const translatedP = translatedProjectsMap.get(coreP.id);
-                // 即使翻譯缺失，也返回核心數據，但使用佔位符文本
                 if (!translatedP) {
-                    return { 
-                        ...coreP, 
-                        title: `Project ${coreP.id} (Translation Missing)`, 
-                        description: `No translation found in projects.json for this ID.` 
-                    };
+                    return { ...coreP, title: `Project ${coreP.id} (Translation Missing)`, description: `No translation found in projects.json for this ID.` };
                 }
-                // 合併核心數據和翻譯文本
-                return { 
-                    ...coreP, 
-                    title: translatedP.title, 
-                    description: translatedP.description 
-                };
+                return { ...coreP, title: translatedP.title, description: translatedP.description };
             });
         }
         
+        // 5. 渲染和過濾邏輯 (保持不變)
         function switchTab(targetId, filter=true) {
-            document.querySelectorAll('.main-content-wrapper section').forEach(section => {
-                section.style.display = 'none';
-            });
+            document.querySelectorAll('.main-content-wrapper section').forEach(section => { section.style.display = 'none'; });
             document.getElementById(targetId).style.display = 'block';
-            
-            document.querySelectorAll('.content-tab-button').forEach(btn => {
-                btn.classList.remove('active');
-            });
+            document.querySelectorAll('.content-tab-button').forEach(btn => { btn.classList.remove('active'); });
             document.querySelector(`[data-target="${targetId}"]`).classList.add('active');
-            
             currentTab = targetId;
-
             const controls = document.querySelector('.top-controls');
             const tagCloud = document.getElementById('tag-cloud');
             const searchInput = document.getElementById('search-input');
-            
             const isProjectTab = currentTab === 'projects-section';
             controls.style.display = isProjectTab ? 'flex' : 'none';
             tagCloud.style.display = isProjectTab ? 'flex' : 'none';
-            
             searchInput.value = '';
             if (filter) filterAndRenderProjects(); 
         }
-        
-        function renderStatusUpdates() {
-            const statusContainer = document.getElementById('status-updates');
-            statusContainer.innerHTML = '';
-            
-            const lang = currentLang;
-
-            const warningText = translations[lang] ? (translations[lang].statusHeader ? 
-                (lang === 'zh-TW' ? '下方展示您的最新貼文。請注意，社群平台嵌入內容可能因瀏覽器或隱私設定而無法完全顯示。' : 
-                'The latest posts are displayed below. Note that embedded content from social media platforms may not fully display due to browser or privacy settings.') : '') : '';
-            
-            const warning = document.createElement('p');
-            warning.style.cssText = 'grid-column: 1 / -1; text-align:center; color:var(--color-secondary-text); margin-bottom: 20px; font-style: italic;';
-            warning.textContent = warningText;
-            statusContainer.appendChild(warning);
-
-            statusData.forEach(post => {
-                const div = document.createElement('div');
-                div.classList.add('post-card');
-                
-                const dateObj = new Date(post.date);
-                if (isNaN(dateObj)) return; 
-                
-                const day = dateObj.getDate().toString().padStart(2, '0');
-                const monthIndex = dateObj.getMonth();
-                const year = dateObj.getFullYear();
-                
-                const monthName = getMonthName(monthIndex, lang);
-                
-                const embedContent = post.iframeCode || '<p>Embed code missing.</p>';
-                const typeKey = post.type === 'linkedin' ? 'linkedinType' : 'instagramType';
-                const typeText = translations[lang] ? (translations[lang][typeKey] || post.type) : post.type;
-                
-                div.innerHTML = `
-                    <div class="date-calendar">
-                        <div class="month">${monthName}</div>
-                        <div class="day">${day}</div>
-                        <div class="year">${year}</div>
-                    </div>
-                    
-                    <div class="post-embed-content">
-                        <span class="post-type">${typeText}</span>
-                        
-                        <div class="embed-container" style="margin-top: 15px;">
-                            ${embedContent}
-                        </div>
-                    </div>
-                `;
-                statusContainer.appendChild(div);
-            });
-        }
-        
         function renderProjects(projects) {
             const portfolioItemsContainer = document.getElementById('portfolio-items');
             const currentView = localStorage.getItem('portfolioView') || 'list';
             portfolioItemsContainer.innerHTML = '';
-            
             if (projects.length === 0 && dataLoaded) {
                  portfolioItemsContainer.innerHTML = `<p style="text-align:center; color:var(--color-secondary-text); margin-top: 20px;">找不到符合條件的作品。</p>`;
                  return;
             }
-
             projects.forEach(project => {
                 const item = document.createElement('a');
                 item.href = "#";
@@ -608,7 +462,6 @@
         }
         function generateTags() {
             if (!translations[currentLang] || !translations[currentLang].allProjectsTag) return; 
-            
             const tagCloud = document.getElementById('tag-cloud');
             const projects = getProjectsData(); 
             const allTags = new Set(['all']);
@@ -650,32 +503,82 @@
             document.getElementById('project-modal').classList.remove('active');
             document.body.style.overflow = '';
         }
+        function renderStatusUpdates() {
+             const statusContainer = document.getElementById('status-updates');
+             statusContainer.innerHTML = '';
+             const lang = currentLang;
+             const warningText = translations[lang] ? (translations[lang].statusHeader ? 
+                 (lang === 'zh-TW' ? '下方展示您的最新貼文。請注意，社群平台嵌入內容可能因瀏覽器或隱私設定而無法完全顯示。' : 
+                 'The latest posts are displayed below. Note that embedded content from social media platforms may not fully display due to browser or privacy settings.') : '') : '';
+             const warning = document.createElement('p');
+             warning.style.cssText = 'grid-column: 1 / -1; text-align:center; color:var(--color-secondary-text); margin-bottom: 20px; font-style: italic;';
+             warning.textContent = warningText;
+             statusContainer.appendChild(warning);
+             statusData.forEach(post => {
+                 const div = document.createElement('div');
+                 div.classList.add('post-card');
+                 const dateObj = new Date(post.date);
+                 if (isNaN(dateObj)) return; 
+                 const day = dateObj.getDate().toString().padStart(2, '0');
+                 const monthIndex = dateObj.getMonth();
+                 const year = dateObj.getFullYear();
+                 const monthName = getMonthName(monthIndex, lang);
+                 const embedContent = post.iframeCode || '<p>Embed code missing.</p>';
+                 const typeKey = post.type === 'linkedin' ? 'linkedinType' : 'instagramType';
+                 const typeText = translations[lang] ? (translations[lang][typeKey] || post.type) : post.type;
+                 div.innerHTML = `
+                     <div class="date-calendar">
+                         <div class="month">${monthName}</div>
+                         <div class="day">${day}</div>
+                         <div class="year">${year}</div>
+                     </div>
+                     <div class="post-embed-content">
+                         <span class="post-type">${typeText}</span>
+                         <div class="embed-container" style="margin-top: 15px;">
+                             ${embedContent}
+                         </div>
+                     </div>
+                 `;
+                 statusContainer.appendChild(div);
+             });
+         }
+        
+        // ------------------------------------------
+        // FIX: Dark Mode Icon Toggle Logic 
+        // ------------------------------------------
         function toggleDarkMode() {
             document.documentElement.classList.toggle('dark-mode');
             const isDarkMode = document.documentElement.classList.contains('dark-mode');
             localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
+            // CSS 負責根據 html.dark-mode 類別來顯示/隱藏圖標
         }
 
 
-        // 5. DOM Ready 和初始化
+        // 6. DOM Ready 和初始化
         document.addEventListener('DOMContentLoaded', () => {
             const searchInput = document.getElementById('search-input');
             const listViewBtn = document.getElementById('list-view-btn');
             const gridViewBtn = document.getElementById('grid-view-btn');
+            
+            // FIX: 獲取新的 Button 元素
             const modeToggleBtn = document.getElementById('mode-toggle');
+            
             const modalOverlay = document.getElementById('project-modal');
             const modalCloseBtn = document.getElementById('modal-close-btn');
             const languageSelect = document.getElementById('language-select');
             
             // --- 初始化模式 ---
             const savedDarkMode = localStorage.getItem('darkMode');
-            if (savedDarkMode === 'enabled' || (savedDarkMode === null && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.documentElement.classList.add('dark-mode');
-            }
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const isDarkMode = savedDarkMode === 'enabled' || (savedDarkMode === null && prefersDark);
 
+            if (isDarkMode) {
+                document.documentElement.classList.add('dark-mode');
+            } else {
+                document.documentElement.classList.remove('dark-mode');
+            }
+            
             // --- 載入 GitHub 數據 (核心改動) ---
-            // *** 請將此處替換為您 GitHub 上 projects.json 檔案的 Raw 連結 ***
-            // 範例: const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/YourUsername/YourRepo/main/projects.json';
             const GITHUB_RAW_URL = 'https://weiyenchang.github.io/PDFtools/projects.json'; 
             loadExternalData(GITHUB_RAW_URL);
             
@@ -697,7 +600,12 @@
             
             // --- 事件監聽 ---
             languageSelect.addEventListener('change', (e) => setLanguage(e.target.value));
-            modeToggleBtn.addEventListener('click', toggleDarkMode);
+            
+            // FIX: 綁定事件到新的 Button 元素
+            if (modeToggleBtn) {
+                modeToggleBtn.addEventListener('click', toggleDarkMode);
+            }
+            
             searchInput.addEventListener('input', filterAndRenderProjects);
             
             // Tab 監聽
@@ -721,7 +629,7 @@
                 if (e.key === 'Escape' && modalOverlay.classList.contains('active')) { closeModal(); }
             });
             
-            // 初始化 Tab 顯示 (在 loadExternalData 成功後會再執行一次 setLanguage/switchTab)
+            // 初始化 Tab 顯示 
             document.getElementById('status-section').style.display = 'none';
             document.getElementById('projects-section').style.display = 'block';
         });
