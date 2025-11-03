@@ -2,9 +2,9 @@
     "coreProjects": [
         { 
             "id": 1, 
-            "tags": ["Coding", "數據", "Vibe", "JavaScript"], 
-            "tools": ["D3.js", "HTML/CSS", "Vite"], 
-            "link": "https://example.com/project1", 
+            "tags": ["Gemini", "Vibe Coding", "HTML/CSSS/JavaScript"], 
+            "tools": ["Gemini", "Vibe Coding", "HTML/CSSS/JavaScript"], 
+            "link": "https://weiyenchang.github.io/PDFtools/UploadWatermark.html", 
             "image": "https://images.cakeresume.com/post-images/efc6ec9c-0022-4ee5-9078-ce1ffb96c2e4.png" 
         },
         { 
@@ -40,11 +40,11 @@
         "zh-TW": {
             "pageTitle": "您的姓名 - Vibe Coding 作品集", "name": "張瑋晏", "bio": "Vibe Coding 作品 & 數位創作者", "searchPlaceholder": "搜尋作品名稱或描述...", "listViewBtn": "列表模式", "gridViewBtn": "網格模式", "modeToggleBtn": "切換深色/淺色模式", "allProjectsTag": "全部作品", "projectsHeader": "作品連結", "statusHeader": "最新動態", "projectsTab": "作品連結", "statusTab": "近期狀態", "linkedinType": "LinkedIn 貼文", "instagramType": "Instagram 貼文", "footerText": "© 2025 您的姓名. All rights reserved.", "modalDescTitle": "簡短說明：", "modalToolsTitle": "使用工具：", "modalLinkBtn": "前往作品網站",
             "projects": [
-                { "id": 1, "title": "Vibe Coding: 數據視覺化儀表板", "description": "使用 D3.js 實現，展示複雜數據的動態變化，具有高度互動性。" },
-                { "id": 2, "title": "生成藝術音樂反應器", "description": "基於音頻輸入，使用 p5.js 生成實時視覺效果的沉浸式藝術項目。" },
-                { "id": 3, "title": "沉浸式網頁背景動畫", "description": "為品牌活動設計的視覺盛宴，提升用戶體驗，低 CPU 佔用。" },
-                { "id": 4, "title": "AI 對話式程式碼生成器雛形", "description": "探索 Vibe Coding 概念，快速生成代碼片段並即時預覽。" },
-                { "id": 5, "title": "極簡無印風 Landing Page", "description": "純 HTML/CSS 響應式 Landing Page，完美體現極簡主義設計。" }
+                { "id": 1, "title": "PDF 浮水印工具 － 上傳浮水印圖片", "description": "上傳品牌浮水印樣式，為重要 PDF 文件快速上浮水印" },
+                { "id": 2, "title": "PDF 浮水印工具 － 自訂浮水印文字", "description": "品牌自訂浮水印文字，為重要文件著名適用對象與使用目的" },
+                { "id": 3, "title": "註記 PDF 工具", "description": "快速、簡單於 PDF 進行注記，產出填寫範本或標明重要資訊" },
+                { "id": 4, "title": "合併 PDF/PNG/JPG 工具", "description": "" },
+                { "id": 5, "title": "艾賓浩斯學習計劃", "description": "依照記憶曲線、整合不同學習計劃，產出客製化學習計劃" }
             ]
         },
         "en": {
