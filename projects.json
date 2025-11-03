@@ -2,53 +2,53 @@
     "coreProjects": [
         { 
             "id": 1, 
-            "tags": ["Gemini", "Vibe Coding", "HTML/CSSS/JavaScript"], 
-            "tools": ["Gemini", "Vibe Coding", "HTML/CSSS/JavaScript"], 
+            "tags": ["Vibe Coding"], 
+            "tools": ["ChatGPT","Gemini", "Vibe Coding", "HTML/CSSS/JavaScript"], 
             "link": "https://weiyenchang.github.io/PDFtools/UploadWatermark.html", 
             "image": "https://images.cakeresume.com/post-images/efc6ec9c-0022-4ee5-9078-ce1ffb96c2e4.png" 
         },
         { 
             "id": 2, 
-            "tags": ["藝術", "Coding", "p5.js"], 
-            "tools": ["p5.js", "JavaScript", "Audio API"], 
-            "link": "https://example.com/project2", 
+            "tags": ["Vibe Coding"], 
+            "tools": ["ChatGPT","Gemini", "Vibe Coding", "HTML/CSSS/JavaScript"], 
+            "link": "https://weiyenchang.github.io/PDFtools/EditWatermark.html", 
             "image": "https://media.cake.me/image/upload/s--AJIYamXo--/c_pad,fl_png8,h_480,w_640/v1663769849/mu5uytrbmbhrbnrxnkoh.png" 
         },
         { 
             "id": 3, 
-            "tags": ["網頁", "動畫", "Vibe"], 
-            "tools": ["Three.js", "GSAP", "CSS"], 
+            "tags": ["Vibe Coding"], 
+            "tools": ["ChatGPT","Gemini", "Vibe Coding", "HTML/CSSS/JavaScript"], 
             "link": "https://example.com/project3", 
             "image": "https://via.placeholder.com/600x350/B0B0B0/333333?text=Project+3+Preview" 
         },
         { 
             "id": 4, 
-            "tags": ["Coding", "AI", "工具"], 
-            "tools": ["GPT API", "React", "Node.js"], 
+            "tags": ["Vibe Coding"], 
+            "tools": ["ChatGPT","Gemini", "Vibe Coding", "HTML/CSSS/JavaScript"], 
             "link": "https://example.com/project4", 
             "image": "https://via.placeholder.com/600x350/808080/333333?text=Project+4+Preview" 
         },
         { 
             "id": 5, 
-            "tags": ["網頁", "設計", "HTML"], 
-            "tools": ["HTML5", "CSS3"], 
+            "tags": ["Vibe Coding"], 
+            "tools": ["ChatGPT","Gemini", "Vibe Coding", "HTML/CSSS/JavaScript"], 
             "link": "https://example.com/project5", 
             "image": "https://via.placeholder.com/600x350/E0E0E0/333333?text=Project+5+Preview" 
         }
     ],
     "translations": {
         "zh-TW": {
-            "pageTitle": "您的姓名 - Vibe Coding 作品集", "name": "張瑋晏", "bio": "Vibe Coding 作品 & 數位創作者", "searchPlaceholder": "搜尋作品名稱或描述...", "listViewBtn": "列表模式", "gridViewBtn": "網格模式", "modeToggleBtn": "切換深色/淺色模式", "allProjectsTag": "全部作品", "projectsHeader": "作品連結", "statusHeader": "最新動態", "projectsTab": "作品連結", "statusTab": "近期狀態", "linkedinType": "LinkedIn 貼文", "instagramType": "Instagram 貼文", "footerText": "© 2025 您的姓名. All rights reserved.", "modalDescTitle": "簡短說明：", "modalToolsTitle": "使用工具：", "modalLinkBtn": "前往作品網站",
+            "pageTitle": "張瑋晏｜WEI-YEN CHANG", "name": "張瑋晏", "bio": "", "searchPlaceholder": "搜尋作品名稱或描述...", "listViewBtn": "列表模式", "gridViewBtn": "網格模式", "modeToggleBtn": "切換深色/淺色模式", "allProjectsTag": "全部作品", "projectsHeader": "作品連結", "statusHeader": "最新動態", "projectsTab": "作品連結", "statusTab": "近期狀態", "linkedinType": "LinkedIn 貼文", "instagramType": "Instagram 貼文", "footerText": "© 2025 您的姓名. All rights reserved.", "modalDescTitle": "簡短說明：", "modalToolsTitle": "使用工具：", "modalLinkBtn": "前往作品網站",
             "projects": [
-                { "id": 1, "title": "PDF 浮水印工具 － 上傳浮水印圖片", "description": "上傳品牌浮水印樣式，為重要 PDF 文件快速上浮水印" },
-                { "id": 2, "title": "PDF 浮水印工具 － 自訂浮水印文字", "description": "品牌自訂浮水印文字，為重要文件著名適用對象與使用目的" },
+                { "id": 1, "title": "PDF 浮水印工具(上傳品牌圖片)", "description": "上傳品牌浮水印樣式，為重要 PDF 文件快速上浮水印" },
+                { "id": 2, "title": "PDF 浮水印工具(自訂文字)", "description": "品牌自訂浮水印文字，為重要文件著名適用對象與使用目的" },
                 { "id": 3, "title": "註記 PDF 工具", "description": "快速、簡單於 PDF 進行注記，產出填寫範本或標明重要資訊" },
                 { "id": 4, "title": "合併 PDF/PNG/JPG 工具", "description": "" },
                 { "id": 5, "title": "艾賓浩斯學習計劃", "description": "依照記憶曲線、整合不同學習計劃，產出客製化學習計劃" }
             ]
         },
         "en": {
-            "pageTitle": "Your Name - Vibe Coding Portfolio", "name": "WEI-YEN CHANG (Wei)", "bio": "Vibe Coding Projects & Digital Creator", "searchPlaceholder": "Search project title or description...", "listViewBtn": "List View", "gridViewBtn": "Grid View", "modeToggleBtn": "Toggle Dark/Light Mode", "allProjectsTag": "All Projects", "projectsHeader": "Portfolio Links", "statusHeader": "Latest Status", "projectsTab": "Portfolio Links", "statusTab": "Recent Status", "linkedinType": "LinkedIn Post", "instagramType": "Instagram Post", "footerText": "© 2025 Your Name. All rights reserved.", "modalDescTitle": "Short Description:", "modalToolsTitle": "Tools Used:", "modalLinkBtn": "Visit Project Website",
+            "pageTitle": "張瑋晏｜WEI-YEN CHANG", "name": "WEI-YEN CHANG (Wei)", "bio": "Vibe Coding Projects & Digital Creator", "searchPlaceholder": "Search project title or description...", "listViewBtn": "List View", "gridViewBtn": "Grid View", "modeToggleBtn": "Toggle Dark/Light Mode", "allProjectsTag": "All Projects", "projectsHeader": "Portfolio Links", "statusHeader": "Latest Status", "projectsTab": "Portfolio Links", "statusTab": "Recent Status", "linkedinType": "LinkedIn Post", "instagramType": "Instagram Post", "footerText": "© 2025 Your Name. All rights reserved.", "modalDescTitle": "Short Description:", "modalToolsTitle": "Tools Used:", "modalLinkBtn": "Visit Project Website",
             "projects": [
                 { "id": 1, "title": "Vibe Coding: Data Visualization Dashboard", "description": "Implemented using D3.js, showcasing dynamic changes in complex data with high interactivity." },
                 { "id": 2, "title": "Generative Art Music Reactor", "description": "An immersive art project using p5.js to generate real-time visual effects based on audio input." },
