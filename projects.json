@@ -1,91 +1,141 @@
 {
-    "coreProjects": [
-        { 
-            "id": 1, 
-            "tags": ["Vibe Coding"], 
-            "tools": ["ChatGPT","Gemini", "Vibe Coding", "HTML/CSSS/JavaScript"], 
-            "link": "https://weiyenchang.github.io/PDFtools/UploadWatermark.html", 
-            "image": "https://images.cakeresume.com/post-images/efc6ec9c-0022-4ee5-9078-ce1ffb96c2e4.png" 
-        },
-        { 
-            "id": 2, 
-            "tags": ["Vibe Coding"], 
-            "tools": ["ChatGPT","Gemini", "Vibe Coding", "HTML/CSSS/JavaScript"], 
-            "link": "https://weiyenchang.github.io/PDFtools/EditWatermark.html", 
-            "image": "https://media.cake.me/image/upload/s--AJIYamXo--/c_pad,fl_png8,h_480,w_640/v1663769849/mu5uytrbmbhrbnrxnkoh.png" 
-        },
-        { 
-            "id": 3, 
-            "tags": ["Vibe Coding"], 
-            "tools": ["ChatGPT","Gemini", "Vibe Coding", "HTML/CSSS/JavaScript"], 
-            "link": "https://example.com/project3", 
-            "image": "https://via.placeholder.com/600x350/B0B0B0/333333?text=Project+3+Preview" 
-        },
-        { 
-            "id": 4, 
-            "tags": ["Vibe Coding"], 
-            "tools": ["ChatGPT","Gemini", "Vibe Coding", "HTML/CSSS/JavaScript"], 
-            "link": "https://example.com/project4", 
-            "image": "https://via.placeholder.com/600x350/808080/333333?text=Project+4+Preview" 
-        },
-        { 
-            "id": 5, 
-            "tags": ["Vibe Coding"], 
-            "tools": ["ChatGPT","Gemini", "Vibe Coding", "HTML/CSSS/JavaScript"], 
-            "link": "https://example.com/project5", 
-            "image": "https://via.placeholder.com/600x350/E0E0E0/333333?text=Project+5+Preview" 
-        }
-    ],
-    "translations": {
+    "i18n": {
         "zh-TW": {
-            "pageTitle": "張瑋晏｜WEI-YEN CHANG", "name": "張瑋晏", "bio": "", "searchPlaceholder": "搜尋作品名稱或描述...", "listViewBtn": "列表模式", "gridViewBtn": "網格模式", "modeToggleBtn": "切換深色/淺色模式", "allProjectsTag": "全部作品", "projectsHeader": "作品連結", "statusHeader": "最新動態", "projectsTab": "作品連結", "statusTab": "近期狀態", "linkedinType": "LinkedIn 貼文", "instagramType": "Instagram 貼文", "footerText": "© 2025 您的姓名. All rights reserved.", "modalDescTitle": "簡短說明：", "modalToolsTitle": "使用工具：", "modalLinkBtn": "前往作品網站",
-            "projects": [
-                { "id": 1, "title": "PDF 浮水印工具(上傳品牌圖片)", "description": "上傳品牌浮水印樣式，為重要 PDF 文件快速上浮水印" },
-                { "id": 2, "title": "PDF 浮水印工具(自訂文字)", "description": "品牌自訂浮水印文字，為重要文件著名適用對象與使用目的" },
-                { "id": 3, "title": "註記 PDF 工具", "description": "快速、簡單於 PDF 進行注記，產出填寫範本或標明重要資訊" },
-                { "id": 4, "title": "合併 PDF/PNG/JPG 工具", "description": "" },
-                { "id": 5, "title": "艾賓浩斯學習計劃", "description": "依照記憶曲線、整合不同學習計劃，產出客製化學習計劃" }
-            ]
+            "ui": {
+                "searchInputPlaceholder": "搜尋作品名稱或描述...",
+                "sectionTitle": "作品連結",
+                "allProjectsTag": "全部作品",
+                "modalDescLabel": "簡短說明：",
+                "modalToolsLabel": "使用工具：",
+                "modalLinkText": "前往作品網站",
+                "listViewTitle": "列表模式",
+                "gridViewTitle": "網格模式",
+                "langToggleTitle": "切換語言",
+                "modeToggleTitle": "切換深色/淺色模式"
+            },
+            "tags": {
+                "frontend": "前端開發",
+                "backend": "後端服務",
+                "design": "設計與佈局",
+                "mobile": "行動應用"
+            }
         },
         "en": {
-            "pageTitle": "張瑋晏｜WEI-YEN CHANG", "name": "WEI-YEN CHANG (Wei)", "bio": "Vibe Coding Projects & Digital Creator", "searchPlaceholder": "Search project title or description...", "listViewBtn": "List View", "gridViewBtn": "Grid View", "modeToggleBtn": "Toggle Dark/Light Mode", "allProjectsTag": "All Projects", "projectsHeader": "Portfolio Links", "statusHeader": "Latest Status", "projectsTab": "Portfolio Links", "statusTab": "Recent Status", "linkedinType": "LinkedIn Post", "instagramType": "Instagram Post", "footerText": "© 2025 Your Name. All rights reserved.", "modalDescTitle": "Short Description:", "modalToolsTitle": "Tools Used:", "modalLinkBtn": "Visit Project Website",
-            "projects": [
-                { "id": 1, "title": "Vibe Coding: Data Visualization Dashboard", "description": "Implemented using D3.js, showcasing dynamic changes in complex data with high interactivity." },
-                { "id": 2, "title": "Generative Art Music Reactor", "description": "An immersive art project using p5.js to generate real-time visual effects based on audio input." },
-                { "id": 3, "title": "Immersive Web Background Animation", "description": "A visual feast designed for brand campaigns, enhancing user experience with low CPU usage." },
-                { "id": 4, "title": "AI Conversational Code Generator Prototype", "description": "Exploring the Vibe Coding concept, rapidly generating code snippets with instant preview." },
-                { "id": 5, "title": "Minimalist Muji Style Landing Page", "description": "Pure HTML/CSS responsive landing page, perfectly embodying minimalist design." }
-            ]
-        },
-        "ja": {
-            "pageTitle": "お名前 - Vibe Coding ポートフォリオ", "name": "お名前 / ニックネーム", "bio": "Vibe Coding プロジェクト & デジタルクリエイター", "searchPlaceholder": "プロジェクト名または説明を検索...", "listViewBtn": "リスト表示", "gridViewBtn": "グリッド表示", "modeToggleBtn": "ダーク/ライトモード切替", "allProjectsTag": "すべてのプロジェクト", "projectsHeader": "プロジェクトリンク", "statusHeader": "最新の状況", "statusTab": "最近の状況", "projectsTab": "プロジェクトリンク", "linkedinType": "LinkedIn 投稿", "instagramType": "Instagram 投稿", "footerText": "© 2025 お名前. All rights reserved.", "modalDescTitle": "簡単な説明：", "modalToolsTitle": "使用ツール：", "modalLinkBtn": "プロジェクトサイトへ",
-            "projects": [
-                { "id": 1, "title": "Vibe Coding: データ可視化ダッシュボード", "description": "D3.jsで実装され、複雑なデータの動的な変化を高度なインタラクティブ性で示します。" },
-                { "id": 2, "title": "ジェネレーティブアート音楽リアクター", "description": "オーディオ入力に基づき、p5.jsを使用してリアルタイムの視覚効果を生成する没入型アートプロジェクト。" },
-                { "id": 3, "title": "没入型ウェブ背景アニメーション", "description": "ブランドキャンペーン向けに設計された視覚的な饗宴。低CPU使用率でユーザーエクスペリエンスを向上させます。" },
-                { "id": 4, "title": "AI対話型コードジェネレーター試作品", "description": "Vibe Codingのコンセプトを探求し、コードスニペットを迅速に生成して即座にプレビューします。" },
-                { "id": 5, "title": "極簡無印風 Landing Page", "description": "純粋なHTML/CSSレスポンシブランディングページで、ミニマリストデザインを完璧に体現しています。" }
-            ]
+            "ui": {
+                "searchInputPlaceholder": "Search project title or description...",
+                "sectionTitle": "Portfolio Links",
+                "allProjectsTag": "All Projects",
+                "modalDescLabel": "Description:",
+                "modalToolsLabel": "Tools Used:",
+                "modalLinkText": "Visit Project Site",
+                "listViewTitle": "List View",
+                "gridViewTitle": "Grid View",
+                "langToggleTitle": "Switch Language",
+                "modeToggleTitle": "Toggle Dark/Light Mode"
+            },
+            "tags": {
+                "frontend": "Frontend",
+                "backend": "Backend",
+                "design": "Design & Layout",
+                "mobile": "Mobile App"
+            }
         },
         "ko": {
-            "pageTitle": "이름 - Vibe Coding 포트폴리오", "name": "당신의 이름 / 닉네임", "bio": "Vibe Coding 프로젝트 & 디지털 크리에이터", "searchPlaceholder": "프로젝트 제목 또는 설명을 검색...", "listViewBtn": "목록 보기", "gridViewBtn": "그리드 보기", "modeToggleBtn": "다크/라이트 모드 전환", "allProjectsTag": "모든 프로젝트", "projectsHeader": "프로젝트 링크", "statusHeader": "최신 상태", "projectsTab": "프로젝트 링크", "statusTab": "최근 상태", "linkedinType": "LinkedIn 게시물", "instagramType": "Instagram 게시물", "footerText": "© 2025 당신의 이름. All rights reserved.", "modalDescTitle": "간단한 설명:", "modalToolsTitle": "사용된 도구:", "modalLinkBtn": "프로젝트 웹사이트 방문",
-            "projects": [
-                { "id": 1, "title": "Vibe Coding: 데이터 시각화 대시보드", "description": "D3.js를 사용하여 구현되었으며, 높은 상호 작용성으로 복잡한 데이터의 동적 변화를 보여줍니다." },
-                { "id": 2, "title": "제너레이티브 아트 뮤직 리액터", "description": "오디오 입력에 기반하여 p5.js를 사용하여 실시간 시각 효과를 생성하는 몰입형 아트 프로젝트입니다." },
-                { "id": 3, "title": "몰입형 웹 배경 애니메이션", "description": "브랜드 캠페인을 위해 디자인된 시각적 향연으로, 낮은 CPU 사용률로 사용자 경험을 향상시킵니다." },
-                { "id": 4, "title": "AI 대화형 코드 생성기 프로토타입", "description": "Vibe Coding 개념을 탐색하고 코드 스니펫을 신속하게 생성하고 즉시 미리 봅니다." },
-                { "id": 5, "title": "미니멀리스트 무지 스타일 랜딩 페이지", "description": "순수 HTML/CSS 반응형 랜딩 페이지로, 미니멀리스트 디자인을 완벽하게 구현합니다." }
-            ]
+            "ui": {
+                "searchInputPlaceholder": "프로젝트 제목 또는 설명을 검색합니다...",
+                "sectionTitle": "포트폴리오 링크",
+                "allProjectsTag": "전체 프로젝트",
+                "modalDescLabel": "간단 설명:",
+                "modalToolsLabel": "사용 도구:",
+                "modalLinkText": "프로젝트 사이트로 이동",
+                "listViewTitle": "목록 보기",
+                "gridViewTitle": "그리드 보기",
+                "langToggleTitle": "언어 전환",
+                "modeToggleTitle": "다크/라이트 모드 전환"
+            },
+            "tags": {
+                "frontend": "프론트엔드 개발",
+                "backend": "백엔드 서비스",
+                "design": "디자인 및 레이아웃",
+                "mobile": "모바일 앱"
+            }
         },
-        "it": {
-            "pageTitle": "Il Tuo Nome - Portfolio Vibe Coding", "name": "Il Tuo Nome / Nickname", "bio": "Progetti Vibe Coding & Creatore Digitale", "searchPlaceholder": "Cerca titolo o descrizione progetto...", "listViewBtn": "Visualizzazione Elenco", "gridViewBtn": "Visualizzazione Griglia", "modeToggleBtn": "Alterna Modalità Scuro/Chiaro", "allProjectsTag": "Tutti i Progetti", "projectsHeader": "Link ai Progetti", "statusHeader": "Ultimi Aggiornamenti", "projectsTab": "Link ai Progetti", "statusTab": "Stato Recente", "linkedinType": "Post LinkedIn", "instagramType": "Post Instagram", "footerText": "© 2025 Il Tuo Nome. Tutti i diritti riservati.", "modalDescTitle": "Breve Descrizione:", "modalToolsTitle": "Strumenti Utilizzati:", "modalLinkBtn": "Visita Sito Web del Progetto",
-            "projects": [
-                { "id": 1, "title": "Vibe Coding: Dashboard di Visualizzazione Dati", "description": "Implementato utilizzando D3.js, mostra cambiamenti dinamici in dati complessi con alta interattività." },
-                { "id": 2, "title": "Reattore Musicale per Arte Generativa", "description": "Un progetto artistico immersivo che utilizza p5.js per generare effetti visivi in tempo reale basati sull'input audio." },
-                { "id": 3, "title": "Animazione di Sfondo Web Immersiva", "description": "Una festa visiva progettata per campagne di brand, migliorando l'esperienza utente con basso utilizzo di CPU." },
-                { "id": 4, "title": "Prototipo di Generatore di Codice Conversazionale AI", "description": "Esplorando il concetto di Vibe Coding, genera rapidamente snippet di codice con anteprima istantanea." },
-                { "id": 5, "title": "Landing Page Stile Muji Minimalista", "description": "Landing page responsive in puro HTML/CSS, che incarna perfettamente il design minimalista。" }
-            ]
+        "ja": {
+            "ui": {
+                "searchInputPlaceholder": "プロジェクト名または説明を検索...",
+                "sectionTitle": "ポートフォリオリンク",
+                "allProjectsTag": "全ての作品",
+                "modalDescLabel": "概要:",
+                "modalToolsLabel": "使用ツール:",
+                "modalLinkText": "プロジェクトサイトへ",
+                "listViewTitle": "リスト表示",
+                "gridViewTitle": "グリッド表示",
+                "langToggleTitle": "言語切替",
+                "modeToggleTitle": "ダーク/ライトモード切替"
+            },
+            "tags": {
+                "frontend": "フロントエンド開発",
+                "backend": "バックエンドサービス",
+                "design": "デザインとレイアウト",
+                "mobile": "モバイルアプリ"
+            }
         }
-    }
+    },
+    "projects": [
+        {
+            "id": 1,
+            "tags": ["frontend", "design"],
+            "link": "https://example.com/project-a",
+            "image": "https://via.placeholder.com/300x180/4682B4/FFFFFF?text=Project+A",
+            
+            "zh-TW": {
+                "title": "響應式作品集網站",
+                "description": "使用原生 HTML/CSS/JS 實現，具備 RWD 和多語言切換功能。",
+                "tools": ["HTML5", "CSS3", "JavaScript", "RWD", "i18n"]
+            },
+            "en": {
+                "title": "Responsive Portfolio Website",
+                "description": "Implemented with native HTML/CSS/JS, featuring RWD and multi-language switching.",
+                "tools": ["HTML5", "CSS3", "JavaScript", "RWD", "i18n"]
+            },
+            "ko": {
+                "title": "반응형 포트폴리오 웹사이트",
+                "description": "네이티브 HTML/CSS/JS로 구현되었으며, RWD 및 다국어 전환 기능을 갖추고 있습니다.",
+                "tools": ["HTML5", "CSS3", "JavaScript", "RWD", "i18n"]
+            },
+            "ja": {
+                "title": "レスポンシブなポートフォリオサイト",
+                "description": "ネイティブ HTML/CSS/JS で実装され、RWD と多言語切り替え機能を備えています。",
+                "tools": ["HTML5", "CSS3", "JavaScript", "RWD", "i18n"]
+            }
+        },
+        {
+            "id": 2,
+            "tags": ["backend", "mobile"],
+            "link": "https://example.com/project-b",
+            "image": "https://via.placeholder.com/300x180/008080/FFFFFF?text=Project+B",
+            
+            "zh-TW": {
+                "title": "即時聊天應用程式後端",
+                "description": "基於 Node.js 構建，利用 WebSocket 實現高併發即時通訊功能。",
+                "tools": ["Node.js", "Express", "MongoDB", "WebSocket", "iOS/Android"]
+            },
+            "en": {
+                "title": "Real-time Chat App Backend",
+                "description": "Built on Node.js, utilizing WebSocket for high-concurrency real-time communication.",
+                "tools": ["Node.js", "Express", "MongoDB", "WebSocket", "iOS/Android"]
+            },
+            "ko": {
+                "title": "실시간 채팅 앱 백엔드",
+                "description": "Node.js 기반으로 구축되었으며, WebSocket을 활용하여 고동시성 실시간 통신을 구현했습니다.",
+                "tools": ["Node.js", "Express", "MongoDB", "WebSocket", "iOS/Android"]
+            },
+            "ja": {
+                "title": "リアルタイムチャットアプリのバックエンド",
+                "description": "Node.js で構築され、WebSocket を利用して高並行性のリアルタイム通信を実現しました。",
+                "tools": ["Node.js", "Express", "MongoDB", "WebSocket", "iOS/Android"]
+            }
+        }
+        // ... 更多作品項目
+    ]
 }
