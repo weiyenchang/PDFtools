@@ -84,12 +84,13 @@
     "projects": [
         {
             "id": 1,
-            "tags": ["frontend", "design"],
+            "tags": ["Vibe Coding"],
             "link": "https://example.com/project-a",
-            "image": "https://images.cakeresume.com/post-images/efc6ec9c-0022-4ee5-9078-ce1ffb96c2e4.png",
+            "youtubeId": "tZpV4a8xNG0",
+            "image":["https://images.cakeresume.com/post-images/11203f41-e18a-4647-8d2e-38964974524b.png", "https://images.cakeresume.com/post-images/d3a0b6c8-9f4e-465f-afeb-b6c95d906894.png", "url_img3"],
             
             "zh-TW": {
-                "title": "響應式作品集網站",
+                "title": "PDF浮水印工具",
                 "description": "使用原生 HTML/CSS/JS 實現，具備 RWD 和多語言切換功能。",
                 "tools": ["HTML5", "CSS3", "JavaScript", "RWD", "i18n"]
             },
@@ -111,6 +112,33 @@
         },
         {
             "id": 2,
+            "tags": ["backend", "mobile"],
+            "link": "https://example.com/project-b",
+            "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEif4bSVT55ilLeQqAzaQLMrrB-sWmhVBfMWCWyXuceE-xG0iIxSQ_eMZz1EjIgAMz-zgcUGTq9aziDbFssWquxadjK6OGKcEQUdYg3OzuWbKQmXSLBNc7Lo8lsRFw16vNzkov-qo4lcE6iJYOajki49zZb5IVcYB_yysaE9-W23LRfcYjPaAkNMt03yMnk/s995/Blog-Book-Cover%20Template%20(3).001.jpeg",
+            
+            "zh-TW": {
+                "title": "即時聊天應用程式後端",
+                "description": "基於 Node.js 構建，利用 WebSocket 實現高併發即時通訊功能。",
+                "tools": ["Node.js", "Express", "MongoDB", "WebSocket", "iOS/Android"]
+            },
+            "en": {
+                "title": "Real-time Chat App Backend",
+                "description": "Built on Node.js, utilizing WebSocket for high-concurrency real-time communication.",
+                "tools": ["Node.js", "Express", "MongoDB", "WebSocket", "iOS/Android"]
+            },
+            "ko": {
+                "title": "실시간 채팅 앱 백엔드",
+                "description": "Node.js 기반으로 구축되었으며, WebSocket을 활용하여 고동시성 실시간 통신을 구현했습니다.",
+                "tools": ["Node.js", "Express", "MongoDB", "WebSocket", "iOS/Android"]
+            },
+            "ja": {
+                "title": "リアルタイムチャットアプリのバックエンド",
+                "description": "Node.js で構築され、WebSocket を利用して高並行性のリアルタイム通信を実現しました。",
+                "tools": ["Node.js", "Express", "MongoDB", "WebSocket", "iOS/Android"]
+            }
+        },
+        {
+            "id": 3,
             "tags": ["backend", "mobile"],
             "link": "https://example.com/project-b",
             "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEif4bSVT55ilLeQqAzaQLMrrB-sWmhVBfMWCWyXuceE-xG0iIxSQ_eMZz1EjIgAMz-zgcUGTq9aziDbFssWquxadjK6OGKcEQUdYg3OzuWbKQmXSLBNc7Lo8lsRFw16vNzkov-qo4lcE6iJYOajki49zZb5IVcYB_yysaE9-W23LRfcYjPaAkNMt03yMnk/s995/Blog-Book-Cover%20Template%20(3).001.jpeg",
