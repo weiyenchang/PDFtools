@@ -86,7 +86,7 @@
             "id": 1,
             "tags": ["frontend", "design"],
             "link": "https://example.com/project-a",
-            "image": "https://via.placeholder.com/300x180/4682B4/FFFFFF?text=Project+A",
+            "image": "https://images.cakeresume.com/post-images/efc6ec9c-0022-4ee5-9078-ce1ffb96c2e4.png",
             
             "zh-TW": {
                 "title": "響應式作品集網站",
@@ -113,7 +113,7 @@
             "id": 2,
             "tags": ["backend", "mobile"],
             "link": "https://example.com/project-b",
-            "image": "https://via.placeholder.com/300x180/008080/FFFFFF?text=Project+B",
+            "image": "https://images.cakeresume.com/post-images/8e6f2786-fe2e-406c-8b76-035a952006e1.png",
             
             "zh-TW": {
                 "title": "即時聊天應用程式後端",
