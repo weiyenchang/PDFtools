@@ -86,7 +86,7 @@
             "id": 1,
             "tags": ["Vibe Coding"],
             "link": "https://example.com/project-a",
-            "youtubeId": "tZpV4a8xNG0",
+            "youtubeId": "",
             "image":["https://images.cakeresume.com/post-images/11203f41-e18a-4647-8d2e-38964974524b.png", "https://images.cakeresume.com/post-images/d3a0b6c8-9f4e-465f-afeb-b6c95d906894.png", "url_img3"],
             
             "zh-TW": {
@@ -112,7 +112,7 @@
         },
         {
             "id": 2,
-            "tags": ["backend", "mobile"],
+            "tags": ["閱讀筆記"],
             "link": "https://example.com/project-b",
             "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEif4bSVT55ilLeQqAzaQLMrrB-sWmhVBfMWCWyXuceE-xG0iIxSQ_eMZz1EjIgAMz-zgcUGTq9aziDbFssWquxadjK6OGKcEQUdYg3OzuWbKQmXSLBNc7Lo8lsRFw16vNzkov-qo4lcE6iJYOajki49zZb5IVcYB_yysaE9-W23LRfcYjPaAkNMt03yMnk/s995/Blog-Book-Cover%20Template%20(3).001.jpeg",
             
@@ -139,7 +139,7 @@
         },
         {
             "id": 3,
-            "tags": ["backend", "mobile"],
+            "tags": ["3D"],
             "link": "https://example.com/project-b",
             "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEif4bSVT55ilLeQqAzaQLMrrB-sWmhVBfMWCWyXuceE-xG0iIxSQ_eMZz1EjIgAMz-zgcUGTq9aziDbFssWquxadjK6OGKcEQUdYg3OzuWbKQmXSLBNc7Lo8lsRFw16vNzkov-qo4lcE6iJYOajki49zZb5IVcYB_yysaE9-W23LRfcYjPaAkNMt03yMnk/s995/Blog-Book-Cover%20Template%20(3).001.jpeg",
             
