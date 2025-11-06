@@ -90,7 +90,6 @@
             border-radius: 50%;
             object-fit: cover;
             margin-bottom: 15px;
-            border: 2px solid var(--color-border);
             box-shadow: var(--shadow-light);
         }
 
@@ -141,6 +140,7 @@
         .search-box {
             flex-grow: 1; 
             position: relative;
+            display:none;
         }
 
         #search-input {
@@ -664,11 +664,11 @@
 <body>
     <div class="container">
         <div class="header">
-            <select id="language-select">
+            <select style="display: none;" id="language-select">
                 <option value="zh-TW">中文 (繁體)</option>
-                <option value="en">English</option>
-                <option value="ko">한국어</option>
-                <option value="ja">日本語</option>
+                <option value="en" style="display:none;">English</option>
+                <option value="ko" style="display:none;">한국어</option>
+                <option value="ja" style="display:none;">日本語</option>
             </select>
 
             <button id="mode-toggle" class="control-button" title="切換深色/淺色模式">
@@ -678,8 +678,8 @@
     
         <header>
             <img src="https://media.licdn.com/dms/image/v2/D5603AQG98b3MYM07BQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1682776887639?e=1763596800&v=beta&t=hcX2O6E1ovSGXJC_1R3ZmbZwLCobt1ZIPG996FgN0Rc" alt="個人頭像" class="profile-img">
-            <h1 id="header-name">Wei-Yen Chang</h1>
-            <p id="header-subtitle">課程開發｜知識管理｜跨領域學習 ｜AI 應用</p>
+            <h1 id="header-name">Wei-Yen Chang (Wei)</h1>
+            <p id="header-subtitle">Course Development | Knowledge Management | Cross-domain learning | AI Applications</p>
 
             <div class="social-links">
                 <a href="https://www.linkedin.com/in/weiyenchang/" target="_blank" class="social-link" title="LinkedIn">
@@ -720,7 +720,7 @@
         </main>
 
         <footer>
-            <p id="footer-text">&copy; 2025 您的姓名. All rights reserved.</p>
+            <p id="footer-text">&copy; 2025-2026 Wei-Yen Chang. All rights reserved.</p>
         </footer>
     </div>
     
