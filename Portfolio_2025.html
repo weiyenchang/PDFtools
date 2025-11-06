@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>您的姓名 - Vibe Coding 作品集</title>
+    <title>Wei-Yen Chang Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
-    <link rel="icon" type="image/x-icon" href="https://weiyenchang.github.io/portfolio/w_favicon.png">
 <style>
         /* --------------------
             內部 CSS (無印風格樣式)
@@ -15,7 +14,7 @@
             /* Light Mode Variables */
             --color-primary-text: #333;
             --color-secondary-text: #666;
-            --color-background: #FCFBFC;
+            --color-background: #fcfcfc;
             --color-button-bg: #fcfcfc;
             --color-button-hover: #ddd;
             --color-border: #ccc;
@@ -558,6 +557,10 @@
             font-size: 1rem;
             color: var(--color-secondary-text);
         }
+        /* 隱藏空數據項目的樣式 */
+        .modal-details p.hidden-if-empty {
+            display: none;
+        }
 
         .modal-details strong {
             color: var(--color-primary-text);
@@ -571,6 +574,10 @@
             gap: 8px;
             margin-top: 10px;
             margin-bottom: 20px;
+        }
+        /* 隱藏空工具欄的樣式 */
+        .modal-details .tools-wrapper.hidden-if-empty {
+            display: none;
         }
 
         .tool-tag {
@@ -628,7 +635,7 @@
             }
             /* 調整頂部語言/模式切換的 flex 佈局 */
             .header {
-                justify-content: none;
+                justify-content: space-between;
                 /* RWD 調整，讓 Select 和 Mode Button 對齊 */
             }
             #language-select {
@@ -658,10 +665,10 @@
     <div class="container">
         <div class="header">
             <select id="language-select">
-                <option selected="selected" value="zh-TW">中文 (繁體)</option>
+                <option value="zh-TW">中文 (繁體)</option>
                 <option value="en">English</option>
-                <!--<option value="ko">한국어</option>
-                <option value="ja">日本語</option>-->
+                <option value="ko">한국어</option>
+                <option value="ja">日本語</option>
             </select>
 
             <button id="mode-toggle" class="control-button" title="切換深色/淺色模式">
@@ -670,8 +677,8 @@
         </div>
     
         <header>
-            <!--<img src="https://media.licdn.com/dms/image/v2/D5603AQG98b3MYM07BQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1682776887639?e=1763596800&v=beta&t=hcX2O6E1ovSGXJC_1R3ZmbZwLCobt1ZIPG996FgN0Rc" alt="個人頭像" class="profile-img">-->
-            <h1 id="header-name">張瑋晏</h1>
+            <img src="https://media.licdn.com/dms/image/v2/D5603AQG98b3MYM07BQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1682776887639?e=1763596800&v=beta&t=hcX2O6E1ovSGXJC_1R3ZmbZwLCobt1ZIPG996FgN0Rc" alt="個人頭像" class="profile-img">
+            <h1 id="header-name">Wei-Yen Chang</h1>
             <p id="header-subtitle">課程開發｜知識管理｜跨領域學習 ｜AI 應用</p>
 
             <div class="social-links">
@@ -692,8 +699,8 @@
 
         <div class="top-controls">
             <div class="search-box">
-                <input type="text" id="search-input" style="display:none" placeholder="搜尋作品名稱或描述...">
-                <i class="fas fa-search search-icon" style="display:none" ></i>
+                <input type="text" id="search-input" placeholder="搜尋作品名稱或描述...">
+                <i class="fas fa-search search-icon"></i>
             </div>
             <div class="controls">
                 <button id="list-view-btn" class="control-button active" title="列表模式"><i class="fas fa-list"></i></button>
@@ -723,14 +730,14 @@
             
             <div class="modal-header">
                 <div id="modal-media-container" class="modal-media-container">
-                    <div id="carousel-indicator-wrapper"></div>
-                </div>
+                    </div>
                 <h3 id="modal-title"></h3>
             </div>
 
             <div class="modal-details">
-                <p><strong id="modal-desc-label">簡短說明：</strong><span id="modal-description"></span></p>
-                <p><strong id="modal-tools-label">使用工具：</strong>
+                <p id="modal-description-wrapper"><strong id="modal-desc-label">簡短說明：</strong><span id="modal-description"></span></p>
+                
+                <p id="modal-tools-wrapper" class="tools-wrapper"><strong id="modal-tools-label">使用工具：</strong>
                     <div id="modal-tools" class="tools">
                         </div>
                 </p>
@@ -739,7 +746,7 @@
         </div>
     </div>
 
-    <script>
+<script>
     // --------------------
     // JavaScript for All Interactions and Data Management
     // --------------------
@@ -748,6 +755,8 @@
     let projectsData = []; // Will store the fetched project data
     let i18n = {}; // Will store the fetched language data
     let currentLang = localStorage.getItem('portfolioLang') || 'zh-TW';
+    // 獲取當前網頁的原始 URL（用於 YouTube origin 參數）
+    const CURRENT_ORIGIN = window.location.origin;
 
     document.addEventListener('DOMContentLoaded', () => {
         const portfolioItemsContainer = document.getElementById('portfolio-items');
@@ -760,6 +769,10 @@
         const modalCloseBtn = document.getElementById('modal-close-btn');
         const languageSelect = document.getElementById('language-select');
         const modalMediaContainer = document.getElementById('modal-media-container');
+
+        // 獲取 modal 內需隱藏的容器
+        const modalDescWrapper = document.getElementById('modal-description-wrapper');
+        const modalToolsWrapper = document.getElementById('modal-tools-wrapper');
 
 
         let currentView = localStorage.getItem('portfolioView') || 'list';
@@ -874,7 +887,7 @@
             });
         }
 
-        // --- 5. 渲染作品項目 (修正縮圖邏輯) ---
+        // --- 5. 渲染作品項目 (縮圖邏輯) ---
         function renderProjects(projects) {
             portfolioItemsContainer.innerHTML = '';
             projects.forEach(project => {
@@ -894,7 +907,7 @@
                 const titleText = currentLangContent.title;
                 const descText = currentLangContent.description;
                 
-                // 修正縮圖邏輯：優先使用 images[0]，其次 youtubeID，最後才是 image (單圖)
+                // 縮圖邏輯：優先使用 images[0]，其次 youtubeID，最後才是 image (單圖)
                 let thumbnailSrc = "https://via.placeholder.com/100x80/E0E0E0/444444?text=No+Preview"; 
                 if (Array.isArray(project.images) && project.images.length > 0) {
                     thumbnailSrc = project.images[0]; // 使用多圖陣列中的第一張
@@ -939,7 +952,7 @@
         searchInput.addEventListener('input', filterAndRenderProjects);
 
 
-        // --- 7. 作品細節彈窗 (Modal) 功能 (修正多媒體邏輯與新增圓圈導航) ---
+        // --- 7. 作品細節彈窗 (Modal) 功能 (修正 Youtube 網域 & 隱藏空數據) ---
         function openModal(project) {
             const currentLangContent = project[currentLang] || project['zh-TW'];
             const currentI18n = i18n[currentLang] || i18n['zh-TW'];
@@ -948,10 +961,12 @@
             modalMediaContainer.innerHTML = '';
             
             if (project.youtubeId) {
-                // 情況 1: 嵌入 YouTube 影片
+                // 情況 1: 嵌入 YouTube 影片 (修正錯誤 153: 使用 youtube-nocookie.com 隱私網域)
+                const embedUrl = `https://www.youtube-nocookie.com/embed/${project.youtubeId}?modestbranding=1&rel=0&showinfo=0&origin=${CURRENT_ORIGIN}`;
+
                 modalMediaContainer.innerHTML = `
                     <div class="media-video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/${project.youtubeId}" 
+                        <iframe src="${embedUrl}" 
                             frameborder="0" 
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                             allowfullscreen>
@@ -1038,12 +1053,31 @@
             toolsContainer.innerHTML = '';
             const toolsList = currentLangContent.tools || project['zh-TW'].tools; 
 
-            toolsList.forEach(tool => {
-                const tag = document.createElement('span');
-                tag.className = 'tool-tag';
-                tag.textContent = tool;
-                toolsContainer.appendChild(tag);
-            });
+            // **修復 2A: 隱藏空的 Description 欄位**
+            const descriptionContent = currentLangContent.description;
+            if (!descriptionContent || descriptionContent.trim() === "") {
+                modalDescWrapper.style.display = 'none';
+            } else {
+                modalDescWrapper.style.display = 'block'; // 確保非空時顯示
+            }
+            
+
+            // **修復 2B: 隱藏空的 Tools 欄位**
+            // 檢查是否為空陣列或包含空字串
+            const effectiveTools = Array.isArray(toolsList) ? toolsList.filter(t => t && t.trim()) : [];
+
+            if (effectiveTools.length === 0) {
+                modalToolsWrapper.style.display = 'none';
+            } else {
+                modalToolsWrapper.style.display = 'block'; // 確保非空時顯示
+                // 填充工具標籤
+                effectiveTools.forEach(tool => {
+                    const tag = document.createElement('span');
+                    tag.className = 'tool-tag';
+                    tag.textContent = tool;
+                    toolsContainer.appendChild(tag);
+                });
+            }
 
             modalOverlay.classList.add('active');
             document.body.style.overflow = 'hidden'; 
