@@ -93,7 +93,7 @@
                 ],
             
             "zh-TW": {
-                "title": "PDF 浮水印工具 - 編輯浮水印文字",
+                "title": "PDF 浮水印工具 ①",
                 "description": "使用者可以自行編輯浮水印文字，並幫 PDF 文件上浮水印。",
                 "tools": ["ChatGPT", "Genmini", "HTML/CSS/JavaScript"]
             },
@@ -122,7 +122,7 @@
                  "https://images.cakeresume.com/post-images/41496fc5-f673-4e29-8de6-fd098aa1491c.png"
                 ],
             "zh-TW": {
-                "title": "PDF 浮水印工具 - 上傳浮水印圖片",
+                "title": "PDF 浮水印工具 ②",
                 "description": "使用者可以透過上傳品牌浮水印圖片，為 PDF 文件上浮水印。",
                 "tools": ["ChatGPT", "Genmini", "HTML/CSS/JavaScript"]
             },
@@ -203,7 +203,7 @@
             "link": "",
             "images":"",
             "zh-TW": {
-                "title": "Humbar MyBooking App 說明影片 ",
+                "title": "MyBooking App 說明影片 ",
                 "description": "MyBooking App 協助 Humber College 學生能一站式的預約學校的各項服務，除了幫助學生管理預約的服務，也增進學校資源使用效率。 ",
                 "tools": ["After Effect"]
             },
@@ -257,8 +257,8 @@
             "link": "",
             "images":"",
             "zh-TW": {
-                "title": "加拿大ADM 品牌影片設計 - 學員見證影片",
-                "description": "",
+                "title": "加拿大ADM 品牌影片設計 ① ",
+                "description": "學員見證影片",
                 "tools": ["Premiere","After Effect"]
             },
             "en": {
@@ -284,8 +284,8 @@
             "link": "",
             "images":"",
             "zh-TW": {
-                "title": "加拿大ADM 品牌影片設計 - 資訊說明影片",
-                "description": "",
+                "title": "加拿大ADM 品牌影片設計 ②",
+                "description": " 什麼是 Express Entry 快速移民說明影片",
                 "tools": ["Premiere","After Effect"]
             },
             "en": {
