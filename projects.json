@@ -200,7 +200,7 @@
             "id": 5,
             "tags": ["Video"],
             "youtubeId":"i69PjLwFwac",
-            "link": "",
+            "link": "https://youtu.be/i69PjLwFwac",
             "images":"",
             "zh-TW": {
                 "title": "MyBooking App 說明影片 ",
@@ -227,7 +227,7 @@
             "id": 6,
             "tags": ["Video"],
             "youtubeId":"v4MasQD3Mso",
-            "link": "",
+            "link": "https://youtu.be/v4MasQD3Mso",
             "images":"",
             "zh-TW": {
                 "title": "MealOne 品牌影片設計",
@@ -254,7 +254,7 @@
             "id": 7,
             "tags": ["Video"],
             "youtubeId":"CbJELyKDnoM",
-            "link": "",
+            "link": "https://youtu.be/CbJELyKDnoM?si=YHgQ4NpOV4VTBlWm",
             "images":"",
             "zh-TW": {
                 "title": "加拿大ADM 品牌影片設計 ① ",
@@ -281,7 +281,7 @@
             "id": 8,
             "tags": ["Video"],
             "youtubeId":"D6NKcOkikGU",
-            "link": "",
+            "link": "https://www.youtube.com/watch?v=D6NKcOkikGU",
             "images":"",
             "zh-TW": {
                 "title": "加拿大ADM 品牌影片設計 ②",
@@ -338,7 +338,7 @@
         {
             "id": 10,
             "tags": ["Illustration"],
-            "link": "",
+            "link": "https://www.cake.me/portfolios/keynote-illustartion",
             "images":[
                  "https://images.cakeresume.com/post-images/df8ea505-8ee5-4bca-8c57-cfa267ce37f7.png", 
                  "https://images.cakeresume.com/post-images/0d64d809-bee8-4171-8f4f-2879b3a5ef1e.png",
