@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wei-Yen Chang Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
+<style>
+        /* --------------------
+            內部 CSS (無印風格樣式)
+        -------------------- */
+        :root {
+            /* Light Mode Variables */
+            --color-primary-text: #333;
+            --color-secondary-text: #666;
+            --color-background: #fcfcfc;
+            --color-button-bg: #fcfcfc;
+            --color-button-hover: #ddd;
+            --color-border: #ccc;
+            --color-card-bg: #fff;
+            --color-icon: #888; /* 社交媒體圖標預設顏色 */
+            --color-tag: #e0e0e0; 
+            --color-tag-active: #444;
+            --color-modal-overlay: rgba(252, 252, 252, 0.95);
+            --shadow-light: 0 2px 5px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Dark Mode Variables */
+        html.dark-mode {
+            --color-primary-text: #f0f0f0;
+            --color-secondary-text: #b0b0b0;
+            --color-background: #222222;
+            --color-button-bg: #3a3a3a;
+            --color-button-hover: #4a4a4a;
+            --color-border: #555;
+            --color-card-bg: #333333;
+            --color-icon: #b0b0b0;
+            --color-tag: #4a4a4a;
+            --color-tag-active: #f0f0f0;
+            --color-modal-overlay: rgba(34, 34, 34, 0.95);
+            --shadow-light: 0 2px 5px rgba(0, 0, 0, 0.2);
+            --shadow-hover: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-primary-text);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column; 
+            align-items: center; 
+            padding: 20px;
+            min-height: 100vh; 
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* --------------------
+            主要容器
+        -------------------- */
+        .container {
+            width: 100%;
+            max-width: 960px;
+            padding: 40px 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* --------------------
+            頁首 Header
+        -------------------- */
+        header {
+            margin-bottom: 30px;
+            width: 100%;
+        }
+
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow-light);
+        }
+
+        h1 {
+            font-weight: 700;
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: var(--color-secondary-text);
+            font-size: 1.1rem;
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+
+        /* 社群媒體連結 */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px; 
+        }
+
+        .social-link {
+            color: var(--color-icon);
+            font-size: 1.6rem;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        .social-link:hover {
+            color: var(--color-primary-text);
+            transform: translateY(-2px);
+        }
+
+        /* --------------------
+            搜尋與控制區塊
+        -------------------- */
+        .top-controls {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .search-box {
+            flex-grow: 1; 
+            position: relative;
+            visibility: hidden;
+        }
+
+        #search-input {
+            width: 100%;
+            padding: 10px 15px;
+            padding-right: 40px; 
+            border: 1px solid var(--color-border);
+            border-radius: 5px;
+            font-size: 1rem;
+            background-color: var(--color-card-bg);
+            color: var(--color-primary-text);
+            transition: border-color 0.3s ease;
+        }
+
+        #search-input:focus {
+            outline: none;
+            border-color: var(--color-primary-text);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-icon);
+            pointer-events: none;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative; /* For dropdown positioning */
+        }
+
+        .control-button {
+            background: var(--color-button-bg);
+            border: 1px solid var(--color-border);
+            color: var(--color-primary-text);
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .control-button:hover {
+            background-color: var(--color-button-hover);
+        }
+
+        .control-button.active {
+            background-color: var(--color-primary-text);
+            color: var(--color-background);
+            border-color: var(--color-primary-text);
+        }
+        
+        /* 頂部語言/模式切換區塊樣式 */
+        .header {
+            display: flex;
+            width: 100%;
+            justify-content: flex-end;
+            align-items: center; /* 確保 select 和 button 對齊 */
+            margin-bottom: 10px;
+        }
+
+        .header .control-button {
+            margin-left: 5px;
+            border: none;
+        }
+
+        /* 語言切換 Select 樣式 */
+        #language-select {
+            padding: 8px 12px;
+            border: 1px solid var(--color-border);
+            border-radius: 5px;
+            background-color: var(--color-button-bg);
+            color: var(--color-primary-text);
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            outline: none;
+            margin-right: 5px;
+            appearance: none; /* 移除原生樣式 */
+        }
+        
+        /* 模式切換圖標的專門樣式 */
+        #mode-toggle {
+            font-size: 1.2rem;
+            padding: 8px 12px;
+        }
+        #mode-toggle i { color: var(--color-icon); }
+        html.dark-mode #mode-toggle i.fa-sun { display: none; }
+        html:not(.dark-mode) #mode-toggle i.fa-moon { display: none; }
+        
+        /* --------------------
+            標籤雲區塊
+        -------------------- */
+        .tag-cloud {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 40px;
+        }
+
+        .tag-button {
+            background-color: var(--color-tag);
+            color: var(--color-primary-text);
+            padding: 6px 12px;
+            border-radius: 20px; 
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .tag-button:hover {
+            background-color: var(--color-button-hover);
+        }
+
+        .tag-button.active {
+            background-color: var(--color-tag-active);
+            color: var(--color-background);
+            border-color: var(--color-primary-text);
+        }
+
+        /* --------------------
+            作品連結區塊
+        -------------------- */
+        .links-section {
+            width: 100%;
+        }
+
+        .links-section h2 {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--color-primary-text);
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .links-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 2px;
+            background-color: var(--color-border);
+        }
+
+        .portfolio-items {
+            display: flex;
+            flex-direction: column; 
+            gap: 20px;
+            width: 100%;
+        }
+
+        /* Grid 模式樣式：三欄 */
+        .portfolio-items.grid-view {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 20px;
+        }
+
+        .portfolio-item {
+            display: flex; 
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: var(--color-primary-text);
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 15px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
+            box-shadow: var(--shadow-light);
+            text-align: left; 
+            overflow: hidden; 
+            cursor: pointer;
+        }
+        
+        .portfolio-item.hidden {
+            display: none !important;
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .portfolio-item.grid-view {
+            flex-direction: column; 
+            text-align: center;
+            justify-content: flex-start;
+            height: 100%; 
+            padding: 0; 
+        }
+
+        .portfolio-thumbnail {
+            width: 100px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+            border: 1px solid var(--color-border);
+        }
+
+        .portfolio-item.grid-view .portfolio-thumbnail {
+            width: 100%;
+            height: 180px;
+            border-radius: 8px 8px 0 0;
+            border: none;
+            box-shadow: inset 0 -2px 5px rgba(0,0,0,0.05);
+        }
+
+        .portfolio-content {
+            flex-grow: 1; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            padding-right: 5px; 
+        }
+
+        .portfolio-item.grid-view .portfolio-content {
+            padding: 15px; 
+            padding-top: 10px;
+            text-align: center;
+        }
+
+        .portfolio-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            line-height: 1.4;
+            color: var(--color-primary-text);
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .portfolio-description {
+            font-size: 0.9rem;
+            color: var(--color-secondary-text);
+            font-weight: 300;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* --------------------
+            頁腳 Footer
+        -------------------- */
+        footer {
+            margin-top: auto; 
+            padding-top: 30px;
+            text-align: center;
+            width: 100%;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+            color: var(--color-secondary-text);
+            font-weight: 300;
+        }
+
+        /* --------------------
+            作品細節彈窗 (Modal Overlay)
+        -------------------- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--color-modal-overlay);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: var(--color-card-bg);
+            color: var(--color-primary-text);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            text-align: left;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 2rem;
+            color: var(--color-icon);
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: color 0.2s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--color-primary-text);
+        }
+
+        .modal-header h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        /* Modal Media Container Styles for Multi-image/Video */
+        .modal-media-container {
+            width: 100%;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            border: 1px solid var(--color-border);
+            overflow: hidden;
+            position: relative; /* 確保指示器能相對定位 */
+        }
+
+        .media-carousel {
+            display: flex;
+            overflow-x: auto; /* Enable horizontal scrolling for multiple images */
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Hide scrollbar for Firefox */
+            position: relative;
+        }
+
+        .media-carousel::-webkit-scrollbar {
+            display: none; /* Hide scrollbar for Chrome/Safari */
+        }
+
+        .media-item {
+            flex: 0 0 100%; /* Each item takes full width */
+            scroll-snap-align: start;
+            max-height: 350px;
+            min-height: 250px;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        .media-video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+        }
+
+        .media-video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 輪播指示器/圓圈樣式 */
+        .carousel-indicators {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            padding: 5px;
+            background-color: rgba(0, 0, 0, 0.2); /* 圓圈背景，使其在圖片上更清晰 */
+            border-radius: 10px;
+            z-index: 100;
+        }
+
+        .indicator-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .indicator-dot.active {
+            background-color: var(--color-background); /* 使用淺色/白色在深色背景上凸顯 */
+            transform: scale(1.2);
+        }
+        /* End Modal Media Container Styles */
+
+
+        .modal-details p {
+            margin-bottom: 10px;
+            font-size: 1rem;
+            color: var(--color-secondary-text);
+        }
+        /* 隱藏空數據項目的樣式 */
+        .modal-details p.hidden-if-empty {
+            display: none;
+        }
+
+        .modal-details strong {
+            color: var(--color-primary-text);
+            font-weight: 500;
+            margin-right: 5px;
+        }
+
+        .modal-details .tools {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+        /* 隱藏空工具欄的樣式 */
+        .modal-details .tools-wrapper.hidden-if-empty {
+            display: none;
+        }
+
+        .tool-tag {
+            background-color: var(--color-tag);
+            color: var(--color-primary-text);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        .modal-link-btn {
+            display: inline-block;
+            text-decoration: none;
+            background-color: var(--color-primary-text);
+            color: var(--color-background);
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: opacity 0.2s ease;
+        }
+
+        .modal-link-btn:hover {
+            opacity: 0.8;
+        }
+        
+        /* --------------------
+            RWD (行動裝置適應性)
+        -------------------- */
+        @media (max-width: 960px) {
+            .portfolio-items.grid-view {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px 15px;
+            }
+            .top-controls {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 15px;
+            }
+            /* 讓搜尋框佔滿寬度 */
+            .search-box {
+                order: 1;
+            }
+            /* 讓列表/網格控制按鈕在底部或中間 */
+            .controls {
+                order: 2;
+                justify-content: space-around;
+                width: 100%;
+            }
+            .controls button {
+                flex: 1 1 auto;
+            }
+            /* 調整頂部語言/模式切換的 flex 佈局 */
+            .header {
+                justify-content: space-between;
+                /* RWD 調整，讓 Select 和 Mode Button 對齊 */
+            }
+            #language-select {
+                order: 1;
+            }
+            #mode-toggle {
+                order: 2;
+            }
+            .portfolio-items.grid-view {
+                grid-template-columns: 1fr;
+            }
+            .modal-content {
+                padding: 20px;
+            }
+            .modal-header h3 {
+                font-size: 1.5rem;
+            }
+            .modal-close {
+                font-size: 1.5rem;
+                top: 10px;
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <select style="display: none;" id="language-select">
+                <option value="zh-TW">中文 (繁體)</option>
+                <option value="en" style="display:none;">English</option>
+                <option value="ko" style="display:none;">한국어</option>
+                <option value="ja" style="display:none;">日本語</option>
+            </select>
+
+            <button id="mode-toggle" class="control-button" title="切換深色/淺色模式">
+                <i class="fas fa-sun"></i><i class="fas fa-moon"></i>
+            </button>
+        </div>
+    
+        <header>
+            <img src="https://media.licdn.com/dms/image/v2/D5603AQG98b3MYM07BQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1682776887639?e=1763596800&v=beta&t=hcX2O6E1ovSGXJC_1R3ZmbZwLCobt1ZIPG996FgN0Rc" alt="個人頭像" class="profile-img">
+            <h1 id="header-name">Wei-Yen Chang (Wei)</h1>
+            <p id="header-subtitle">課程設計 | 知識管理 | 跨領域學習 | AI 應用</p>
+
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/weiyenchang/" target="_blank" class="social-link" title="LinkedIn">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://weiyenchang.blogspot.com/" target="_blank" class="social-link" title="Blogger">
+                    <i class="fab fa-blogger-b"></i>
+                </a>
+                <a href="https://www.instagram.com/_weiyenchang/#" target="_blank" class="social-link" title="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://github.com/weiyenchang" target="_blank" class="social-link" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+        </header>
+
+        <div class="top-controls">
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="搜尋作品名稱或描述...">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+            <div class="controls">
+                <button id="list-view-btn" class="control-button active" title="列表模式"><i class="fas fa-list"></i></button>
+                <button id="grid-view-btn" class="control-button" title="網格模式"><i class="fas fa-th-large"></i></button>
+            </div>
+        </div>
+
+        <div id="tag-cloud" class="tag-cloud">
+            <button class="tag-button active" data-tag="all">全部作品</button>
+        </div>
+
+        <main class="links-section">
+            <h2 id="section-title">作品連結</h2>
+            
+            <div id="portfolio-items" class="portfolio-items list-view">
+                </div>
+        </main>
+
+        <footer>
+            <p id="footer-text">&copy; 2025-2026 Wei-Yen Chang. All rights reserved.</p>
+        </footer>
+    </div>
+    
+    <div id="project-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="modal-close-btn" class="modal-close">&times;</button>
+            
+            <div class="modal-header">
+                <div id="modal-media-container" class="modal-media-container">
+                    </div>
+                <h3 id="modal-title"></h3>
+            </div>
+
+            <div class="modal-details">
+                <p id="modal-description-wrapper"><strong id="modal-desc-label">說明：</strong><span id="modal-description"></span></p>
+                
+                <p id="modal-tools-wrapper" class="tools-wrapper"><strong id="modal-tools-label">工具：</strong>
+                    <div id="modal-tools" class="tools">
+                        </div>
+                </p>
+                <a id="modal-link" href="#" target="_blank" class="modal-link-btn">前往作品網站</a>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // --------------------
+    // JavaScript for All Interactions and Data Management
+    // --------------------
+
+    const PROJECTS_DATA_URL = 'https://weiyenchang.github.io/portfolio/projects.json';
+    let projectsData = []; // Will store the fetched project data
+    let i18n = {}; // Will store the fetched language data
+    let currentLang = localStorage.getItem('portfolioLang') || 'zh-TW';
+    // 獲取當前網頁的原始 URL（用於 YouTube origin 參數）
+    const CURRENT_ORIGIN = window.location.origin;
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const portfolioItemsContainer = document.getElementById('portfolio-items');
+        const tagCloud = document.getElementById('tag-cloud');
+        const searchInput = document.getElementById('search-input');
+        const listViewBtn = document.getElementById('list-view-btn');
+        const gridViewBtn = document.getElementById('grid-view-btn');
+        const modeToggleBtn = document.getElementById('mode-toggle');
+        const modalOverlay = document.getElementById('project-modal');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+        const languageSelect = document.getElementById('language-select');
+        const modalMediaContainer = document.getElementById('modal-media-container');
+
+        // 獲取 modal 內需隱藏的容器
+        const modalDescWrapper = document.getElementById('modal-description-wrapper');
+        const modalToolsWrapper = document.getElementById('modal-tools-wrapper');
+
+
+        let currentView = localStorage.getItem('portfolioView') || 'list';
+        let activeTag = 'all';
+
+        // --- 1. 數據獲取與初始化主流程 ---
+        async function fetchProjectsData() {
+            try {
+                const response = await fetch(PROJECTS_DATA_URL);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                projectsData = data.projects;
+                i18n = data.i18n;
+                await initialize();
+            } catch (error) {
+                console.error("Error fetching projects data:", error);
+                // Fallback to default/empty UI on failure
+            }
+        }
+        
+        async function initialize() {
+            // Initialize View & Dark Mode
+            setView(currentView); 
+            checkDarkMode();
+
+            // Initialize Language (Select element)
+            languageSelect.value = currentLang;
+            updateUILanguage(currentLang);
+
+            // Add change listener for language select
+            languageSelect.addEventListener('change', (e) => {
+                const newLang = e.target.value;
+                currentLang = newLang;
+                localStorage.setItem('portfolioLang', newLang);
+                updateUILanguage(newLang);
+            });
+            
+            // Initialize Projects
+            generateTags();
+            filterAndRenderProjects();
+        }
+
+        // --- 2. 佈局切換功能 (Layout Toggle) ---
+        function setView(view) {
+            const isGrid = view === 'grid';
+            portfolioItemsContainer.classList.toggle('grid-view', isGrid);
+            listViewBtn.classList.toggle('active', !isGrid);
+            gridViewBtn.classList.toggle('active', isGrid);
+            document.querySelectorAll('.portfolio-item').forEach(item => {
+                item.classList.toggle('grid-view', isGrid);
+            });
+            currentView = view;
+            localStorage.setItem('portfolioView', view);
+        }
+
+        listViewBtn.addEventListener('click', () => setView('list'));
+        gridViewBtn.addEventListener('click', () => setView('grid'));
+        
+        // --- 3. 語言切換功能 (Language Toggle) ---
+        function updateUILanguage(lang) {
+            // Update HTML lang attribute
+            document.documentElement.lang = lang;
+            
+            // Get translations for current language
+            const currentI18n = i18n[lang] || i18n['zh-TW']; // Fallback to zh-TW
+
+            // Update static UI elements
+            document.getElementById('search-input').placeholder = currentI18n.ui.searchInputPlaceholder;
+            document.getElementById('section-title').textContent = currentI18n.ui.sectionTitle;
+            document.getElementById('modal-desc-label').textContent = currentI18n.ui.modalDescLabel;
+            document.getElementById('modal-tools-label').textContent = currentI18n.ui.modalToolsLabel;
+            document.getElementById('modal-link').textContent = currentI18n.ui.modalLinkText;
+
+            // Update button titles (Accessibility)
+            listViewBtn.title = currentI18n.ui.listViewTitle;
+            gridViewBtn.title = currentI18n.ui.gridViewTitle;
+            modeToggleBtn.title = currentI18n.ui.modeToggleTitle;
+            
+            // Re-render tags and projects for new language content
+            generateTags();
+            filterAndRenderProjects();
+        }
+
+        // --- 4. 標籤雲與篩選功能 (Tags Filtering) ---
+        function generateTags() {
+            const currentI18n = i18n[currentLang] || i18n['zh-TW'];
+            const allTags = new Set(['all']);
+            projectsData.forEach(p => p.tags.forEach(tag => allTags.add(tag)));
+            
+            tagCloud.innerHTML = '';
+            allTags.forEach(tag => {
+                const btn = document.createElement('button');
+                btn.className = 'tag-button';
+                btn.dataset.tag = tag;
+                
+                // Use translated tag text if available, otherwise use original tag
+                const tagText = tag === 'all' ? currentI18n.ui.allProjectsTag : (currentI18n.tags[tag] || tag);
+
+                btn.textContent = tagText;
+                if (tag === activeTag) {
+                    btn.classList.add('active');
+                }
+                btn.addEventListener('click', () => {
+                    activeTag = tag;
+                    document.querySelectorAll('.tag-button').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    filterAndRenderProjects();
+                });
+                tagCloud.appendChild(btn);
+            });
+        }
+
+        // --- 5. 渲染作品項目 (縮圖邏輯) ---
+        function renderProjects(projects) {
+            portfolioItemsContainer.innerHTML = '';
+            projects.forEach(project => {
+                const currentLangContent = project[currentLang] || project['zh-TW']; // Fallback content
+                
+                const item = document.createElement('a');
+                item.href = "#"; // 點擊不導航，而是開啟彈窗
+                item.classList.add('portfolio-item');
+                item.classList.toggle('grid-view', currentView === 'grid');
+                item.dataset.projectId = project.id;
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openModal(project);
+                });
+
+                // 使用當前語言的內容
+                const titleText = currentLangContent.title;
+                const descText = currentLangContent.description;
+                
+                // 縮圖邏輯：優先使用 images[0]，其次 youtubeID，最後才是 image (單圖)
+                let thumbnailSrc = "https://via.placeholder.com/100x80/E0E0E0/444444?text=No+Preview"; 
+                if (Array.isArray(project.images) && project.images.length > 0) {
+                    thumbnailSrc = project.images[0]; // 使用多圖陣列中的第一張
+                } else if (project.youtubeId) {
+                    thumbnailSrc = `https://img.youtube.com/vi/${project.youtubeId}/mqdefault.jpg`;
+                } else if (project.image) {
+                    thumbnailSrc = project.image; // 使用舊版單圖欄位
+                }
+
+
+                item.innerHTML = `
+                    <img src="${thumbnailSrc}" alt="${titleText} 縮圖" class="portfolio-thumbnail">
+                    <div class="portfolio-content">
+                        <span class="portfolio-title">${titleText}</span>
+                        <span class="portfolio-description">${descText}</span>
+                    </div>
+                `;
+                portfolioItemsContainer.appendChild(item);
+            });
+        }
+
+        // --- 6. 篩選與搜尋主邏輯 ---
+        function filterAndRenderProjects() {
+            const searchText = searchInput.value.toLowerCase().trim();
+            const filteredProjects = projectsData.filter(project => {
+                const currentLangContent = project[currentLang] || project['zh-TW'];
+                
+                // 標籤篩選 (Tag filtering remains on the original tag keys)
+                const tagMatch = activeTag === 'all' || project.tags.includes(activeTag);
+                
+                // 搜尋篩選 (Search filtering on title or description of current language)
+                const searchMatch = currentLangContent.title.toLowerCase().includes(searchText) ||
+                                    currentLangContent.description.toLowerCase().includes(searchText);
+
+                return tagMatch && searchMatch;
+            });
+
+            renderProjects(filteredProjects);
+        }
+
+        // 監聽搜尋輸入
+        searchInput.addEventListener('input', filterAndRenderProjects);
+
+
+        // --- 7. 作品細節彈窗 (Modal) 功能 (修正 Youtube 網域 & 隱藏空數據) ---
+        function openModal(project) {
+            const currentLangContent = project[currentLang] || project['zh-TW'];
+            const currentI18n = i18n[currentLang] || i18n['zh-TW'];
+            
+            // --- 處理多媒體內容 ---
+            modalMediaContainer.innerHTML = '';
+            
+            if (project.youtubeId) {
+                // 情況 1: 嵌入 YouTube 影片 (修正錯誤 153: 使用 youtube-nocookie.com 隱私網域)
+                const embedUrl = `https://www.youtube-nocookie.com/embed/${project.youtubeId}?modestbranding=1&rel=0&showinfo=0&origin=${CURRENT_ORIGIN}`;
+
+                modalMediaContainer.innerHTML = `
+                    <div class="media-video-wrapper">
+                        <iframe src="${embedUrl}" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                `;
+            } else if (Array.isArray(project.images) && project.images.length > 0) {
+                // 情況 2: 顯示圖片輪播 (多圖)
+                const carouselHtml = project.images.map(imgSrc => `
+                    <img src="${imgSrc}" alt="${currentLangContent.title} 圖片" class="media-item">
+                `).join('');
+                
+                // 設置輪播主體
+                modalMediaContainer.innerHTML = `<div class="media-carousel">${carouselHtml}</div>`;
+                const carouselElement = modalMediaContainer.querySelector('.media-carousel');
+
+                if (project.images.length > 1) {
+                    // **生成圓圈指示器**
+                    const indicatorContainer = document.createElement('div');
+                    indicatorContainer.className = 'carousel-indicators';
+
+                    project.images.forEach((_, index) => {
+                        const dot = document.createElement('span');
+                        dot.className = 'indicator-dot';
+                        if (index === 0) dot.classList.add('active');
+                        
+                        // 點擊事件：滾動到對應圖片
+                        dot.addEventListener('click', () => {
+                            const scrollPosition = index * carouselElement.offsetWidth;
+                            carouselElement.scrollTo({
+                                left: scrollPosition,
+                                behavior: 'smooth'
+                            });
+                            updateIndicators(index, indicatorContainer);
+                        });
+                        indicatorContainer.appendChild(dot);
+                    });
+
+                    // 將指示器添加到媒體容器的頂層
+                    modalMediaContainer.appendChild(indicatorContainer);
+
+
+                    // 監聽滾動事件：自動更新圓圈狀態
+                    carouselElement.addEventListener('scroll', () => {
+                        const scrollLeft = carouselElement.scrollLeft;
+                        const itemWidth = carouselElement.offsetWidth;
+                        // 計算當前顯示的圖片索引 (四捨五入)
+                        const activeIndex = Math.round(scrollLeft / itemWidth);
+                        updateIndicators(activeIndex, indicatorContainer);
+                    });
+                    
+                } else {
+                    // 僅有一張圖片時，確保無滾動樣式
+                    if (carouselElement) {
+                        carouselElement.style.overflowX = 'hidden';
+                        carouselElement.style.scrollSnapType = 'none';
+                    }
+                }
+
+            } else if (project.image) {
+                // 情況 3: 單張舊版縮圖
+                modalMediaContainer.innerHTML = `<img src="${project.image}" alt="${currentLangContent.title}" class="media-item" style="max-height:350px; width:100%; object-fit:cover; border-radius:8px; border:none;">`;
+                
+            } else {
+                // 情況 4: 無媒體內容
+                modalMediaContainer.innerHTML = '';
+            }
+
+            // --- 更新指示器狀態的輔助函式 ---
+            function updateIndicators(activeIndex, container) {
+                container.querySelectorAll('.indicator-dot').forEach((dot, index) => {
+                    dot.classList.toggle('active', index === activeIndex);
+                });
+            }
+
+
+            // --- 處理文字內容 ---
+            document.getElementById('modal-title').textContent = currentLangContent.title;
+            document.getElementById('modal-description').textContent = currentLangContent.description;
+            document.getElementById('modal-link').href = project.link;
+            document.getElementById('modal-link').textContent = currentI18n.ui.modalLinkText;
+            
+            const toolsContainer = document.getElementById('modal-tools');
+            toolsContainer.innerHTML = '';
+            const toolsList = currentLangContent.tools || project['zh-TW'].tools; 
+
+            // **修復 2A: 隱藏空的 Description 欄位**
+            const descriptionContent = currentLangContent.description;
+            if (!descriptionContent || descriptionContent.trim() === "") {
+                modalDescWrapper.style.display = 'none';
+            } else {
+                modalDescWrapper.style.display = 'block'; // 確保非空時顯示
+            }
+            
+
+            // **修復 2B: 隱藏空的 Tools 欄位**
+            // 檢查是否為空陣列或包含空字串
+            const effectiveTools = Array.isArray(toolsList) ? toolsList.filter(t => t && t.trim()) : [];
+
+            if (effectiveTools.length === 0) {
+                modalToolsWrapper.style.display = 'none';
+            } else {
+                modalToolsWrapper.style.display = 'block'; // 確保非空時顯示
+                // 填充工具標籤
+                effectiveTools.forEach(tool => {
+                    const tag = document.createElement('span');
+                    tag.className = 'tool-tag';
+                    tag.textContent = tool;
+                    toolsContainer.appendChild(tag);
+                });
+            }
+
+            modalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+            // 停止播放影片 (清空容器即可停止 iframe 內容)
+            modalMediaContainer.innerHTML = '';
+        }
+
+        modalCloseBtn.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                closeModal();
+            }
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                closeModal();
+            }
+        });
+
+
+        // --- 8. Dark Mode Toggle (與前一版相同) ---
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark-mode');
+            const isDarkMode = document.documentElement.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
+            
+            // Update button title after toggle
+            const newTitle = document.documentElement.classList.contains('dark-mode') ? 
+                (i18n[currentLang]?.ui.modeToggleTitle || '切換深色/淺色模式') : 
+                (i18n[currentLang]?.ui.modeToggleTitle || '切換深色/淺色模式');
+            modeToggleBtn.title = newTitle;
+        }
+
+        function checkDarkMode() {
+            const savedDarkMode = localStorage.getItem('darkMode');
+            if (savedDarkMode === 'enabled' || (savedDarkMode === null && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark-mode');
+            }
+        }
+        
+        modeToggleBtn.addEventListener('click', toggleDarkMode);
+        
+        // Start fetching data
+        fetchProjectsData();
+    });
+</script>
+</body>
+</html>
