@@ -85,86 +85,608 @@
         {
             "id": 1,
             "tags": ["Vibe Coding"],
-            "link": "https://example.com/project-a",
+            "link": "https://weiyenchang.github.io/portfolio/EditWatermark.html",
             "youtubeId": "",
             "images":[
-                 "https://images.cakeresume.com/post-images/11203f41-e18a-4647-8d2e-38964974524b.png", 
-                 "https://images.cakeresume.com/post-images/d3a0b6c8-9f4e-465f-afeb-b6c95d906894.png"
+                 "https://images.cakeresume.com/post-images/a193b643-4f9f-4d24-affe-b2c5eeeb626e.png", 
+                 "https://images.cakeresume.com/post-images/b11bac3a-248a-4a1f-9314-5e85f7ffba15.png"
                 ],
             
             "zh-TW": {
-                "title": "PDF浮水印工具",
-                "description": "使用原生 HTML/CSS/JS 實現，具備 RWD 和多語言切換功能。",
-                "tools": ["HTML5", "CSS3", "JavaScript", "RWD", "i18n"]
+                "title": "PDF 浮水印工具 - 編輯浮水印文字",
+                "description": "使用者可以自行編輯浮水印文字，並幫 PDF 文件上浮水印。",
+                "tools": ["ChatGPT", "Genmini", "HTML/CSS/JavaScript"]
             },
             "en": {
-                "title": "Responsive Portfolio Website",
-                "description": "Implemented with native HTML/CSS/JS, featuring RWD and multi-language switching.",
-                "tools": ["HTML5", "CSS3", "JavaScript", "RWD", "i18n"]
+                "title": "Watermark - Custom Watermark Text",
+                "description": "Users can customize the watermark text and apply it to their PDF documents.",
+                "tools": ["ChatGPT", "Genmini", "HTML/CSS/JavaScript"]
             },
             "ko": {
                 "title": "반응형 포트폴리오 웹사이트",
                 "description": "네이티브 HTML/CSS/JS로 구현되었으며, RWD 및 다국어 전환 기능을 갖추고 있습니다.",
-                "tools": ["HTML5", "CSS3", "JavaScript", "RWD", "i18n"]
+                "tools": ["ChatGPT", "Genmini", "HTML/CSS/JavaScript"]
             },
             "ja": {
                 "title": "レスポンシブなポートフォリオサイト",
                 "description": "ネイティブ HTML/CSS/JS で実装され、RWD と多言語切り替え機能を備えています。",
-                "tools": ["HTML5", "CSS3", "JavaScript", "RWD", "i18n"]
+                "tools": ["ChatGPT", "Genmini", "HTML/CSS/JavaScript"]
             }
         },
         {
             "id": 2,
-            "tags": ["閱讀筆記"],
-            "link": "https://example.com/project-b",
-            "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEif4bSVT55ilLeQqAzaQLMrrB-sWmhVBfMWCWyXuceE-xG0iIxSQ_eMZz1EjIgAMz-zgcUGTq9aziDbFssWquxadjK6OGKcEQUdYg3OzuWbKQmXSLBNc7Lo8lsRFw16vNzkov-qo4lcE6iJYOajki49zZb5IVcYB_yysaE9-W23LRfcYjPaAkNMt03yMnk/s995/Blog-Book-Cover%20Template%20(3).001.jpeg",
-            
+            "tags": ["Vibe Coding"],
+            "link": "https://weiyenchang.github.io/portfolio/UploadWatermark.html",
+            "images":[
+                 "https://images.cakeresume.com/post-images/70eec1ab-e64b-46ea-846d-868cf9fe17cb.png", 
+                 "https://images.cakeresume.com/post-images/41496fc5-f673-4e29-8de6-fd098aa1491c.png"
+                ],
             "zh-TW": {
-                "title": "即時聊天應用程式後端",
-                "description": "基於 Node.js 構建，利用 WebSocket 實現高併發即時通訊功能。",
-                "tools": ["Node.js", "Express", "MongoDB", "WebSocket", "iOS/Android"]
+                "title": "PDF 浮水印工具 - 上傳浮水印圖片",
+                "description": "使用者可以透過上傳品牌浮水印圖片，為 PDF 文件上浮水印。",
+                "tools": ["ChatGPT", "Genmini", "HTML/CSS/JavaScript"]
             },
             "en": {
-                "title": "Real-time Chat App Backend",
-                "description": "Built on Node.js, utilizing WebSocket for high-concurrency real-time communication.",
-                "tools": ["Node.js", "Express", "MongoDB", "WebSocket", "iOS/Android"]
+                "title": "Watermark - Upload Watermark Image",
+                "description": "Users can upload a brand watermark image to watermark their PDF documents.",
+                "tools": ["ChatGPT", "Genmini", "HTML/CSS/JavaScript"]
             },
             "ko": {
                 "title": "실시간 채팅 앱 백엔드",
                 "description": "Node.js 기반으로 구축되었으며, WebSocket을 활용하여 고동시성 실시간 통신을 구현했습니다.",
-                "tools": ["Node.js", "Express", "MongoDB", "WebSocket", "iOS/Android"]
+                "tools": ["ChatGPT", "Genmini", "HTML/CSS/JavaScript"]
             },
             "ja": {
                 "title": "リアルタイムチャットアプリのバックエンド",
                 "description": "Node.js で構築され、WebSocket を利用して高並行性のリアルタイム通信を実現しました。",
-                "tools": ["Node.js", "Express", "MongoDB", "WebSocket", "iOS/Android"]
+                "tools": ["ChatGPT", "Genmini", "HTML/CSS/JavaScript"]
             }
         },
         {
             "id": 3,
-            "tags": ["3D"],
-            "link": "https://example.com/project-b",
-            "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEif4bSVT55ilLeQqAzaQLMrrB-sWmhVBfMWCWyXuceE-xG0iIxSQ_eMZz1EjIgAMz-zgcUGTq9aziDbFssWquxadjK6OGKcEQUdYg3OzuWbKQmXSLBNc7Lo8lsRFw16vNzkov-qo4lcE6iJYOajki49zZb5IVcYB_yysaE9-W23LRfcYjPaAkNMt03yMnk/s995/Blog-Book-Cover%20Template%20(3).001.jpeg",
+            "tags": ["Vibe Coding"],
+            "link": "https://weiyenchang.github.io/portfolio/EditPDF.html",
+            "image": "https://images.cakeresume.com/post-images/ee4fe132-23e5-4f11-8d85-f9fd1ed4d5a9.png",
             
             "zh-TW": {
-                "title": "即時聊天應用程式後端",
-                "description": "基於 Node.js 構建，利用 WebSocket 實現高併發即時通訊功能。",
-                "tools": ["Node.js", "Express", "MongoDB", "WebSocket", "iOS/Android"]
+                "title": "加註 PDF 工具",
+                "description": "當需要於 PDF 文檔上簡單註解文字、圖片、形狀時使用（例如：製作合約填寫範本、於合約上添加簽名檔等）。",
+                "tools": ["ChatGPT", "Genmini", "HTML/CSS/JavaScript"]
             },
             "en": {
-                "title": "Real-time Chat App Backend",
-                "description": "Built on Node.js, utilizing WebSocket for high-concurrency real-time communication.",
-                "tools": ["Node.js", "Express", "MongoDB", "WebSocket", "iOS/Android"]
+                "title": "Annotate PDF",
+                "description": "Perfect for user when they need to quickly mark up a PDF with text, images, or shapes. Use it to create sample forms, sign contracts, and more.",
+                "tools": ["ChatGPT", "Genmini", "HTML/CSS/JavaScript"]
             },
             "ko": {
                 "title": "실시간 채팅 앱 백엔드",
                 "description": "Node.js 기반으로 구축되었으며, WebSocket을 활용하여 고동시성 실시간 통신을 구현했습니다.",
-                "tools": ["Node.js", "Express", "MongoDB", "WebSocket", "iOS/Android"]
+                "tools": ["ChatGPT", "Genmini", "HTML/CSS/JavaScript"]
             },
             "ja": {
                 "title": "リアルタイムチャットアプリのバックエンド",
                 "description": "Node.js で構築され、WebSocket を利用して高並行性のリアルタイム通信を実現しました。",
-                "tools": ["Node.js", "Express", "MongoDB", "WebSocket", "iOS/Android"]
+                "tools": ["ChatGPT", "Genmini", "HTML/CSS/JavaScript"]
+            }
+        },
+        {
+            "id": 4,
+            "tags": ["Vibe Coding"],
+            "link": "https://weiyenchang.github.io/portfolio/CombinePDF.html",
+            "image": "https://images.cakeresume.com/post-images/1ddfa90c-5950-4afc-9519-3c0e45ca3e49.png",
+            
+            "zh-TW": {
+                "title": "合併 PDF 工具",
+                "description": "當有多份 PDF、PNG、JPG 檔案需要整合成一份 PDF 文檔時使用，此工具也支援文件排序、刪除等功能。",
+                "tools": ["ChatGPT", "Genmini", "HTML/CSS/JavaScript"]
+            },
+            "en": {
+                "title": "Merge PDF",
+                "description": "Easily merge multiple PDFs, PNGs, and JPGs into a single PDF document. This tool also lets you reorder, delete, and rotate pages to get the perfect layout before exporting. ",
+                "tools": ["ChatGPT", "Genmini", "HTML/CSS/JavaScript"]
+            },
+            "ko": {
+                "title": "실시간 채팅 앱 백엔드",
+                "description": "Node.js 기반으로 구축되었으며, WebSocket을 활용하여 고동시성 실시간 통신을 구현했습니다.",
+                "tools": ["ChatGPT", "Genmini", "HTML/CSS/JavaScript"]
+            },
+            "ja": {
+                "title": "リアルタイムチャットアプリのバックエンド",
+                "description": "Node.js で構築され、WebSocket を利用して高並行性のリアルタイム通信を実現しました。",
+                "tools": ["ChatGPT", "Genmini", "HTML/CSS/JavaScript"]
+            }
+        },
+        {
+            "id": 5,
+            "tags": ["Video"],
+            "youtubeId":"i69PjLwFwac",
+            "link": "",
+            "images":"",
+            "zh-TW": {
+                "title": "Humbar MyBooking App 說明影片 ",
+                "description": "MyBooking App 協助 Humber College 學生能一站式的預約學校的各項服務，除了幫助學生管理預約的服務，也增進學校資源使用效率。 ",
+                "tools": ["After Effect"]
+            },
+            "en": {
+                "title": "Humber MyBooking App Explainer Video",
+                "description": "The MyBooking App provides Humber College students with a one-stop platform for booking various school services. In addition to helping students manage their reservations, it also improves the efficiency of school resource utilization.",
+                "tools": ["After Effect"]
+            },
+            "ko": {
+                "title": "실시간 채팅 앱 백엔드",
+                "description": "Node.js 기반으로 구축되었으며, WebSocket을 활용하여 고동시성 실시간 통신을 구현했습니다.",
+                "tools": ["After Effect"]
+            },
+            "ja": {
+                "title": "リアルタイムチャットアプリのバックエンド",
+                "description": "Node.js で構築され、WebSocket を利用して高並行性のリアルタイム通信を実現しました。",
+                "tools": ["After Effect"]
+            }
+        },
+        {
+            "id": 6,
+            "tags": ["Video"],
+            "youtubeId":"v4MasQD3Mso",
+            "link": "",
+            "images":"",
+            "zh-TW": {
+                "title": "MealOne Pitch Vido",
+                "description": "",
+                "tools": ["After Effect"]
+            },
+            "en": {
+                "title": "MealOne Pitch Video",
+                "description": "",
+                "tools": ["After Effect"]
+            },
+            "ko": {
+                "title": "실시간 채팅 앱 백엔드",
+                "description": "Node.js 기반으로 구축되었으며, WebSocket을 활용하여 고동시성 실시간 통신을 구현했습니다.",
+                "tools": ["After Effect"]
+            },
+            "ja": {
+                "title": "リアルタイムチャットアプリのバックエンド",
+                "description": "Node.js で構築され、WebSocket を利用して高並行性のリアルタイム通信を実現しました。",
+                "tools": ["After Effect"]
+            }
+        },
+        {
+            "id": 7,
+            "tags": ["Video"],
+            "youtubeId":"CbJELyKDnoM",
+            "link": "",
+            "images":"",
+            "zh-TW": {
+                "title": "加拿大ADM 品牌影片設計 - 學員見證影片",
+                "description": "",
+                "tools": ["Premiere","After Effect"]
+            },
+            "en": {
+                "title": "ADM Brand Video Design: Client Success Stories",
+                "description": "",
+                "tools": ["Premiere","After Effect"]
+            },
+            "ko": {
+                "title": "실시간 채팅 앱 백엔드",
+                "description": "Node.js 기반으로 구축되었으며, WebSocket을 활용하여 고동시성 실시간 통신을 구현했습니다.",
+                "tools": ["Premiere","After Effect"]
+            },
+            "ja": {
+                "title": "リアルタイムチャットアプリのバックエンド",
+                "description": "Node.js で構築され、WebSocket を利用して高並行性のリアルタイム通信を実現しました。",
+                "tools": ["Premiere","After Effect"]
+            }
+        },
+        {
+            "id": 8,
+            "tags": ["Video"],
+            "youtubeId":"D6NKcOkikGU",
+            "link": "",
+            "images":"",
+            "zh-TW": {
+                "title": "加拿大ADM 品牌影片設計 - 資訊說明影片",
+                "description": "",
+                "tools": ["Premiere","After Effect"]
+            },
+            "en": {
+                "title": "ADM Canada Brand Video Design: Information and Educational Content",
+                "description": "",
+                "tools": ["Premiere","After Effect"]
+            },
+            "ko": {
+                "title": "실시간 채팅 앱 백엔드",
+                "description": "Node.js 기반으로 구축되었으며, WebSocket을 활용하여 고동시성 실시간 통신을 구현했습니다.",
+                "tools": ["Premiere","After Effect"]
+            },
+            "ja": {
+                "title": "リアルタイムチャットアプリのバックエンド",
+                "description": "Node.js で構築され、WebSocket を利用して高並行性のリアルタイム通信を実現しました。",
+                "tools": ["Premiere","After Effect"]
+            }
+        },
+        {
+            "id": 9,
+            "tags": ["3D"],
+            "link": "",
+            "images":[
+                 "https://images.cakeresume.com/post-images/d3a0b6c8-9f4e-465f-afeb-b6c95d906894.png", 
+                 "https://images.cakeresume.com/post-images/11203f41-e18a-4647-8d2e-38964974524b.png",
+                 "https://images.cakeresume.com/post-images/0d96120c-9a9a-4a1f-870f-6647427278a2.png",
+                 "https://images.cakeresume.com/post-images/24622ab2-71b6-4a6a-8336-d311f86398ee.png"
+                ],
+            "zh-TW": {
+                "title": "3D 建模專案 ",
+                "description": "我很喜歡探索新的軟體工具進行創作，Womp 是當時我發現的一個線上 3D 編輯工具，不同於 Blender 及其他 3D 工具使用者入門時需要瞭解許多 3D 屬性設定， Womp 則利用簡單、直覺的幾何概念，讓使用者能以更直覺方式建立 3D 模型，大幅降低學習門檻。",
+                "tools": ["Womp"]
+            },
+            "en": {
+                "title": "3D Modeling Project",
+                "description": "I really enjoy exploring new software tools for creative work. Womp was an online 3D modeling tool I discovered that, unlike Blender and other 3D applications where beginners often need to grasp numerous 3D property settings, utilizes simple and intuitive geometric concepts. This allows users to create 3D models in a much more straightforward way, significantly lowering the learning curve.",
+                "tools": ["Womp"]
+            },
+            "ko": {
+                "title": "실시간 채팅 앱 백엔드",
+                "description": "Node.js 기반으로 구축되었으며, WebSocket을 활용하여 고동시성 실시간 통신을 구현했습니다.",
+                "tools": ["Womp"]
+            },
+            "ja": {
+                "title": "リアルタイムチャットアプリのバックエンド",
+                "description": "Node.js で構築され、WebSocket を利用して高並行性のリアルタイム通信を実現しました。",
+                "tools": ["Womp"]
+            }
+        },
+        {
+            "id": 10,
+            "tags": ["Illustration"],
+            "link": "",
+            "images":[
+                 "https://images.cakeresume.com/post-images/ecaf794a-9e03-4aba-a9cb-7caa0ebc0838.jpeg", 
+                 "https://images.cakeresume.com/post-images/996cd7e8-8049-41fd-bb76-5cd6ff136973.jpeg",
+                 "https://images.cakeresume.com/post-images/22f33fff-6812-4ef5-bd44-e474c4e7e5fb.jpeg",
+                 "https://images.cakeresume.com/post-images/a75c60fa-3157-49cc-8e9a-c2995a05630e.jpeg",
+                 "https://images.cakeresume.com/post-images/90c9348c-7f24-416f-bd66-42a290882ca1.jpeg",
+                 "https://images.cakeresume.com/post-images/a0c89593-60d9-45f5-b0c1-be0a16c2f1b1.jpeg",
+                 "https://images.cakeresume.com/post-images/e550ddce-eda4-4779-a132-3f6ecdb58cf5.jpeg",
+                 "https://images.cakeresume.com/post-images/957496d5-0a17-4cc6-b00a-24dbf1da9ccc.jpeg"
+                ],
+            "zh-TW": {
+                "title": "Keynote 插畫專案",
+                "description": "我很喜歡探索工具的極限，Keynote 在一般人眼裡是做簡報的工具，但我發現，他其實也是一個很好的繪圖工具。",
+                "tools": ["Keynote"]
+            },
+            "en": {
+                "title": "3Keynote Illustration Project",
+                "description": "I really enjoy pushing the limits of tools. While Keynote is generally viewed as a presentation software, I've found that it is actually a fantastic drawing and illustration tool as well.",
+                "tools":["Keynote"]
+            },
+            "ko": {
+                "title": "실시간 채팅 앱 백엔드",
+                "description": "Node.js 기반으로 구축되었으며, WebSocket을 활용하여 고동시성 실시간 통신을 구현했습니다.",
+                "tools":["Keynote"]
+            },
+            "ja": {
+                "title": "リアルタイムチャットアプリのバックエンド",
+                "description": "Node.js で構築され、WebSocket を利用して高並行性のリアルタイム通信を実現しました。",
+                "tools":["Keynote"]
+            }
+        },{
+            "id": 10,
+            "tags": ["Illustration"],
+            "link": "",
+            "images":[
+                 "https://images.cakeresume.com/post-images/ecaf794a-9e03-4aba-a9cb-7caa0ebc0838.jpeg", 
+                 "https://images.cakeresume.com/post-images/996cd7e8-8049-41fd-bb76-5cd6ff136973.jpeg",
+                 "https://images.cakeresume.com/post-images/22f33fff-6812-4ef5-bd44-e474c4e7e5fb.jpeg",
+                 "https://images.cakeresume.com/post-images/a75c60fa-3157-49cc-8e9a-c2995a05630e.jpeg",
+                 "https://images.cakeresume.com/post-images/90c9348c-7f24-416f-bd66-42a290882ca1.jpeg",
+                 "https://images.cakeresume.com/post-images/a0c89593-60d9-45f5-b0c1-be0a16c2f1b1.jpeg",
+                 "https://images.cakeresume.com/post-images/e550ddce-eda4-4779-a132-3f6ecdb58cf5.jpeg",
+                 "https://images.cakeresume.com/post-images/957496d5-0a17-4cc6-b00a-24dbf1da9ccc.jpeg"
+                ],
+            "zh-TW": {
+                "title": "Keynote 插畫專案",
+                "description": "我很喜歡探索工具的極限，Keynote 在一般人眼裡是做簡報的工具，但我發現，他其實也是一個很好的繪圖工具。",
+                "tools": ["Keynote"]
+            },
+            "en": {
+                "title": "3Keynote Illustration Project",
+                "description": "I really enjoy pushing the limits of tools. While Keynote is generally viewed as a presentation software, I've found that it is actually a fantastic drawing and illustration tool as well.",
+                "tools":["Keynote"]
+            },
+            "ko": {
+                "title": "실시간 채팅 앱 백엔드",
+                "description": "Node.js 기반으로 구축되었으며, WebSocket을 활용하여 고동시성 실시간 통신을 구현했습니다.",
+                "tools":["Keynote"]
+            },
+            "ja": {
+                "title": "リアルタイムチャットアプリのバックエンド",
+                "description": "Node.js で構築され、WebSocket を利用して高並行性のリアルタイム通信を実現しました。",
+                "tools":["Keynote"]
+            }
+        },{
+            "id": 10,
+            "tags": ["Illustration"],
+            "link": "",
+            "images":[
+                 "https://images.cakeresume.com/post-images/ecaf794a-9e03-4aba-a9cb-7caa0ebc0838.jpeg", 
+                 "https://images.cakeresume.com/post-images/996cd7e8-8049-41fd-bb76-5cd6ff136973.jpeg",
+                 "https://images.cakeresume.com/post-images/22f33fff-6812-4ef5-bd44-e474c4e7e5fb.jpeg",
+                 "https://images.cakeresume.com/post-images/a75c60fa-3157-49cc-8e9a-c2995a05630e.jpeg",
+                 "https://images.cakeresume.com/post-images/90c9348c-7f24-416f-bd66-42a290882ca1.jpeg",
+                 "https://images.cakeresume.com/post-images/a0c89593-60d9-45f5-b0c1-be0a16c2f1b1.jpeg",
+                 "https://images.cakeresume.com/post-images/e550ddce-eda4-4779-a132-3f6ecdb58cf5.jpeg",
+                 "https://images.cakeresume.com/post-images/957496d5-0a17-4cc6-b00a-24dbf1da9ccc.jpeg"
+                ],
+            "zh-TW": {
+                "title": "Keynote 插畫專案",
+                "description": "我很喜歡探索工具的極限，Keynote 在一般人眼裡是做簡報的工具，但我發現，他其實也是一個很好的繪圖工具。",
+                "tools": ["Keynote"]
+            },
+            "en": {
+                "title": "3Keynote Illustration Project",
+                "description": "I really enjoy pushing the limits of tools. While Keynote is generally viewed as a presentation software, I've found that it is actually a fantastic drawing and illustration tool as well.",
+                "tools":["Keynote"]
+            },
+            "ko": {
+                "title": "실시간 채팅 앱 백엔드",
+                "description": "Node.js 기반으로 구축되었으며, WebSocket을 활용하여 고동시성 실시간 통신을 구현했습니다.",
+                "tools":["Keynote"]
+            },
+            "ja": {
+                "title": "リアルタイムチャットアプリのバックエンド",
+                "description": "Node.js で構築され、WebSocket を利用して高並行性のリアルタイム通信を実現しました。",
+                "tools":["Keynote"]
+            }
+        },{
+            "id": 11,
+            "tags": ["Book Notes"],
+            "link": "https://weiyenchang.blogspot.com/2025/06/blog-post.html",
+            "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEif4bSVT55ilLeQqAzaQLMrrB-sWmhVBfMWCWyXuceE-xG0iIxSQ_eMZz1EjIgAMz-zgcUGTq9aziDbFssWquxadjK6OGKcEQUdYg3OzuWbKQmXSLBNc7Lo8lsRFw16vNzkov-qo4lcE6iJYOajki49zZb5IVcYB_yysaE9-W23LRfcYjPaAkNMt03yMnk/s16000/Blog-Book-Cover%20Template%20(3).001.jpeg",
+            "zh-TW": {
+                "title": "閱讀《 情緒靈敏力 》",
+                "description": "閱讀筆記",
+                "tools": [""]
+            },
+            "en": {
+                "title": "Reading Notes: Emotional Agility",
+                "description": "Reading Notes",
+                "tools":[""]
+            },
+            "ko": {
+                "title": "실시간 채팅 앱 백엔드",
+                "description": "Node.js 기반으로 구축되었으며, WebSocket을 활용하여 고동시성 실시간 통신을 구현했습니다.",
+                "tools":["Keynote"]
+            },
+            "ja": {
+                "title": "リアルタイムチャットアプリのバックエンド",
+                "description": "Node.js で構築され、WebSocket を利用して高並行性のリアルタイム通信を実現しました。",
+                "tools":["Keynote"]
+            }
+        },{
+            "id": 12,
+            "tags": ["Book Notes"],
+            "link": "https://weiyenchang.blogspot.com/2025/11/blog-post.html",
+            "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgYwtsWiEBvxe6T8SF-EMkccbFnQbJW4ZxHnZymj2DJ1kbg8Qg_A_L5ul5LvylndL8ZZYh847Rch_dpwaiGagDKqGJDxJrG7LyS8_ky-h30XOAM3-RPpluqGvqNiuwDUVh7RYu2PsHnkAb4fGSJKXc7z4FNcqMdjHpxLtCL-D4JUsk3-AJnWLE83uuuOtM/s16000/Blog-Book-Cover%20Template%20(2).001.jpeg",
+            "zh-TW": {
+                "title": "閱讀《 我想跟你好好說話 》",
+                "description": "閱讀筆記",
+                "tools": [""]
+            },
+            "en": {
+                "title": "Reading Notes: Nonviolent Communication for Beginners",
+                "description": "Reading Notes",
+                "tools":[""]
+            },
+            "ko": {
+                "title": "실시간 채팅 앱 백엔드",
+                "description": "Node.js 기반으로 구축되었으며, WebSocket을 활용하여 고동시성 실시간 통신을 구현했습니다.",
+                "tools":[""]
+            },
+            "ja": {
+                "title": "リアルタイムチャットアプリのバックエンド",
+                "description": "Node.js で構築され、WebSocket を利用して高並行性のリアルタイム通信を実現しました。",
+                "tools":[""]
+            }
+        },{
+            "id": 12,
+            "tags": ["Book Notes"],
+            "link": "https://weiyenchang.blogspot.com/2025/11/blog-post.html",
+            "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgYwtsWiEBvxe6T8SF-EMkccbFnQbJW4ZxHnZymj2DJ1kbg8Qg_A_L5ul5LvylndL8ZZYh847Rch_dpwaiGagDKqGJDxJrG7LyS8_ky-h30XOAM3-RPpluqGvqNiuwDUVh7RYu2PsHnkAb4fGSJKXc7z4FNcqMdjHpxLtCL-D4JUsk3-AJnWLE83uuuOtM/s16000/Blog-Book-Cover%20Template%20(2).001.jpeg",
+            "zh-TW": {
+                "title": "閱讀《 我想跟你好好說話 》",
+                "description": "閱讀筆記",
+                "tools": [""]
+            },
+            "en": {
+                "title": "Reading Notes: Nonviolent Communication for Beginners",
+                "description": "Reading Notes",
+                "tools":[""]
+            },
+            "ko": {
+                "title": "실시간 채팅 앱 백엔드",
+                "description": "Node.js 기반으로 구축되었으며, WebSocket을 활용하여 고동시성 실시간 통신을 구현했습니다.",
+                "tools":[""]
+            },
+            "ja": {
+                "title": "リアルタイムチャットアプリのバックエンド",
+                "description": "Node.js で構築され、WebSocket を利用して高並行性のリアルタイム通信を実現しました。",
+                "tools":[""]
+            }
+        },{
+            "id": 12,
+            "tags": ["Book Notes"],
+            "link": "https://weiyenchang.blogspot.com/2025/11/blog-post.html",
+            "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgYwtsWiEBvxe6T8SF-EMkccbFnQbJW4ZxHnZymj2DJ1kbg8Qg_A_L5ul5LvylndL8ZZYh847Rch_dpwaiGagDKqGJDxJrG7LyS8_ky-h30XOAM3-RPpluqGvqNiuwDUVh7RYu2PsHnkAb4fGSJKXc7z4FNcqMdjHpxLtCL-D4JUsk3-AJnWLE83uuuOtM/s16000/Blog-Book-Cover%20Template%20(2).001.jpeg",
+            "zh-TW": {
+                "title": "閱讀《 我想跟你好好說話 》",
+                "description": "閱讀筆記",
+                "tools": [""]
+            },
+            "en": {
+                "title": "Reading Notes: Nonviolent Communication for Beginners",
+                "description": "Reading Notes",
+                "tools":[""]
+            },
+            "ko": {
+                "title": "실시간 채팅 앱 백엔드",
+                "description": "Node.js 기반으로 구축되었으며, WebSocket을 활용하여 고동시성 실시간 통신을 구현했습니다.",
+                "tools":[""]
+            },
+            "ja": {
+                "title": "リアルタイムチャットアプリのバックエンド",
+                "description": "Node.js で構築され、WebSocket を利用して高並行性のリアルタイム通信を実現しました。",
+                "tools":[""]
+            }
+        },{
+            "id": 12,
+            "tags": ["Book Notes"],
+            "link": "https://weiyenchang.blogspot.com/2025/11/blog-post.html",
+            "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgYwtsWiEBvxe6T8SF-EMkccbFnQbJW4ZxHnZymj2DJ1kbg8Qg_A_L5ul5LvylndL8ZZYh847Rch_dpwaiGagDKqGJDxJrG7LyS8_ky-h30XOAM3-RPpluqGvqNiuwDUVh7RYu2PsHnkAb4fGSJKXc7z4FNcqMdjHpxLtCL-D4JUsk3-AJnWLE83uuuOtM/s16000/Blog-Book-Cover%20Template%20(2).001.jpeg",
+            "zh-TW": {
+                "title": "閱讀《 我想跟你好好說話 》",
+                "description": "閱讀筆記",
+                "tools": [""]
+            },
+            "en": {
+                "title": "Reading Notes: Nonviolent Communication for Beginners",
+                "description": "Reading Notes",
+                "tools":[""]
+            },
+            "ko": {
+                "title": "실시간 채팅 앱 백엔드",
+                "description": "Node.js 기반으로 구축되었으며, WebSocket을 활용하여 고동시성 실시간 통신을 구현했습니다.",
+                "tools":[""]
+            },
+            "ja": {
+                "title": "リアルタイムチャットアプリのバックエンド",
+                "description": "Node.js で構築され、WebSocket を利用して高並行性のリアルタイム通信を実現しました。",
+                "tools":[""]
+            }
+        },{
+            "id": 12,
+            "tags": ["Book Notes"],
+            "link": "https://weiyenchang.blogspot.com/2025/11/blog-post.html",
+            "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgYwtsWiEBvxe6T8SF-EMkccbFnQbJW4ZxHnZymj2DJ1kbg8Qg_A_L5ul5LvylndL8ZZYh847Rch_dpwaiGagDKqGJDxJrG7LyS8_ky-h30XOAM3-RPpluqGvqNiuwDUVh7RYu2PsHnkAb4fGSJKXc7z4FNcqMdjHpxLtCL-D4JUsk3-AJnWLE83uuuOtM/s16000/Blog-Book-Cover%20Template%20(2).001.jpeg",
+            "zh-TW": {
+                "title": "閱讀《 我想跟你好好說話 》",
+                "description": "閱讀筆記",
+                "tools": [""]
+            },
+            "en": {
+                "title": "Reading Notes: Nonviolent Communication for Beginners",
+                "description": "Reading Notes",
+                "tools":[""]
+            },
+            "ko": {
+                "title": "실시간 채팅 앱 백엔드",
+                "description": "Node.js 기반으로 구축되었으며, WebSocket을 활용하여 고동시성 실시간 통신을 구현했습니다.",
+                "tools":[""]
+            },
+            "ja": {
+                "title": "リアルタイムチャットアプリのバックエンド",
+                "description": "Node.js で構築され、WebSocket を利用して高並行性のリアルタイム通信を実現しました。",
+                "tools":[""]
+            }
+        },{
+            "id": 12,
+            "tags": ["Book Notes"],
+            "link": "https://weiyenchang.blogspot.com/2025/11/blog-post.html",
+            "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgYwtsWiEBvxe6T8SF-EMkccbFnQbJW4ZxHnZymj2DJ1kbg8Qg_A_L5ul5LvylndL8ZZYh847Rch_dpwaiGagDKqGJDxJrG7LyS8_ky-h30XOAM3-RPpluqGvqNiuwDUVh7RYu2PsHnkAb4fGSJKXc7z4FNcqMdjHpxLtCL-D4JUsk3-AJnWLE83uuuOtM/s16000/Blog-Book-Cover%20Template%20(2).001.jpeg",
+            "zh-TW": {
+                "title": "閱讀《 我想跟你好好說話 》",
+                "description": "閱讀筆記",
+                "tools": [""]
+            },
+            "en": {
+                "title": "Reading Notes: Nonviolent Communication for Beginners",
+                "description": "Reading Notes",
+                "tools":[""]
+            },
+            "ko": {
+                "title": "실시간 채팅 앱 백엔드",
+                "description": "Node.js 기반으로 구축되었으며, WebSocket을 활용하여 고동시성 실시간 통신을 구현했습니다.",
+                "tools":[""]
+            },
+            "ja": {
+                "title": "リアルタイムチャットアプリのバックエンド",
+                "description": "Node.js で構築され、WebSocket を利用して高並行性のリアルタイム通信を実現しました。",
+                "tools":[""]
+            }
+        },{
+            "id": 12,
+            "tags": ["Book Notes"],
+            "link": "https://weiyenchang.blogspot.com/2025/11/blog-post.html",
+            "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgYwtsWiEBvxe6T8SF-EMkccbFnQbJW4ZxHnZymj2DJ1kbg8Qg_A_L5ul5LvylndL8ZZYh847Rch_dpwaiGagDKqGJDxJrG7LyS8_ky-h30XOAM3-RPpluqGvqNiuwDUVh7RYu2PsHnkAb4fGSJKXc7z4FNcqMdjHpxLtCL-D4JUsk3-AJnWLE83uuuOtM/s16000/Blog-Book-Cover%20Template%20(2).001.jpeg",
+            "zh-TW": {
+                "title": "閱讀《 我想跟你好好說話 》",
+                "description": "閱讀筆記",
+                "tools": [""]
+            },
+            "en": {
+                "title": "Reading Notes: Nonviolent Communication for Beginners",
+                "description": "Reading Notes",
+                "tools":[""]
+            },
+            "ko": {
+                "title": "실시간 채팅 앱 백엔드",
+                "description": "Node.js 기반으로 구축되었으며, WebSocket을 활용하여 고동시성 실시간 통신을 구현했습니다.",
+                "tools":[""]
+            },
+            "ja": {
+                "title": "リアルタイムチャットアプリのバックエンド",
+                "description": "Node.js で構築され、WebSocket を利用して高並行性のリアルタイム通信を実現しました。",
+                "tools":[""]
+            }
+        },{
+            "id": 12,
+            "tags": ["Book Notes"],
+            "link": "https://weiyenchang.blogspot.com/2025/05/blog-post.html",
+            "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiKJd1-Js0-hLg0jejORLruG5qEPp5Cq4FzDC_vVqXlL687V6TdCGkB2INUh7IihxepCjjKdHN7HARjcdBukrlN26HIdP2nv-LQjn49uzLqLjFLZPcwOsLI2-6zUTWExks3ZkCtGdAu4TiHq5pYIZMtul_useLQHFcWk7Xx3AnM7PlugrcM-423bsqH9CM/s16000/Blog-Book-Cover%20Template%20(3).001.jpeg",
+            "zh-TW": {
+                "title": "閱讀《 人與人的完美距離 》",
+                "description": "閱讀筆記",
+                "tools": [""]
+            },
+            "en": {
+                "title": "Reading Notes: The Optimal Distance between People",
+                "description": "Reading Notes",
+                "tools":[""]
+            },
+            "ko": {
+                "title": "실시간 채팅 앱 백엔드",
+                "description": "Node.js 기반으로 구축되었으며, WebSocket을 활용하여 고동시성 실시간 통신을 구현했습니다.",
+                "tools":[""]
+            },
+            "ja": {
+                "title": "リアルタイムチャットアプリのバックエンド",
+                "description": "Node.js で構築され、WebSocket を利用して高並行性のリアルタイム通信を実現しました。",
+                "tools":[""]
+            }
+        },
+        {
+            "id": 13,
+            "tags": ["Book Notes"],
+            "link": "https://weiyenchang.blogspot.com/2025/11/blog-post.html",
+            "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgYwtsWiEBvxe6T8SF-EMkccbFnQbJW4ZxHnZymj2DJ1kbg8Qg_A_L5ul5LvylndL8ZZYh847Rch_dpwaiGagDKqGJDxJrG7LyS8_ky-h30XOAM3-RPpluqGvqNiuwDUVh7RYu2PsHnkAb4fGSJKXc7z4FNcqMdjHpxLtCL-D4JUsk3-AJnWLE83uuuOtM/s16000/Blog-Book-Cover%20Template%20(2).001.jpeg",
+            "zh-TW": {
+                "title": "閱讀《 我想跟你好好說話 》",
+                "description": "閱讀筆記",
+                "tools": [""]
+            },
+            "en": {
+                "title": "Reading Notes: Nonviolent Communication for Beginners",
+                "description": "Reading Notes",
+                "tools":[""]
+            },
+            "ko": {
+                "title": "실시간 채팅 앱 백엔드",
+                "description": "Node.js 기반으로 구축되었으며, WebSocket을 활용하여 고동시성 실시간 통신을 구현했습니다.",
+                "tools":[""]
+            },
+            "ja": {
+                "title": "リアルタイムチャットアプリのバックエンド",
+                "description": "Node.js で構築され、WebSocket を利用して高並行性のリアルタイム通信を実現しました。",
+                "tools":[""]
             }
         }
     ]
